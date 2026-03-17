@@ -35,18 +35,29 @@ struct SettingsTabView: View {
 
                     // Display section
                     settingsSection(title: "화면 설정", icon: "paintbrush.fill", iconColor: AppColors.warning) {
-                        NavigationLink {
-                            AppearancePickerView(selection: $appearanceMode)
-                        } label: {
-                            SettingsRowContent(
-                                icon: "moon.fill",
-                                iconColor: Color(hex: "6C5CE7"),
-                                label: "테마 설정",
-                                value: appearanceLabel(appearanceMode),
-                                showChevron: true
-                            )
+                        HStack {
+                            Image(systemName: "moon.fill")
+                                .font(.system(size: 14, weight: .semibold))
+                                .foregroundStyle(.white)
+                                .frame(width: 30, height: 30)
+                                .background(Color(hex: "6C5CE7"))
+                                .clipShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
+
+                            Text("테마")
+                                .font(AppFont.body(15))
+
+                            Spacer()
+
+                            Picker("", selection: $appearanceMode) {
+                                Text("시스템").tag("auto")
+                                Text("라이트").tag("light")
+                                Text("다크").tag("dark")
+                            }
+                            .pickerStyle(.segmented)
+                            .frame(width: 200)
                         }
-                        .buttonStyle(.plain)
+                        .padding(.horizontal, AppSpacing.md)
+                        .padding(.vertical, AppSpacing.sm)
                     }
 
                     // Health section

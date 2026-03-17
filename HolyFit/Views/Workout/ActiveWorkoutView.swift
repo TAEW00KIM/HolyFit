@@ -22,6 +22,7 @@ struct ActiveWorkoutView: View {
     @State private var entryPendingDeletion: WorkoutEntry?
     @State private var showDeleteEntryDialog = false
     @State private var showCompletion = false
+    @State private var showDatePicker = false
 
     private let templateEntries: [(exercise: Exercise, weight: Double, reps: Int, sets: Int)]
 
@@ -55,7 +56,8 @@ struct ActiveWorkoutView: View {
                 } else {
                     ScrollView {
                         VStack(spacing: AppSpacing.md) {
-                            // Timer header strip
+                            // Date selector + Timer header strip
+                            dateSelector
                             timerStrip
 
                             if session.entries.isEmpty {
@@ -217,6 +219,74 @@ struct ActiveWorkoutView: View {
     }
 
     // MARK: - Subviews
+
+    private var dateSelector: some View {
+        Button {
+            showDatePicker = true
+        } label: {
+            HStack(spacing: AppSpacing.xs) {
+                Image(systemName: "calendar")
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundStyle(AppColors.accent)
+                Text(dateLabel)
+                    .font(AppFont.caption(13))
+                    .foregroundStyle(.primary)
+                Image(systemName: "chevron.down")
+                    .font(.system(size: 10, weight: .bold))
+                    .foregroundStyle(.tertiary)
+            }
+            .padding(.horizontal, AppSpacing.md)
+            .padding(.vertical, AppSpacing.xs)
+            .background(AppColors.accent.opacity(0.08))
+            .clipShape(Capsule())
+        }
+        .buttonStyle(.plain)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.horizontal, AppSpacing.md)
+        .padding(.top, AppSpacing.xs)
+        .sheet(isPresented: $showDatePicker) {
+            NavigationStack {
+                DatePicker(
+                    "운동 날짜",
+                    selection: Binding(
+                        get: { session.startDate },
+                        set: { session.startDate = $0 }
+                    ),
+                    in: ...Date(),
+                    displayedComponents: [.date]
+                )
+                .datePickerStyle(.graphical)
+                .tint(AppColors.accent)
+                .padding()
+                .navigationTitle("운동 날짜 선택")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .confirmationAction) {
+                        Button("완료") {
+                            showDatePicker = false
+                        }
+                        .font(AppFont.heading(15))
+                        .foregroundStyle(AppColors.accent)
+                    }
+                }
+            }
+            .presentationDetents([.medium])
+        }
+    }
+
+    private var dateLabel: String {
+        let calendar = Calendar.current
+        if calendar.isDateInToday(session.startDate) {
+            return "오늘"
+        } else if calendar.isDateInYesterday(session.startDate) {
+            return "어제"
+        } else {
+            let formatter = DateFormatter()
+            formatter.locale = Locale(identifier: "ko_KR")
+            formatter.dateFormat = "M월 d일 (E)"
+            return formatter.string(from: session.startDate)
+        }
+    }
 
     private var timerStrip: some View {
         HStack {
