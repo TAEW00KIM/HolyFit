@@ -27,11 +27,15 @@ struct WorkoutCalendarCard: View {
         return days
     }
 
+    private static let monthFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.locale = Locale(identifier: "ko_KR")
+        f.dateFormat = "yyyy년 M월"
+        return f
+    }()
+
     private var monthTitle: String {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko_KR")
-        formatter.dateFormat = "yyyy년 M월"
-        return formatter.string(from: displayedMonth)
+        Self.monthFormatter.string(from: displayedMonth)
     }
 
     private var daysInMonth: [DayItem] {

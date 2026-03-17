@@ -41,45 +41,43 @@ struct StatsTabView: View {
     }
 
     private var emptyState: some View {
-        NavigationStack {
-            VStack {
-                Spacer()
-                VStack(spacing: AppSpacing.lg) {
-                    Image(systemName: "chart.line.uptrend.xyaxis")
-                        .font(.system(size: 48))
-                        .foregroundStyle(AppColors.accent.opacity(0.6))
+        VStack {
+            Spacer()
+            VStack(spacing: AppSpacing.lg) {
+                Image(systemName: "chart.line.uptrend.xyaxis")
+                    .font(.system(size: 48))
+                    .foregroundStyle(AppColors.accent.opacity(0.6))
 
-                    VStack(spacing: AppSpacing.xs) {
-                        Text("아직 통계가 없어요")
-                            .font(AppFont.heading(18))
-                        Text("운동을 기록하면\n통계를 확인할 수 있어요")
-                            .font(AppFont.body(14))
-                            .foregroundStyle(.secondary)
-                            .multilineTextAlignment(.center)
-                    }
-
-                    Button {
-                        selectedTab = 0
-                    } label: {
-                        Text("운동 기록하러 가기")
-                            .font(AppFont.heading(15))
-                            .foregroundStyle(.white)
-                            .frame(maxWidth: 200)
-                            .padding(.vertical, AppSpacing.md)
-                            .background(AppColors.primaryGradient)
-                            .clipShape(RoundedRectangle(cornerRadius: AppRadius.lg))
-                    }
+                VStack(spacing: AppSpacing.xs) {
+                    Text("아직 통계가 없어요")
+                        .font(AppFont.heading(18))
+                    Text("운동을 기록하면\n통계를 확인할 수 있어요")
+                        .font(AppFont.body(14))
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.center)
                 }
-                .padding(AppSpacing.xxl)
-                .glassCard()
-                .padding(.horizontal, AppSpacing.md)
-                Spacer()
+
+                Button {
+                    selectedTab = 0
+                } label: {
+                    Text("운동 기록하러 가기")
+                        .font(AppFont.heading(15))
+                        .foregroundStyle(.white)
+                        .frame(maxWidth: 200)
+                        .padding(.vertical, AppSpacing.md)
+                        .background(AppColors.primaryGradient)
+                        .clipShape(RoundedRectangle(cornerRadius: AppRadius.lg))
+                }
             }
-            .frame(maxWidth: .infinity)
-            .background(Color(.systemGroupedBackground))
-            .navigationTitle("통계")
-            .navigationBarTitleDisplayMode(.large)
+            .padding(AppSpacing.xxl)
+            .glassCard()
+            .padding(.horizontal, AppSpacing.md)
+            Spacer()
         }
+        .frame(maxWidth: .infinity)
+        .background(Color(.systemGroupedBackground))
+        .navigationTitle("통계")
+        .navigationBarTitleDisplayMode(.large)
     }
 
     private var filteredSessions: [WorkoutSession] {

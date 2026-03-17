@@ -43,7 +43,7 @@ struct OnboardingView: View {
 
             Text("운동과 식단을 한 곳에서")
                 .font(AppFont.heading())
-                .foregroundColor(AppColors.textSecondary)
+                .foregroundStyle(AppColors.textSecondary)
 
             Spacer()
             Spacer()
@@ -93,11 +93,11 @@ struct OnboardingView: View {
 
             Text("준비 완료!")
                 .font(AppFont.title(32))
-                .foregroundColor(AppColors.textPrimary)
+                .foregroundStyle(AppColors.textPrimary)
 
             Text("지금 바로 시작해보세요")
                 .font(AppFont.body())
-                .foregroundColor(AppColors.textSecondary)
+                .foregroundStyle(AppColors.textSecondary)
 
             Spacer()
 
@@ -106,7 +106,7 @@ struct OnboardingView: View {
             } label: {
                 Text("시작하기")
                     .font(AppFont.heading())
-                    .foregroundColor(.white)
+                    .foregroundStyle(.white)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, AppSpacing.md)
                     .background(AppColors.primaryGradient)
@@ -131,11 +131,11 @@ struct OnboardingView: View {
             VStack(alignment: .leading, spacing: AppSpacing.xs) {
                 Text(title)
                     .font(AppFont.heading())
-                    .foregroundColor(AppColors.textPrimary)
+                    .foregroundStyle(AppColors.textPrimary)
 
                 Text(subtitle)
                     .font(AppFont.body(14))
-                    .foregroundColor(AppColors.textSecondary)
+                    .foregroundStyle(AppColors.textSecondary)
             }
 
             Spacer()
