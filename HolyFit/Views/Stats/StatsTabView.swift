@@ -190,7 +190,7 @@ struct StatsTabView: View {
     private var statsRow: some View {
         HStack(spacing: AppSpacing.sm) {
             statCard(icon: "scalemass.fill", value: volumeLabel, label: "총 볼륨", color: AppColors.gradientStart)
-            statCard(icon: "flame.fill", value: "\(totalCalories)", label: "kcal", color: AppColors.warning)
+            statCard(icon: "flame.fill", value: "\(totalCalories)", label: "칼로리", color: AppColors.warning)
             statCard(icon: "clock.fill", value: durationLabel, label: "운동 시간", color: AppColors.info)
         }
     }

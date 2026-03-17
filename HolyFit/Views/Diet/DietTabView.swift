@@ -280,7 +280,7 @@ struct CalorieRing: View {
 
             VStack(spacing: 0) {
                 Text("\(Int(progress * 100))%")
-                    .font(AppFont.caption(12))
+                    .font(AppFont.heading(21))
                     .fontWeight(.bold)
                     .foregroundStyle(AppColors.calories)
             }
