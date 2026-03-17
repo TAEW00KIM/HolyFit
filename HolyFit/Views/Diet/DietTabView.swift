@@ -177,7 +177,7 @@ struct DailySummaryCard: View {
             // Calorie ring + label
             HStack(alignment: .center, spacing: AppSpacing.lg) {
                 CalorieRing(current: Double(totalCalories), target: targetCalories)
-                    .frame(width: 90, height: 90)
+                    .frame(width: 130, height: 130)
                     .accessibilityHidden(true)
 
                 VStack(alignment: .leading, spacing: AppSpacing.sm) {
@@ -248,7 +248,7 @@ struct CalorieRing: View {
     var body: some View {
         ZStack {
             Circle()
-                .stroke(AppColors.calories.opacity(0.15), lineWidth: 10)
+                .stroke(AppColors.calories.opacity(0.15), lineWidth: 7)
 
             Circle()
                 .trim(from: 0, to: progress)
@@ -258,7 +258,7 @@ struct CalorieRing: View {
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     ),
-                    style: StrokeStyle(lineWidth: 10, lineCap: .round)
+                    style: StrokeStyle(lineWidth: 7, lineCap: .round)
                 )
                 .rotationEffect(.degrees(-90))
                 .animation(.spring(response: 0.6, dampingFraction: 0.8), value: progress)

@@ -32,7 +32,7 @@ struct DataManagementView: View {
                 showConfirmAlert = true
             }
         } message: {
-            Text("모든 운동 기록, 식단 기록, 루틴 템플릿이 삭제됩니다.")
+            Text("모든 운동 기록, 식단 기록, 루틴 템플릿, 체성분 기록이 삭제됩니다.")
         }
         // Second confirmation
         .alert("정말 삭제하시겠습니까?", isPresented: $showConfirmAlert) {
@@ -68,7 +68,7 @@ struct DataManagementView: View {
                 Text("주의")
                     .font(AppFont.heading(15))
                     .foregroundStyle(AppColors.danger)
-                Text("아래 작업은 되돌릴 수 없습니다. 모든 운동 기록, 식단 기록, 루틴 템플릿이 영구적으로 삭제됩니다.")
+                Text("아래 작업은 되돌릴 수 없습니다. 모든 운동 기록, 식단 기록, 루틴 템플릿, 체성분 기록이 영구적으로 삭제됩니다.")
                     .font(AppFont.body(14))
                     .foregroundStyle(.secondary)
                     .lineSpacing(3)
@@ -105,7 +105,7 @@ struct DataManagementView: View {
                     Text("모든 데이터 초기화")
                         .font(AppFont.body(15))
                         .foregroundStyle(AppColors.danger)
-                    Text("운동 기록, 식단 기록, 템플릿 전체 삭제")
+                    Text("운동 · 식단 · 템플릿 · 체성분 기록 삭제")
                         .font(AppFont.caption(12))
                         .foregroundStyle(.secondary)
                 }

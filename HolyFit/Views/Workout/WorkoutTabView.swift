@@ -14,7 +14,6 @@ struct WorkoutTabView: View {
     @State private var heroAppeared = false
     @State private var selectedTemplate: WorkoutTemplate? = nil
     @State private var selectedBuiltIn: BuiltInTemplate? = nil
-    @State private var showRoutineGenerator = false
 
     private var todaysSessions: [WorkoutSession] {
         let calendar = Calendar.current
@@ -27,14 +26,6 @@ struct WorkoutTabView: View {
                 VStack(spacing: AppSpacing.lg) {
                     // Hero gradient card
                     heroCard
-                        .padding(.horizontal, AppSpacing.md)
-
-                    // AI Routine Generator card
-                    routineGeneratorCard
-                        .padding(.horizontal, AppSpacing.md)
-
-                    // Workout calendar
-                    WorkoutCalendarCard()
                         .padding(.horizontal, AppSpacing.md)
 
                     // Template section
@@ -69,57 +60,12 @@ struct WorkoutTabView: View {
                     ActiveWorkoutView()
                 }
             }
-            .sheet(isPresented: $showRoutineGenerator) {
-                RoutineGeneratorView { template in
-                    selectedBuiltIn = template
-                    showActiveWorkout = true
-                }
-            }
             .onAppear {
                 withAnimation(.spring(response: 0.7, dampingFraction: 0.75).delay(0.1)) {
                     heroAppeared = true
                 }
             }
         }
-    }
-
-    // MARK: - Routine Generator Card
-
-    private var routineGeneratorCard: some View {
-        Button {
-            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-            showRoutineGenerator = true
-        } label: {
-            HStack(spacing: AppSpacing.md) {
-                ZStack {
-                    RoundedRectangle(cornerRadius: AppRadius.sm, style: .continuous)
-                        .fill(AppColors.primaryGradient)
-                        .frame(width: 40, height: 40)
-                    Image(systemName: "dice.fill")
-                        .font(.system(size: 18, weight: .bold))
-                        .foregroundStyle(.white)
-                }
-
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("AI 루틴 생성")
-                        .font(AppFont.heading(16))
-                        .foregroundStyle(.primary)
-                    Text("목표와 시간에 맞는 루틴을 자동으로 생성하세요")
-                        .font(AppFont.caption(12))
-                        .foregroundStyle(.secondary)
-                        .lineLimit(1)
-                }
-
-                Spacer()
-
-                Image(systemName: "chevron.right")
-                    .font(.system(size: 13, weight: .semibold))
-                    .foregroundStyle(.tertiary)
-            }
-            .padding(AppSpacing.md)
-            .glassCard()
-        }
-        .buttonStyle(.plain)
     }
 
     // MARK: - Hero Card

@@ -82,21 +82,6 @@ struct SettingsTabView: View {
                             )
                         }
                         .buttonStyle(.plain)
-
-                        Divider().padding(.horizontal, AppSpacing.md)
-
-                        NavigationLink {
-                            MyGymView()
-                        } label: {
-                            SettingsRowContent(
-                                icon: "building.2.fill",
-                                iconColor: AppColors.warning,
-                                label: "내 헬스장 기구",
-                                value: nil,
-                                showChevron: true
-                            )
-                        }
-                        .buttonStyle(.plain)
                     }
 
                     // Info section
