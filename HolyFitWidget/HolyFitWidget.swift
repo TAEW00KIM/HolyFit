@@ -84,7 +84,7 @@ struct HolyFitWidget: Widget {
         StaticConfiguration(kind: kind, provider: HolyFitWidgetProvider()) { entry in
             HolyFitWidgetEntryView(entry: entry)
                 .containerBackground(for: .widget) {
-                    Color.clear
+                    WidgetBackgroundView()
                 }
         }
         .configurationDisplayName("HolyFit")

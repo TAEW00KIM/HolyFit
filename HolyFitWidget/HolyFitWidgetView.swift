@@ -25,6 +25,17 @@ private enum WidgetColors {
     )
 }
 
+// MARK: - Widget Background (used by containerBackground)
+
+struct WidgetBackgroundView: View {
+    @Environment(\.colorScheme) private var colorScheme
+
+    var body: some View {
+        (colorScheme == .dark ? WidgetColors.darkBg : WidgetColors.lightBg)
+            .ignoresSafeArea()
+    }
+}
+
 // MARK: - Entry View (routes to small / medium)
 
 struct HolyFitWidgetEntryView: View {
@@ -57,13 +68,10 @@ private struct SmallWidgetView: View {
     private var secondaryText: Color { isDark ? .white.opacity(0.55) : Color(red: 0.4, green: 0.4, blue: 0.45) }
 
     var body: some View {
-        ZStack {
-            bgColor.ignoresSafeArea()
-
-            VStack(alignment: .leading, spacing: 6) {
-                // Workout status badge
-                HStack(spacing: 5) {
-                    Image(systemName: didWorkOut ? "checkmark.circle.fill" : "dumbbell.fill")
+        VStack(alignment: .leading, spacing: 6) {
+            // Workout status badge
+            HStack(spacing: 5) {
+                Image(systemName: didWorkOut ? "checkmark.circle.fill" : "dumbbell.fill")
                         .font(.system(size: 14, weight: .semibold))
                         .foregroundStyle(didWorkOut ? WidgetColors.successColor : WidgetColors.gradientStart)
                     Text(didWorkOut ? "운동 완료!" : "운동 전")
@@ -122,7 +130,6 @@ private struct SmallWidgetView: View {
             }
             .padding(14)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-        }
     }
 }
 
@@ -141,13 +148,10 @@ private struct MediumWidgetView: View {
     private var secondaryText: Color { isDark ? .gray : Color(red: 0.45, green: 0.45, blue: 0.5) }
 
     var body: some View {
-        ZStack {
-            bgColor.ignoresSafeArea()
-
-            HStack(spacing: 0) {
-                // Left panel – workout status
-                VStack(alignment: .leading, spacing: 8) {
-                    Label("오늘 운동", systemImage: "dumbbell.fill")
+        HStack(spacing: 0) {
+            // Left panel – workout status
+            VStack(alignment: .leading, spacing: 8) {
+                Label("오늘 운동", systemImage: "dumbbell.fill")
                         .font(.system(size: 11, weight: .semibold))
                         .foregroundStyle(WidgetColors.gradientStart)
 
@@ -256,7 +260,6 @@ private struct MediumWidgetView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                 .padding(.horizontal, 14)
                 .padding(.vertical, 14)
-            }
         }
     }
 }
