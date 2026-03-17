@@ -6,6 +6,7 @@ struct HolyFitApp: App {
     @State private var healthKitManager = HealthKitManager()
     @AppStorage("appearanceMode") private var appearanceMode: String = "auto"
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
+    @AppStorage("didFixAbnormalDurations") private var didFixAbnormalDurations = false
 
     private var colorScheme: ColorScheme? {
         switch appearanceMode {
@@ -78,8 +79,9 @@ struct HolyFitApp: App {
         }
     }
 
-    /// Fix sessions with abnormally long durations (caused by past-date endDate bug)
+    /// One-time fix for sessions with abnormally long durations (caused by past-date endDate bug)
     private func fixAbnormalDurations() {
+        guard !didFixAbnormalDurations else { return }
         let context = container.mainContext
         let descriptor = FetchDescriptor<WorkoutSession>(
             predicate: #Predicate<WorkoutSession> { $0.endDate != nil }
@@ -89,13 +91,13 @@ struct HolyFitApp: App {
         for session in sessions {
             guard let endDate = session.endDate else { continue }
             let duration = endDate.timeIntervalSince(session.startDate)
-            // 4시간 이상이면 비정상 → 1시간 30분으로 보정
             if duration > 14400 {
                 session.endDate = session.startDate.addingTimeInterval(5400)
                 fixed = true
             }
         }
         if fixed { try? context.save() }
+        didFixAbnormalDurations = true
     }
 
     /// Delete workout sessions that were never completed (app crash/force quit)

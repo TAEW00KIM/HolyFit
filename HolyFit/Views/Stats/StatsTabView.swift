@@ -2,7 +2,7 @@ import SwiftUI
 import SwiftData
 
 struct StatsTabView: View {
-    @Query(sort: \WorkoutSession.startDate, order: .reverse) private var sessions: [WorkoutSession]
+    @Query(filter: #Predicate<WorkoutSession> { $0.endDate != nil }, sort: \WorkoutSession.startDate, order: .reverse) private var sessions: [WorkoutSession]
     @Query(sort: \MealEntry.date, order: .reverse) private var meals: [MealEntry]
     @State private var selectedRange: StatsRange = .week
     @AppStorage("selectedTab") private var selectedTab = 0

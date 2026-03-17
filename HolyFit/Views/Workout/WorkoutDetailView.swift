@@ -35,6 +35,7 @@ struct WorkoutDetailView: View {
                 Button {
                     if isEditing {
                         try? modelContext.save()
+                        WidgetDataManager.updateWidgetData(context: modelContext)
                     }
                     withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
                         isEditing.toggle()

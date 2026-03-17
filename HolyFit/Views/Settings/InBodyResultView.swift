@@ -189,6 +189,7 @@ struct InBodyResultView: View {
             )
             modelContext.insert(measurement)
             try? modelContext.save()
+            WidgetDataManager.updateWidgetData(context: modelContext)
         }
 
         dismiss()
