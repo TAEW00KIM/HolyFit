@@ -58,9 +58,9 @@ struct DataManagementView: View {
             ZStack {
                 Circle()
                     .fill(AppColors.danger.opacity(0.15))
-                    .frame(width: 44, height: 44)
+                    .frame(width: 28, height: 28)
                 Image(systemName: "exclamationmark.triangle.fill")
-                    .font(.system(size: 20))
+                    .font(.system(size: 14))
                     .foregroundStyle(AppColors.danger)
             }
 
