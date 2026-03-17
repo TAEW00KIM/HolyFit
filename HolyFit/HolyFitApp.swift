@@ -58,6 +58,7 @@ struct HolyFitApp: App {
                     purgeAbandonedSessions()
                     seedNewExercises()
                     fixAbnormalDurations()
+                    WidgetDataManager.updateWidgetData(context: container.mainContext)
                 }
         }
         .modelContainer(container)

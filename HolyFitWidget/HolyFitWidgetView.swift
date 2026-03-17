@@ -102,7 +102,7 @@ private struct SmallWidgetView: View {
     }
 
     private var notCompletedView: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: 6) {
             // Logo
             HStack(spacing: 4) {
                 Image(systemName: "dumbbell.fill")
@@ -115,17 +115,22 @@ private struct SmallWidgetView: View {
 
             Spacer()
 
-            Image(systemName: "figure.strengthtraining.traditional")
+            // Faded dumbbell icon
+            Image(systemName: "dumbbell.fill")
                 .font(.system(size: 28, weight: .medium))
-                .foregroundStyle(WidgetColors.accent.opacity(0.6))
+                .foregroundStyle(secondaryText.opacity(0.3))
 
-            Text("오늘도\n운동하세요")
-                .font(.system(size: 14, weight: .bold))
+            // "운동 전"
+            Text("운동 전")
+                .font(.system(size: 18, weight: .heavy))
                 .foregroundStyle(primaryText)
-                .multilineTextAlignment(.center)
-                .lineSpacing(2)
 
             Spacer()
+
+            // 목표
+            Text("목표 1회")
+                .font(.system(size: 11, weight: .medium))
+                .foregroundStyle(secondaryText)
         }
         .padding(14)
     }
@@ -217,6 +222,7 @@ private struct MediumWidgetView: View {
     private var notCompletedView: some View {
         HStack(spacing: 0) {
             VStack(alignment: .leading, spacing: 6) {
+                // Header
                 HStack(spacing: 5) {
                     Image(systemName: "dumbbell.fill")
                         .font(.system(size: 11, weight: .bold))
@@ -226,13 +232,28 @@ private struct MediumWidgetView: View {
                         .foregroundStyle(secondaryText)
                 }
 
-                Text("오늘도\n운동하세요 💪")
-                    .font(.system(size: 20, weight: .heavy))
+                // 아직이에요
+                Text("아직이에요")
+                    .font(.system(size: 22, weight: .heavy))
                     .foregroundStyle(primaryText)
-                    .lineSpacing(2)
 
                 Spacer()
 
+                // Dash stats row
+                HStack(spacing: 10) {
+                    Label("—분", systemImage: "clock")
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundStyle(secondaryText.opacity(0.5))
+                    Label("—kg", systemImage: "chart.line.uptrend.xyaxis")
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundStyle(secondaryText.opacity(0.5))
+                    Label("—kcal", systemImage: "flame")
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundStyle(secondaryText.opacity(0.5))
+                }
+                .labelStyle(WidgetLabelStyle())
+
+                // HolyFit
                 Text("HolyFit")
                     .font(.system(size: 10, weight: .medium))
                     .foregroundStyle(secondaryText.opacity(0.6))
@@ -241,13 +262,16 @@ private struct MediumWidgetView: View {
 
             Spacer()
 
+            // Progress ring 0/1
             ZStack {
                 Circle()
-                    .strokeBorder(WidgetColors.accent.opacity(0.3), lineWidth: 2)
+                    .stroke(secondaryText.opacity(0.15), lineWidth: 2.5)
                     .frame(width: 56, height: 56)
-                Image(systemName: "figure.run")
-                    .font(.system(size: 22, weight: .semibold))
-                    .foregroundStyle(WidgetColors.accent.opacity(0.5))
+                VStack(spacing: 1) {
+                    Text("0/1")
+                        .font(.system(size: 16, weight: .bold))
+                        .foregroundStyle(secondaryText)
+                }
             }
             .padding(.trailing, 20)
         }
