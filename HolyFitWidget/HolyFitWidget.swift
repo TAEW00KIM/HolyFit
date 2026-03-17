@@ -73,15 +73,19 @@ struct HolyFitWidgetProvider: TimelineProvider {
     }
 
     private func currentEntry() -> HolyFitWidgetEntry {
-        HolyFitWidgetEntry(
+        // Check if cached data is from today — if not, reset workout stats
+        let lastUpdated = WidgetSharedDefaults.lastUpdated()
+        let isToday = Calendar.current.isDateInToday(lastUpdated)
+
+        return HolyFitWidgetEntry(
             date: .now,
-            workoutCount: WidgetSharedDefaults.workoutCount(),
-            calories: WidgetSharedDefaults.calories(),
-            protein: WidgetSharedDefaults.protein(),
+            workoutCount: isToday ? WidgetSharedDefaults.workoutCount() : 0,
+            calories: isToday ? WidgetSharedDefaults.calories() : 0,
+            protein: isToday ? WidgetSharedDefaults.protein() : 0,
             currentStreak: WidgetSharedDefaults.streak(),
-            todayCalories: WidgetSharedDefaults.todayCalories(),
-            duration: WidgetSharedDefaults.duration(),
-            volume: WidgetSharedDefaults.volume()
+            todayCalories: isToday ? WidgetSharedDefaults.todayCalories() : 0,
+            duration: isToday ? WidgetSharedDefaults.duration() : 0,
+            volume: isToday ? WidgetSharedDefaults.volume() : 0
         )
     }
 }

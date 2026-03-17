@@ -108,12 +108,20 @@ struct StatsTabView: View {
         min(Double(totalWorkouts) / Double(selectedRange.targetWorkoutCount), 1)
     }
 
-    private var bestOneRepMax: Double {
-        filteredSessions
-            .flatMap(\.entries)
-            .flatMap(\.sets)
-            .map(\.estimatedOneRepMax)
-            .max() ?? 0
+    private var bestOneRepMaxInfo: (value: Double, exerciseName: String) {
+        var best: Double = 0
+        var name = ""
+        for session in filteredSessions {
+            for entry in session.entries {
+                for set in entry.sets {
+                    if set.estimatedOneRepMax > best {
+                        best = set.estimatedOneRepMax
+                        name = entry.exercise?.name ?? ""
+                    }
+                }
+            }
+        }
+        return (best, name)
     }
 
     private var weightDelta: Double {
@@ -189,8 +197,8 @@ struct StatsTabView: View {
 
     private var statsRow: some View {
         HStack(spacing: AppSpacing.sm) {
-            statCard(icon: "scalemass.fill", value: volumeLabel, label: "총 볼륨", color: AppColors.gradientStart)
-            statCard(icon: "flame.fill", value: "\(totalCalories)", label: "칼로리", color: AppColors.warning)
+            statCard(icon: "dumbbell.fill", value: volumeLabel, label: "kg", color: AppColors.gradientStart)
+            statCard(icon: "flame.fill", value: "\(totalCalories)", label: "kcal", color: AppColors.warning)
             statCard(icon: "clock.fill", value: durationLabel, label: "운동 시간", color: AppColors.info)
         }
     }
@@ -247,7 +255,7 @@ struct StatsTabView: View {
                 insightCard(
                     title: "중량 변화",
                     value: formattedDelta(weightDelta),
-                    caption: "최근 세션 대비",
+                    caption: "최근 4주 대비",
                     color: AppColors.success,
                     icon: "chart.line.uptrend.xyaxis"
                 )
@@ -259,8 +267,8 @@ struct StatsTabView: View {
             } label: {
                 insightCard(
                     title: "1RM 추정",
-                    value: bestOneRepMax > 0 ? "\(Int(bestOneRepMax.rounded()))kg" : "--",
-                    caption: "현재 최고치",
+                    value: bestOneRepMaxInfo.value > 0 ? "\(Int(bestOneRepMaxInfo.value.rounded()))kg" : "--",
+                    caption: bestOneRepMaxInfo.exerciseName.isEmpty ? "현재 최고치" : bestOneRepMaxInfo.exerciseName,
                     color: AppColors.gradientStart,
                     icon: "trophy.fill"
                 )
