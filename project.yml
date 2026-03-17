@@ -1,0 +1,85 @@
+name: HolyFit
+options:
+  bundleIdPrefix: com.personal
+  deploymentTarget:
+    iOS: "26.0"
+  xcodeVersion: "16.0"
+  createIntermediateGroups: true
+  generateEmptyDirectories: true
+
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    GENERATE_INFOPLIST_FILE: YES
+    MARKETING_VERSION: "1.0.0"
+    CURRENT_PROJECT_VERSION: 1
+    DEVELOPMENT_TEAM: ""
+    SYMROOT: /tmp/HolyFitBuild
+
+targets:
+  HolyFit:
+    type: application
+    platform: iOS
+    sources:
+      - path: HolyFit
+    entitlements:
+      path: HolyFit/HolyFit.entitlements
+    settings:
+      base:
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: "UIInterfaceOrientationPortrait"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        ENABLE_PREVIEWS: YES
+        INFOPLIST_KEY_NSHealthShareUsageDescription: "HolyFit이 건강 데이터를 읽어 운동 통계를 표시합니다"
+        INFOPLIST_KEY_NSHealthUpdateUsageDescription: "HolyFit이 완료한 운동을 건강 앱에 기록합니다"
+    dependencies:
+      - target: HolyFitWidget
+        embed: true
+
+  HolyFitTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: HolyFitTests
+    dependencies:
+      - target: HolyFit
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/HolyFit.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/HolyFit"
+        BUNDLE_LOADER: "$(TEST_HOST)"
+
+  HolyFitWidget:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: HolyFitWidget
+        excludes:
+          - "Info.plist"
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.personal.HolyFit.Widget
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: HolyFitWidget/Info.plist
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        SWIFT_EMIT_LOC_STRINGS: YES
+    entitlements:
+      path: HolyFitWidget/HolyFitWidget.entitlements
+    dependencies: []
+
+schemes:
+  HolyFit:
+    build:
+      targets:
+        HolyFit: all
+        HolyFitWidget: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - HolyFitTests

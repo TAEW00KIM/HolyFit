@@ -1,0 +1,49 @@
+# Xcode
+build/
+.build/
+DerivedData/
+*.xcuserdata
+*.xcworkspace/xcuserdata/
+xcuserdata/
+
+# Xcode user-specific files
+*.xcuserstate
+*.xcscheme
+!*.xcscheme
+
+# SPM
+.swiftpm/
+Package.resolved
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Backup files
+.backup_*
+
+# OMC state
+.omc/
+.omx/
+
+# CocoaPods (if used)
+Pods/
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
+# Archives
+*.xcarchive
+
+# Provisioning
+*.mobileprovision
+*.provisionprofile
+
+# Secrets
+*.env
+credentials.*

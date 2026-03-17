@@ -1,0 +1,827 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		055070050F8DB748EFD6F566 /* WorkoutTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE4F84AFFA61C99EA70C35B /* WorkoutTabView.swift */; };
+		0672907CC0CE894BC955A43E /* WorkoutDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957567F2218B72BE581A25A8 /* WorkoutDetailView.swift */; };
+		0B48F9FCFC51E147A02DE6AB /* WorkoutTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022F57887EA89312B613D38C /* WorkoutTemplate.swift */; };
+		1A2B3C4D5E6F7A8B9C0D1E2F /* WorkoutCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3B4C5D6E7F8A9B0C1D2E3F /* WorkoutCalendarView.swift */; };
+		3A4B5C6D7E8F9A0B1C2D3E4F /* BuiltInTemplates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B6C7D8E9F0A1B2C3D4E5F /* BuiltInTemplates.swift */; };
+		1896B6841D89CD7A8BBCB660 /* StatsTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6926B294415381796164538E /* StatsTabView.swift */; };
+		20E189C8FC8FD2DC8B2D0A28 /* SettingsTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869F9300C1A11178EB75FF8C /* SettingsTabView.swift */; };
+		2627001E2C198E8CBA5367BF /* HolyFitWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B3157E4BEA1A0B878F543E06 /* HolyFitWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		2C766115821D7D43AB75E3EA /* HolyFitApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8345866968AB118C0815F1C6 /* HolyFitApp.swift */; };
+		3B31A8F273248B4178B99D39 /* VolumeChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB96E103E5B818AEEA51583 /* VolumeChart.swift */; };
+		42093765F3D2C45A57E86A29 /* WeeklySummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06030A3955D9F5FBAD917BA3 /* WeeklySummaryView.swift */; };
+		477109B7A8CD0BC177B740DA /* DietTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB11AFF111ECC51E9C179AD /* DietTabView.swift */; };
+		52B27EE0727AD0979DE77A8A /* WeightProgressionChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EB4884C4DC9EF818FFA190 /* WeightProgressionChart.swift */; };
+		545D93AE49E84EA8288FD962 /* MealEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA2D1A19D56FF11E2373108 /* MealEntry.swift */; };
+		59675F7500595EE0B5E03DAA /* WorkoutSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FC9FE9C7D9B500FD7D80C0 /* WorkoutSet.swift */; };
+		6244DD8FE4F897C53CC5045F /* ActiveWorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29DF60BFE9F6DE46CCC4907B /* ActiveWorkoutView.swift */; };
+		64311366E9E9DC89B1C1E23B /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC911A4F3EE1A47E895D512 /* HealthKitManager.swift */; };
+		68AD79CB8ACF98E46B206F15 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A921216DAB5B27A793EC21A4 /* ContentView.swift */; };
+		6FD002B2805CCADAA0D83EFF /* ExerciseSeedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13B791D23B3B49373B34B25 /* ExerciseSeedData.swift */; };
+		707BE4CD1336021A337F8049 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36915965FED01234B22713A /* AboutView.swift */; };
+		712A14295F7FD76F169F061C /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588F11C17FE776C816297D14 /* Theme.swift */; };
+		7E315F52E13AA8822E4D6EF6 /* HolyFitWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802A93213844A8FEE4240D3A /* HolyFitWidget.swift */; };
+		8536EE47E0AF90320FCDD98B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7945395E3EEA1F25B019B15 /* Constants.swift */; };
+		904265D8DC5ECB39734DF675 /* DateFormatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA461CE75A04887D0FC1232 /* DateFormatters.swift */; };
+		9344527892E9FFE0645D919B /* OneRepMaxChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF9B9972846094F5E28067C /* OneRepMaxChart.swift */; };
+		97C38B56E60F392D3C0358FA /* HolyFitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115C87318653EFEF04713925 /* HolyFitTests.swift */; };
+		A6BDDFE1009998E5C73FAB5B /* MuscleGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1804ED4CA47BD249C178BFF5 /* MuscleGroup.swift */; };
+		A8D77C11640839922881D851 /* WorkoutSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C11EAADFC6F872AE3B862C4 /* WorkoutSession.swift */; };
+		AA27929243A784F94842E195 /* TemplateEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FDB45F3D25BDA6AE331539 /* TemplateEntry.swift */; };
+		AB7A68BC3612ACF741963FD5 /* ExercisePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A96B8E56C7670B631367329 /* ExercisePickerView.swift */; };
+		B79EF6ABCB6877BF9054C5DF /* HolyFitWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5EAA309D32DEE8C7D644572 /* HolyFitWidgetView.swift */; };
+		BD2BD45199F60E862DD34C9D /* WorkoutEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34F4087C3226A8A3C50E07D8 /* WorkoutEntry.swift */; };
+		C003920E129419475E833E69 /* PreviewSampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C754B8C4E845E3EF8DCFCBF7 /* PreviewSampleData.swift */; };
+		C2D7305633090239CDAB2F9C /* Exercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68DBFE7508EF0C817D22EBCC /* Exercise.swift */; };
+		C3C7BA29AD175E649DF271C1 /* DataManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD5DE404AAFDA95C426D0C1 /* DataManagementView.swift */; };
+		D27089D8EDB68FD050EB2D6D /* WidgetDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 947E0B096FF6CFC9638830FE /* WidgetDataManager.swift */; };
+		D2F93C0E597248E89D1C6074 /* DateRangeFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A30FCEAF242D60C68E6015 /* DateRangeFilterView.swift */; };
+		D625EE107F35C2CDB20A13DD /* AddExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AC9BBDC31253E478E7FAC9 /* AddExerciseView.swift */; };
+		D956E78C33F9C74C17077801 /* MealCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99A708F9B07F3F0CA14B3AE /* MealCategory.swift */; };
+		DBBA80CBC3EA8002CAEE334F /* MyProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270A4844AA1170091ABE63D8 /* MyProfileView.swift */; };
+		DDCA5A0C192199F3456DD11F /* StatsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C2ED648CF5920C1DD5A42 /* StatsViewModel.swift */; };
+		DEFA61CB2279E95294EC6921 /* InBodyResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FDFCDD2D0AD89E48380261 /* InBodyResultView.swift */; };
+		EF1A7DBD23F9016FE66C9660 /* RestTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FC5577FF1ABF58A3F0E3EB /* RestTimerView.swift */; };
+		EF2A8DBE34FA127FF77D0771 /* WorkoutCompletionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3C6688AA2BC049D4F1E4AC /* WorkoutCompletionView.swift */; };
+		EFED7417A1EBC9D00BB64A30 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 25C3FEC8AC0FEFB06676C698 /* Assets.xcassets */; };
+		F57320D2D93A66AC3992C730 /* AddMealEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B368E40DF4F7049B6BB05D /* AddMealEntryView.swift */; };
+		AA11BB22CC33DD44EE55FF66 /* BodyMeasurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB22CC33DD44EE55FF660011 /* BodyMeasurement.swift */; };
+		CC33DD44EE55FF66AA11BB22 /* BodyProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD44EE55FF66AA11BB22CC33 /* BodyProgressView.swift */; };
+		EE11FF22AA33BB44CC55DD66 /* Equipment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF22AA33BB44CC55DD66EE11 /* Equipment.swift */; };
+		11AA22BB33CC44DD55EE66FF /* ExerciseEquipmentMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22BB33CC44DD55EE66FF11AA /* ExerciseEquipmentMap.swift */; };
+		33CC44DD55EE66FF11AA22BB /* MyGymView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44DD55EE66FF11AA22BB33CC /* MyGymView.swift */; };
+		55EE66FF7711AA22BB33CC44 /* RoutineGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FF7711AA22BB33CC44DD55 /* RoutineGenerator.swift */; };
+		77118822CC33DD44EE55FF66 /* RoutineGeneratorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88229933DD44EE55FF661100 /* RoutineGeneratorView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		8083520E2F62C5D8F8B06ACD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BB63852FA06E6648A5C1DF3E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8A33628160FFB5A04C242F62;
+			remoteInfo = HolyFit;
+		};
+		E1415179744242EDD767430F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BB63852FA06E6648A5C1DF3E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 444F906A060C71657E8327AF;
+			remoteInfo = HolyFitWidget;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E00AF78884EFD80A76C20D85 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				2627001E2C198E8CBA5367BF /* HolyFitWidget.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		022F57887EA89312B613D38C /* WorkoutTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutTemplate.swift; sourceTree = "<group>"; };
+		2A3B4C5D6E7F8A9B0C1D2E3F /* WorkoutCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCalendarView.swift; sourceTree = "<group>"; };
+		4A5B6C7D8E9F0A1B2C3D4E5F /* BuiltInTemplates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuiltInTemplates.swift; sourceTree = "<group>"; };
+		06030A3955D9F5FBAD917BA3 /* WeeklySummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklySummaryView.swift; sourceTree = "<group>"; };
+		08AC9BBDC31253E478E7FAC9 /* AddExerciseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExerciseView.swift; sourceTree = "<group>"; };
+		0DA2D1A19D56FF11E2373108 /* MealEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealEntry.swift; sourceTree = "<group>"; };
+		115C87318653EFEF04713925 /* HolyFitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolyFitTests.swift; sourceTree = "<group>"; };
+		1804ED4CA47BD249C178BFF5 /* MuscleGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuscleGroup.swift; sourceTree = "<group>"; };
+		25C3FEC8AC0FEFB06676C698 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		270A4844AA1170091ABE63D8 /* MyProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileView.swift; sourceTree = "<group>"; };
+		29DF60BFE9F6DE46CCC4907B /* ActiveWorkoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveWorkoutView.swift; sourceTree = "<group>"; };
+		2C11EAADFC6F872AE3B862C4 /* WorkoutSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSession.swift; sourceTree = "<group>"; };
+		34F4087C3226A8A3C50E07D8 /* WorkoutEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutEntry.swift; sourceTree = "<group>"; };
+		3AA461CE75A04887D0FC1232 /* DateFormatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatters.swift; sourceTree = "<group>"; };
+		47FC5577FF1ABF58A3F0E3EB /* RestTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestTimerView.swift; sourceTree = "<group>"; };
+		4A96B8E56C7670B631367329 /* ExercisePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercisePickerView.swift; sourceTree = "<group>"; };
+		5B3C6688AA2BC049D4F1E4AC /* WorkoutCompletionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCompletionView.swift; sourceTree = "<group>"; };
+		588F11C17FE776C816297D14 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		618C2ED648CF5920C1DD5A42 /* StatsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewModel.swift; sourceTree = "<group>"; };
+		68DBFE7508EF0C817D22EBCC /* Exercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exercise.swift; sourceTree = "<group>"; };
+		6926B294415381796164538E /* StatsTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsTabView.swift; sourceTree = "<group>"; };
+		6C8009D0F42736ED0D6CEA1C /* HolyFitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HolyFitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		70B974EE49FA320735BAE8D8 /* HolyFitWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HolyFitWidget.entitlements; sourceTree = "<group>"; };
+		71A30FCEAF242D60C68E6015 /* DateRangeFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateRangeFilterView.swift; sourceTree = "<group>"; };
+		79FDB45F3D25BDA6AE331539 /* TemplateEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateEntry.swift; sourceTree = "<group>"; };
+		802A93213844A8FEE4240D3A /* HolyFitWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolyFitWidget.swift; sourceTree = "<group>"; };
+		80FC9FE9C7D9B500FD7D80C0 /* WorkoutSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSet.swift; sourceTree = "<group>"; };
+		8345866968AB118C0815F1C6 /* HolyFitApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolyFitApp.swift; sourceTree = "<group>"; };
+		8373E354484DF776F776FE90 /* HolyFit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HolyFit.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		869F9300C1A11178EB75FF8C /* SettingsTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTabView.swift; sourceTree = "<group>"; };
+		8BB11AFF111ECC51E9C179AD /* DietTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DietTabView.swift; sourceTree = "<group>"; };
+		8BD5DE404AAFDA95C426D0C1 /* DataManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManagementView.swift; sourceTree = "<group>"; };
+		8BE4F84AFFA61C99EA70C35B /* WorkoutTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutTabView.swift; sourceTree = "<group>"; };
+		91B368E40DF4F7049B6BB05D /* AddMealEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMealEntryView.swift; sourceTree = "<group>"; };
+		947E0B096FF6CFC9638830FE /* WidgetDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDataManager.swift; sourceTree = "<group>"; };
+		957567F2218B72BE581A25A8 /* WorkoutDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutDetailView.swift; sourceTree = "<group>"; };
+		A7945395E3EEA1F25B019B15 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		A7EB4884C4DC9EF818FFA190 /* WeightProgressionChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightProgressionChart.swift; sourceTree = "<group>"; };
+		A921216DAB5B27A793EC21A4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B3157E4BEA1A0B878F543E06 /* HolyFitWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = HolyFitWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		B5AE2CDADA0D2B0988EA9AFE /* HolyFit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HolyFit.entitlements; sourceTree = "<group>"; };
+		C36915965FED01234B22713A /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
+		C754B8C4E845E3EF8DCFCBF7 /* PreviewSampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewSampleData.swift; sourceTree = "<group>"; };
+		CCF9B9972846094F5E28067C /* OneRepMaxChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneRepMaxChart.swift; sourceTree = "<group>"; };
+		D5EAA309D32DEE8C7D644572 /* HolyFitWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolyFitWidgetView.swift; sourceTree = "<group>"; };
+		D9FDFCDD2D0AD89E48380261 /* InBodyResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InBodyResultView.swift; sourceTree = "<group>"; };
+		E13B791D23B3B49373B34B25 /* ExerciseSeedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseSeedData.swift; sourceTree = "<group>"; };
+		EDC911A4F3EE1A47E895D512 /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
+		F99A708F9B07F3F0CA14B3AE /* MealCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealCategory.swift; sourceTree = "<group>"; };
+		FDB96E103E5B818AEEA51583 /* VolumeChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeChart.swift; sourceTree = "<group>"; };
+		BB22CC33DD44EE55FF660011 /* BodyMeasurement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyMeasurement.swift; sourceTree = "<group>"; };
+		DD44EE55FF66AA11BB22CC33 /* BodyProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyProgressView.swift; sourceTree = "<group>"; };
+		FF22AA33BB44CC55DD66EE11 /* Equipment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Equipment.swift; sourceTree = "<group>"; };
+		22BB33CC44DD55EE66FF11AA /* ExerciseEquipmentMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseEquipmentMap.swift; sourceTree = "<group>"; };
+		44DD55EE66FF11AA22BB33CC /* MyGymView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyGymView.swift; sourceTree = "<group>"; };
+		66FF7711AA22BB33CC44DD55 /* RoutineGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutineGenerator.swift; sourceTree = "<group>"; };
+		88229933DD44EE55FF661100 /* RoutineGeneratorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutineGeneratorView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		190C355D732943828FC8AFA6 /* Diet */ = {
+			isa = PBXGroup;
+			children = (
+				91B368E40DF4F7049B6BB05D /* AddMealEntryView.swift */,
+				8BB11AFF111ECC51E9C179AD /* DietTabView.swift */,
+			);
+			path = Diet;
+			sourceTree = "<group>";
+		};
+		1F7971354741444F1D078D40 /* Stats */ = {
+			isa = PBXGroup;
+			children = (
+				DD44EE55FF66AA11BB22CC33 /* BodyProgressView.swift */,
+				71A30FCEAF242D60C68E6015 /* DateRangeFilterView.swift */,
+				CCF9B9972846094F5E28067C /* OneRepMaxChart.swift */,
+				6926B294415381796164538E /* StatsTabView.swift */,
+				FDB96E103E5B818AEEA51583 /* VolumeChart.swift */,
+				06030A3955D9F5FBAD917BA3 /* WeeklySummaryView.swift */,
+				A7EB4884C4DC9EF818FFA190 /* WeightProgressionChart.swift */,
+			);
+			path = Stats;
+			sourceTree = "<group>";
+		};
+		237AFB95C163C466B7535B82 = {
+			isa = PBXGroup;
+			children = (
+				EF674043476F2B05C4E44CCF /* HolyFit */,
+				7621C9B9D4022E503DB6E743 /* HolyFitTests */,
+				88F90734CC66F130AF924140 /* HolyFitWidget */,
+				8C26A8543EA174B80342DFDA /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		40A6F68D3C7C3406D49D8783 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				C754B8C4E845E3EF8DCFCBF7 /* PreviewSampleData.swift */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		58295AFF1E673E50CC9A073D /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				4A5B6C7D8E9F0A1B2C3D4E5F /* BuiltInTemplates.swift */,
+				22BB33CC44DD55EE66FF11AA /* ExerciseEquipmentMap.swift */,
+				E13B791D23B3B49373B34B25 /* ExerciseSeedData.swift */,
+				EDC911A4F3EE1A47E895D512 /* HealthKitManager.swift */,
+				66FF7711AA22BB33CC44DD55 /* RoutineGenerator.swift */,
+				947E0B096FF6CFC9638830FE /* WidgetDataManager.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		67103333D00F4B2770799B3D /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				C36915965FED01234B22713A /* AboutView.swift */,
+				8BD5DE404AAFDA95C426D0C1 /* DataManagementView.swift */,
+				D9FDFCDD2D0AD89E48380261 /* InBodyResultView.swift */,
+				44DD55EE66FF11AA22BB33CC /* MyGymView.swift */,
+				270A4844AA1170091ABE63D8 /* MyProfileView.swift */,
+				869F9300C1A11178EB75FF8C /* SettingsTabView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		67B8BE41EC2ED9520D66383E /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				618C2ED648CF5920C1DD5A42 /* StatsViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		7309615D537920333D369182 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		7621C9B9D4022E503DB6E743 /* HolyFitTests */ = {
+			isa = PBXGroup;
+			children = (
+				115C87318653EFEF04713925 /* HolyFitTests.swift */,
+			);
+			path = HolyFitTests;
+			sourceTree = "<group>";
+		};
+		88F90734CC66F130AF924140 /* HolyFitWidget */ = {
+			isa = PBXGroup;
+			children = (
+				70B974EE49FA320735BAE8D8 /* HolyFitWidget.entitlements */,
+				802A93213844A8FEE4240D3A /* HolyFitWidget.swift */,
+				D5EAA309D32DEE8C7D644572 /* HolyFitWidgetView.swift */,
+			);
+			path = HolyFitWidget;
+			sourceTree = "<group>";
+		};
+		8C26A8543EA174B80342DFDA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8373E354484DF776F776FE90 /* HolyFit.app */,
+				6C8009D0F42736ED0D6CEA1C /* HolyFitTests.xctest */,
+				B3157E4BEA1A0B878F543E06 /* HolyFitWidget.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B863252BFF37AC9298520A28 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				BB22CC33DD44EE55FF660011 /* BodyMeasurement.swift */,
+				FF22AA33BB44CC55DD66EE11 /* Equipment.swift */,
+				68DBFE7508EF0C817D22EBCC /* Exercise.swift */,
+				F99A708F9B07F3F0CA14B3AE /* MealCategory.swift */,
+				0DA2D1A19D56FF11E2373108 /* MealEntry.swift */,
+				1804ED4CA47BD249C178BFF5 /* MuscleGroup.swift */,
+				79FDB45F3D25BDA6AE331539 /* TemplateEntry.swift */,
+				34F4087C3226A8A3C50E07D8 /* WorkoutEntry.swift */,
+				2C11EAADFC6F872AE3B862C4 /* WorkoutSession.swift */,
+				80FC9FE9C7D9B500FD7D80C0 /* WorkoutSet.swift */,
+				022F57887EA89312B613D38C /* WorkoutTemplate.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		D031E3AAACD349CEB1C0A4B3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				7309615D537920333D369182 /* Components */,
+				190C355D732943828FC8AFA6 /* Diet */,
+				67103333D00F4B2770799B3D /* Settings */,
+				1F7971354741444F1D078D40 /* Stats */,
+				E72ECBA3120F962BE2703611 /* Workout */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E72ECBA3120F962BE2703611 /* Workout */ = {
+			isa = PBXGroup;
+			children = (
+				29DF60BFE9F6DE46CCC4907B /* ActiveWorkoutView.swift */,
+				08AC9BBDC31253E478E7FAC9 /* AddExerciseView.swift */,
+				4A96B8E56C7670B631367329 /* ExercisePickerView.swift */,
+				47FC5577FF1ABF58A3F0E3EB /* RestTimerView.swift */,
+				88229933DD44EE55FF661100 /* RoutineGeneratorView.swift */,
+				2A3B4C5D6E7F8A9B0C1D2E3F /* WorkoutCalendarView.swift */,
+				5B3C6688AA2BC049D4F1E4AC /* WorkoutCompletionView.swift */,
+				957567F2218B72BE581A25A8 /* WorkoutDetailView.swift */,
+				8BE4F84AFFA61C99EA70C35B /* WorkoutTabView.swift */,
+			);
+			path = Workout;
+			sourceTree = "<group>";
+		};
+		ED8FC2AC8F480D56436094C1 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				A7945395E3EEA1F25B019B15 /* Constants.swift */,
+				3AA461CE75A04887D0FC1232 /* DateFormatters.swift */,
+				588F11C17FE776C816297D14 /* Theme.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		EF674043476F2B05C4E44CCF /* HolyFit */ = {
+			isa = PBXGroup;
+			children = (
+				25C3FEC8AC0FEFB06676C698 /* Assets.xcassets */,
+				A921216DAB5B27A793EC21A4 /* ContentView.swift */,
+				B5AE2CDADA0D2B0988EA9AFE /* HolyFit.entitlements */,
+				8345866968AB118C0815F1C6 /* HolyFitApp.swift */,
+				B863252BFF37AC9298520A28 /* Models */,
+				40A6F68D3C7C3406D49D8783 /* Preview Content */,
+				58295AFF1E673E50CC9A073D /* Services */,
+				ED8FC2AC8F480D56436094C1 /* Utilities */,
+				67B8BE41EC2ED9520D66383E /* ViewModels */,
+				D031E3AAACD349CEB1C0A4B3 /* Views */,
+			);
+			path = HolyFit;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		37A53F8E1215D974A68B6FA8 /* HolyFitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A98845EFA6F3C6E279628D6F /* Build configuration list for PBXNativeTarget "HolyFitTests" */;
+			buildPhases = (
+				0F0FDD9726257F57DC96228E /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				86F8B7252D1E95D273017051 /* PBXTargetDependency */,
+			);
+			name = HolyFitTests;
+			packageProductDependencies = (
+			);
+			productName = HolyFitTests;
+			productReference = 6C8009D0F42736ED0D6CEA1C /* HolyFitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		444F906A060C71657E8327AF /* HolyFitWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 45D724AF0D2841BD16B29E92 /* Build configuration list for PBXNativeTarget "HolyFitWidget" */;
+			buildPhases = (
+				A5EEBE602014C781C6E0CB4B /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HolyFitWidget;
+			packageProductDependencies = (
+			);
+			productName = HolyFitWidget;
+			productReference = B3157E4BEA1A0B878F543E06 /* HolyFitWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		8A33628160FFB5A04C242F62 /* HolyFit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 27EFCA92BB1BC4B23D58D333 /* Build configuration list for PBXNativeTarget "HolyFit" */;
+			buildPhases = (
+				C75D133A807E6A8D1D2E174B /* Sources */,
+				C1003941F0E9962AD99CF9AA /* Resources */,
+				E00AF78884EFD80A76C20D85 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E9FD7B076E7B2B926FC9EDC3 /* PBXTargetDependency */,
+			);
+			name = HolyFit;
+			packageProductDependencies = (
+			);
+			productName = HolyFit;
+			productReference = 8373E354484DF776F776FE90 /* HolyFit.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BB63852FA06E6648A5C1DF3E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1600;
+			};
+			buildConfigurationList = A9BCEB880371F1A070616C69 /* Build configuration list for PBXProject "HolyFit" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 237AFB95C163C466B7535B82;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 8C26A8543EA174B80342DFDA /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8A33628160FFB5A04C242F62 /* HolyFit */,
+				37A53F8E1215D974A68B6FA8 /* HolyFitTests */,
+				444F906A060C71657E8327AF /* HolyFitWidget */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C1003941F0E9962AD99CF9AA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EFED7417A1EBC9D00BB64A30 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0F0FDD9726257F57DC96228E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				97C38B56E60F392D3C0358FA /* HolyFitTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A5EEBE602014C781C6E0CB4B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7E315F52E13AA8822E4D6EF6 /* HolyFitWidget.swift in Sources */,
+				B79EF6ABCB6877BF9054C5DF /* HolyFitWidgetView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C75D133A807E6A8D1D2E174B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				707BE4CD1336021A337F8049 /* AboutView.swift in Sources */,
+				6244DD8FE4F897C53CC5045F /* ActiveWorkoutView.swift in Sources */,
+				D625EE107F35C2CDB20A13DD /* AddExerciseView.swift in Sources */,
+				F57320D2D93A66AC3992C730 /* AddMealEntryView.swift in Sources */,
+				8536EE47E0AF90320FCDD98B /* Constants.swift in Sources */,
+				68AD79CB8ACF98E46B206F15 /* ContentView.swift in Sources */,
+				C3C7BA29AD175E649DF271C1 /* DataManagementView.swift in Sources */,
+				904265D8DC5ECB39734DF675 /* DateFormatters.swift in Sources */,
+				D2F93C0E597248E89D1C6074 /* DateRangeFilterView.swift in Sources */,
+				477109B7A8CD0BC177B740DA /* DietTabView.swift in Sources */,
+				C2D7305633090239CDAB2F9C /* Exercise.swift in Sources */,
+				AB7A68BC3612ACF741963FD5 /* ExercisePickerView.swift in Sources */,
+				6FD002B2805CCADAA0D83EFF /* ExerciseSeedData.swift in Sources */,
+				2C766115821D7D43AB75E3EA /* HolyFitApp.swift in Sources */,
+				64311366E9E9DC89B1C1E23B /* HealthKitManager.swift in Sources */,
+				DEFA61CB2279E95294EC6921 /* InBodyResultView.swift in Sources */,
+				D956E78C33F9C74C17077801 /* MealCategory.swift in Sources */,
+				545D93AE49E84EA8288FD962 /* MealEntry.swift in Sources */,
+				A6BDDFE1009998E5C73FAB5B /* MuscleGroup.swift in Sources */,
+				DBBA80CBC3EA8002CAEE334F /* MyProfileView.swift in Sources */,
+				9344527892E9FFE0645D919B /* OneRepMaxChart.swift in Sources */,
+				C003920E129419475E833E69 /* PreviewSampleData.swift in Sources */,
+				EF1A7DBD23F9016FE66C9660 /* RestTimerView.swift in Sources */,
+				20E189C8FC8FD2DC8B2D0A28 /* SettingsTabView.swift in Sources */,
+				1896B6841D89CD7A8BBCB660 /* StatsTabView.swift in Sources */,
+				DDCA5A0C192199F3456DD11F /* StatsViewModel.swift in Sources */,
+				AA27929243A784F94842E195 /* TemplateEntry.swift in Sources */,
+				712A14295F7FD76F169F061C /* Theme.swift in Sources */,
+				3B31A8F273248B4178B99D39 /* VolumeChart.swift in Sources */,
+				42093765F3D2C45A57E86A29 /* WeeklySummaryView.swift in Sources */,
+				52B27EE0727AD0979DE77A8A /* WeightProgressionChart.swift in Sources */,
+				D27089D8EDB68FD050EB2D6D /* WidgetDataManager.swift in Sources */,
+				EF2A8DBE34FA127FF77D0771 /* WorkoutCompletionView.swift in Sources */,
+				0672907CC0CE894BC955A43E /* WorkoutDetailView.swift in Sources */,
+				BD2BD45199F60E862DD34C9D /* WorkoutEntry.swift in Sources */,
+				A8D77C11640839922881D851 /* WorkoutSession.swift in Sources */,
+				59675F7500595EE0B5E03DAA /* WorkoutSet.swift in Sources */,
+				055070050F8DB748EFD6F566 /* WorkoutTabView.swift in Sources */,
+				0B48F9FCFC51E147A02DE6AB /* WorkoutTemplate.swift in Sources */,
+				1A2B3C4D5E6F7A8B9C0D1E2F /* WorkoutCalendarView.swift in Sources */,
+				3A4B5C6D7E8F9A0B1C2D3E4F /* BuiltInTemplates.swift in Sources */,
+				AA11BB22CC33DD44EE55FF66 /* BodyMeasurement.swift in Sources */,
+				CC33DD44EE55FF66AA11BB22 /* BodyProgressView.swift in Sources */,
+				EE11FF22AA33BB44CC55DD66 /* Equipment.swift in Sources */,
+				11AA22BB33CC44DD55EE66FF /* ExerciseEquipmentMap.swift in Sources */,
+				33CC44DD55EE66FF11AA22BB /* MyGymView.swift in Sources */,
+				55EE66FF7711AA22BB33CC44 /* RoutineGenerator.swift in Sources */,
+				77118822CC33DD44EE55FF66 /* RoutineGeneratorView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		86F8B7252D1E95D273017051 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8A33628160FFB5A04C242F62 /* HolyFit */;
+			targetProxy = 8083520E2F62C5D8F8B06ACD /* PBXContainerItemProxy */;
+		};
+		E9FD7B076E7B2B926FC9EDC3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 444F906A060C71657E8327AF /* HolyFitWidget */;
+			targetProxy = E1415179744242EDD767430F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		110AA151C158270E8920FAE3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = HolyFitWidget/HolyFitWidget.entitlements;
+				DEVELOPMENT_TEAM = 7TYL7A6LG8;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = HolyFitWidget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.personal.HolyFit.Widget;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		4323CBC942A7ADB8E43ABDEF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = HolyFit/HolyFit.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 7TYL7A6LG8;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "HolyFit이 건강 데이터를 읽어 운동 통계를 표시합니다";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "HolyFit이 완료한 운동을 건강 앱에 기록합니다";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.personal.HolyFit;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		826063F216BA15970C304F64 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+				SYMROOT = /tmp/HolyFitBuild;
+			};
+			name = Debug;
+		};
+		9835404A1AEB05D3FF4C53C4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = HolyFitWidget/HolyFitWidget.entitlements;
+				DEVELOPMENT_TEAM = 7TYL7A6LG8;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = HolyFitWidget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.personal.HolyFit.Widget;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		98CEEDF83265875963F3D507 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 7TYL7A6LG8;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.personal.HolyFitTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HolyFit.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/HolyFit";
+			};
+			name = Debug;
+		};
+		A4CFCDA82E4529605873FC1A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = HolyFit/HolyFit.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 7TYL7A6LG8;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "HolyFit이 건강 데이터를 읽어 운동 통계를 표시합니다";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "HolyFit이 완료한 운동을 건강 앱에 기록합니다";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.personal.HolyFit;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		E60B8B5C270DB92382FD0067 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+				SYMROOT = /tmp/HolyFitBuild;
+			};
+			name = Release;
+		};
+		FDE768C0EF7D16E08EF1660F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 7TYL7A6LG8;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.personal.HolyFitTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HolyFit.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/HolyFit";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		27EFCA92BB1BC4B23D58D333 /* Build configuration list for PBXNativeTarget "HolyFit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4323CBC942A7ADB8E43ABDEF /* Debug */,
+				A4CFCDA82E4529605873FC1A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		45D724AF0D2841BD16B29E92 /* Build configuration list for PBXNativeTarget "HolyFitWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9835404A1AEB05D3FF4C53C4 /* Debug */,
+				110AA151C158270E8920FAE3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		A98845EFA6F3C6E279628D6F /* Build configuration list for PBXNativeTarget "HolyFitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				98CEEDF83265875963F3D507 /* Debug */,
+				FDE768C0EF7D16E08EF1660F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		A9BCEB880371F1A070616C69 /* Build configuration list for PBXProject "HolyFit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				826063F216BA15970C304F64 /* Debug */,
+				E60B8B5C270DB92382FD0067 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BB63852FA06E6648A5C1DF3E /* Project object */;
+}
