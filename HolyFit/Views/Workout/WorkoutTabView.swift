@@ -16,6 +16,7 @@ struct WorkoutTabView: View {
     @State private var selectedBuiltIn: BuiltInTemplate? = nil
     @State private var sessionToDelete: WorkoutSession? = nil
     @State private var templateToDelete: WorkoutTemplate? = nil
+    @State private var showRoutineGenerator = false
 
     private var todaysSessions: [WorkoutSession] {
         let calendar = Calendar.current
@@ -28,6 +29,14 @@ struct WorkoutTabView: View {
                 VStack(spacing: AppSpacing.lg) {
                     // Hero gradient card
                     heroCard
+                        .padding(.horizontal, AppSpacing.md)
+
+                    // Workout calendar
+                    WorkoutCalendarCard()
+                        .padding(.horizontal, AppSpacing.md)
+
+                    // Routine generator
+                    routineGeneratorCard
                         .padding(.horizontal, AppSpacing.md)
 
                     // Template section
@@ -101,6 +110,44 @@ struct WorkoutTabView: View {
                 }
             }
         }
+        .sheet(isPresented: $showRoutineGenerator) {
+            RoutineGeneratorView { template in
+                selectedBuiltIn = template
+                showActiveWorkout = true
+            }
+        }
+    }
+
+    // MARK: - Routine Generator Card
+
+    private var routineGeneratorCard: some View {
+        Button {
+            showRoutineGenerator = true
+        } label: {
+            HStack(spacing: AppSpacing.md) {
+                Image(systemName: "dice.fill")
+                    .font(.system(size: 22, weight: .semibold))
+                    .foregroundStyle(AppColors.accent)
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("루틴 자동 생성")
+                        .font(AppFont.heading(16))
+                        .foregroundStyle(.primary)
+                    Text("내 기구에 맞는 운동 추천")
+                        .font(AppFont.caption(12))
+                        .foregroundStyle(.secondary)
+                }
+
+                Spacer()
+
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundStyle(.tertiary)
+            }
+            .padding(AppSpacing.md)
+            .glassCard()
+        }
+        .buttonStyle(.plain)
     }
 
     // MARK: - Hero Card
@@ -194,6 +241,7 @@ struct WorkoutTabView: View {
                 endPoint: .center
             )
         )
+        .clipShape(RoundedRectangle(cornerRadius: AppRadius.xxl, style: .continuous))
         .glassEffect(.regular, in: .rect(cornerRadius: AppRadius.xxl))
         .scaleEffect(heroAppeared ? 1 : 0.95)
         .opacity(heroAppeared ? 1 : 0)
