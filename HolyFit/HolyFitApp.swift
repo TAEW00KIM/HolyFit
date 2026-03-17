@@ -56,6 +56,7 @@ struct HolyFitApp: App {
                 .task {
                     purgeAbandonedSessions()
                     seedNewExercises()
+                    fixAbnormalDurations()
                 }
         }
         .modelContainer(container)
@@ -75,6 +76,26 @@ struct HolyFitApp: App {
         if added {
             try? context.save()
         }
+    }
+
+    /// Fix sessions with abnormally long durations (caused by past-date endDate bug)
+    private func fixAbnormalDurations() {
+        let context = container.mainContext
+        let descriptor = FetchDescriptor<WorkoutSession>(
+            predicate: #Predicate<WorkoutSession> { $0.endDate != nil }
+        )
+        guard let sessions = try? context.fetch(descriptor) else { return }
+        var fixed = false
+        for session in sessions {
+            guard let endDate = session.endDate else { continue }
+            let duration = endDate.timeIntervalSince(session.startDate)
+            // 4시간 이상이면 비정상 → 1시간 30분으로 보정
+            if duration > 14400 {
+                session.endDate = session.startDate.addingTimeInterval(5400)
+                fixed = true
+            }
+        }
+        if fixed { try? context.save() }
     }
 
     /// Delete workout sessions that were never completed (app crash/force quit)
