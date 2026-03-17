@@ -15,6 +15,8 @@ enum WidgetDataManager {
     private static let keyLastUpdated   = "widgetLastUpdated"
     private static let keyStreak        = "widgetCurrentStreak"
     private static let keyTodayCalories = "widgetTodayMealCalories"
+    private static let keyDuration      = "widgetTodayDuration"
+    private static let keyVolume        = "widgetTodayVolume"
 
     /// Queries today's totals from the given model context and writes them to the
     /// shared UserDefaults suite, then reloads all WidgetKit timelines.
@@ -29,10 +31,13 @@ enum WidgetDataManager {
             predicate: #Predicate { $0.endDate != nil }
         )
         let allCompleted = (try? context.fetch(completedDescriptor)) ?? []
-        let workoutCount = allCompleted.filter {
+        let todaySessions = allCompleted.filter {
             guard let end = $0.endDate else { return false }
             return end >= startOfDay && end < endOfDay
-        }.count
+        }
+        let workoutCount = todaySessions.count
+        let totalDuration = todaySessions.compactMap(\.duration).reduce(0, +)
+        let totalVolume = todaySessions.reduce(0.0) { $0 + $1.totalVolume }
 
         // --- Nutrition totals for today ---
         let mealDescriptor = FetchDescriptor<MealEntry>(
@@ -76,6 +81,8 @@ enum WidgetDataManager {
         defaults.set(totalProtein,   forKey: keyProtein)
         defaults.set(currentStreak,  forKey: keyStreak)
         defaults.set(totalCalories,  forKey: keyTodayCalories)
+        defaults.set(Int(totalDuration / 60), forKey: keyDuration)
+        defaults.set(totalVolume,    forKey: keyVolume)
         defaults.set(Date(),         forKey: keyLastUpdated)
 
         // --- Reload widget timelines ---

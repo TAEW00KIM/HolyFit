@@ -11,6 +11,8 @@ private enum WidgetSharedDefaults {
     static let keyLastUpdated   = "widgetLastUpdated"
     static let keyStreak        = "widgetCurrentStreak"
     static let keyTodayCalories = "widgetTodayMealCalories"
+    static let keyDuration      = "widgetTodayDuration"
+    static let keyVolume        = "widgetTodayVolume"
 
     static func workoutCount() -> Int {
         UserDefaults(suiteName: suiteName)?.integer(forKey: keyWorkoutCount) ?? 0
@@ -30,6 +32,12 @@ private enum WidgetSharedDefaults {
     static func todayCalories() -> Int {
         UserDefaults(suiteName: suiteName)?.integer(forKey: keyTodayCalories) ?? 0
     }
+    static func duration() -> Int {
+        UserDefaults(suiteName: suiteName)?.integer(forKey: keyDuration) ?? 0
+    }
+    static func volume() -> Double {
+        UserDefaults(suiteName: suiteName)?.double(forKey: keyVolume) ?? 0.0
+    }
 }
 
 // MARK: - Timeline Entry
@@ -41,6 +49,8 @@ struct HolyFitWidgetEntry: TimelineEntry {
     let protein: Double
     let currentStreak: Int
     let todayCalories: Int
+    let duration: Int       // minutes
+    let volume: Double      // kg
 }
 
 // MARK: - Timeline Provider
@@ -48,7 +58,7 @@ struct HolyFitWidgetEntry: TimelineEntry {
 struct HolyFitWidgetProvider: TimelineProvider {
 
     func placeholder(in context: Context) -> HolyFitWidgetEntry {
-        HolyFitWidgetEntry(date: .now, workoutCount: 1, calories: 1850, protein: 142.0, currentStreak: 5, todayCalories: 1380)
+        HolyFitWidgetEntry(date: .now, workoutCount: 1, calories: 520, protein: 142.0, currentStreak: 5, todayCalories: 1380, duration: 47, volume: 4280)
     }
 
     func getSnapshot(in context: Context, completion: @escaping (HolyFitWidgetEntry) -> Void) {
@@ -69,7 +79,9 @@ struct HolyFitWidgetProvider: TimelineProvider {
             calories: WidgetSharedDefaults.calories(),
             protein: WidgetSharedDefaults.protein(),
             currentStreak: WidgetSharedDefaults.streak(),
-            todayCalories: WidgetSharedDefaults.todayCalories()
+            todayCalories: WidgetSharedDefaults.todayCalories(),
+            duration: WidgetSharedDefaults.duration(),
+            volume: WidgetSharedDefaults.volume()
         )
     }
 }
