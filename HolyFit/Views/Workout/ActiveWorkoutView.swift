@@ -281,12 +281,16 @@ struct ActiveWorkoutView: View {
         } else if calendar.isDateInYesterday(session.startDate) {
             return "어제"
         } else {
-            let formatter = DateFormatter()
-            formatter.locale = Locale(identifier: "ko_KR")
-            formatter.dateFormat = "M월 d일 (E)"
-            return formatter.string(from: session.startDate)
+            return Self.dateLabelFormatter.string(from: session.startDate)
         }
     }
+
+    private static let dateLabelFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.locale = Locale(identifier: "ko_KR")
+        f.dateFormat = "M월 d일 (E)"
+        return f
+    }()
 
     private var timerStrip: some View {
         HStack {
@@ -398,7 +402,15 @@ struct ActiveWorkoutView: View {
     }
 
     private func finishWorkout() {
-        let endDate = Date()
+        // 과거 날짜 기록 시 endDate도 같은 날로 설정 (현재 경과 시간 반영)
+        let now = Date()
+        let endDate: Date
+        if Calendar.current.isDateInToday(session.startDate) {
+            endDate = now
+        } else {
+            // 과거 날짜: startDate + 실제 경과 시간
+            endDate = session.startDate.addingTimeInterval(TimeInterval(elapsedSeconds))
+        }
         session.endDate = endDate
         do {
             try modelContext.save()
@@ -644,10 +656,14 @@ struct WorkoutEntrySection: View {
         return previousEntry
     }
 
+    private static let shortDateFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.dateFormat = "M/d"
+        return f
+    }()
+
     private func formatDate(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "M/d"
-        return formatter.string(from: date)
+        Self.shortDateFormatter.string(from: date)
     }
 
     var body: some View {
