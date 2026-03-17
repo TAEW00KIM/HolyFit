@@ -30,9 +30,15 @@ struct HolyFitApp: App {
         do {
             return try ModelContainer(for: schema, configurations: [config])
         } catch {
-            // 스토어 손상 시 새로 생성
-            let fallbackConfig = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
-            return try! ModelContainer(for: schema, configurations: [fallbackConfig])
+            // 스키마 변경으로 기존 DB 호환 실패 시 DB 파일 삭제 후 재생성
+            let storeURL = config.url
+            try? FileManager.default.removeItem(at: storeURL)
+            // WAL/SHM 파일도 정리
+            let walURL = storeURL.appendingPathExtension("wal")
+            let shmURL = storeURL.appendingPathExtension("shm")
+            try? FileManager.default.removeItem(at: walURL)
+            try? FileManager.default.removeItem(at: shmURL)
+            return try! ModelContainer(for: schema, configurations: [config])
         }
     }()
 
