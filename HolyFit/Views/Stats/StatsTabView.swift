@@ -5,6 +5,7 @@ struct StatsTabView: View {
     @Query(sort: \WorkoutSession.startDate, order: .reverse) private var sessions: [WorkoutSession]
     @Query(sort: \MealEntry.date, order: .reverse) private var meals: [MealEntry]
     @State private var selectedRange: StatsRange = .week
+    @AppStorage("selectedTab") private var selectedTab = 0
 
     var body: some View {
         NavigationStack {
@@ -40,12 +41,45 @@ struct StatsTabView: View {
     }
 
     private var emptyState: some View {
-        ContentUnavailableView(
-            "통계 데이터가 없습니다",
-            systemImage: "chart.line.uptrend.xyaxis",
-            description: Text("운동을 기록하면 통계를 볼 수 있습니다")
-        )
-        .navigationTitle("통계")
+        NavigationStack {
+            VStack {
+                Spacer()
+                VStack(spacing: AppSpacing.lg) {
+                    Image(systemName: "chart.line.uptrend.xyaxis")
+                        .font(.system(size: 48))
+                        .foregroundStyle(AppColors.accent.opacity(0.6))
+
+                    VStack(spacing: AppSpacing.xs) {
+                        Text("아직 통계가 없어요")
+                            .font(AppFont.heading(18))
+                        Text("운동을 기록하면\n통계를 확인할 수 있어요")
+                            .font(AppFont.body(14))
+                            .foregroundStyle(.secondary)
+                            .multilineTextAlignment(.center)
+                    }
+
+                    Button {
+                        selectedTab = 0
+                    } label: {
+                        Text("운동 기록하러 가기")
+                            .font(AppFont.heading(15))
+                            .foregroundStyle(.white)
+                            .frame(maxWidth: 200)
+                            .padding(.vertical, AppSpacing.md)
+                            .background(AppColors.primaryGradient)
+                            .clipShape(RoundedRectangle(cornerRadius: AppRadius.lg))
+                    }
+                }
+                .padding(AppSpacing.xxl)
+                .glassCard()
+                .padding(.horizontal, AppSpacing.md)
+                Spacer()
+            }
+            .frame(maxWidth: .infinity)
+            .background(Color(.systemGroupedBackground))
+            .navigationTitle("통계")
+            .navigationBarTitleDisplayMode(.large)
+        }
     }
 
     private var filteredSessions: [WorkoutSession] {

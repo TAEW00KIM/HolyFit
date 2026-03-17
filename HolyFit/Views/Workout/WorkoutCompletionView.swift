@@ -39,6 +39,8 @@ struct WorkoutCompletionView: View {
                 // Confetti emoji
                 Text("\u{1F389}")
                     .font(.system(size: 64))
+                    .scaleEffect(appeared ? 1.0 : 0.5)
+                    .animation(.spring(response: 0.5, dampingFraction: 0.55).delay(0.1), value: appeared)
 
                 // Title
                 Text("운동 완료!")
@@ -121,6 +123,7 @@ struct WorkoutCompletionView: View {
         .background(Color(.systemGroupedBackground))
         .scaleEffect(appeared ? 1.0 : 0.9)
         .opacity(appeared ? 1.0 : 0.0)
+        .sensoryFeedback(.success, trigger: appeared)
         .onAppear {
             withAnimation(.spring(response: 0.5, dampingFraction: 0.75)) {
                 appeared = true

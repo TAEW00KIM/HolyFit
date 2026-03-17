@@ -29,8 +29,8 @@ final class HealthKitManager {
     // MARK: - Authorization
 
     @MainActor
-    func requestAuthorization() async {
-        guard let store, isAvailable else { return }
+    func requestAuthorization() async -> Bool {
+        guard let store, isAvailable else { return false }
         do {
             try await store.requestAuthorization(toShare: writeTypes, read: readTypes)
             // Check actual authorization status (requestAuthorization succeeds even if user denies)
@@ -39,6 +39,18 @@ final class HealthKitManager {
         } catch {
             isAuthorized = false
         }
+        return isAuthorized
+    }
+
+    @MainActor
+    func checkAuthorizationStatus() -> Bool {
+        guard let store, isAvailable else {
+            isAuthorized = false
+            return false
+        }
+        let workoutType = HKObjectType.workoutType()
+        isAuthorized = store.authorizationStatus(for: workoutType) == .sharingAuthorized
+        return isAuthorized
     }
 
     // MARK: - Save Workout

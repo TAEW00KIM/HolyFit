@@ -5,6 +5,7 @@ import SwiftData
 struct HolyFitApp: App {
     @State private var healthKitManager = HealthKitManager()
     @AppStorage("appearanceMode") private var appearanceMode: String = "auto"
+    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
 
     private var colorScheme: ColorScheme? {
         switch appearanceMode {
@@ -40,6 +41,12 @@ struct HolyFitApp: App {
             ContentView()
                 .environment(healthKitManager)
                 .preferredColorScheme(colorScheme)
+                .fullScreenCover(isPresented: Binding(
+                    get: { !hasCompletedOnboarding },
+                    set: { if !$0 { hasCompletedOnboarding = true } }
+                )) {
+                    OnboardingView(hasCompletedOnboarding: $hasCompletedOnboarding)
+                }
                 .task {
                     purgeAbandonedSessions()
                     seedNewExercises()

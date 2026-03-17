@@ -339,7 +339,7 @@ struct ActiveWorkoutView: View {
         }
         WidgetDataManager.updateWidgetData(context: modelContext)
 
-        if healthKitEnabled && healthKitManager.isAvailable {
+        if healthKitEnabled && healthKitManager.isAvailable && healthKitManager.isAuthorized {
             let startDate = session.startDate
             Task {
                 await healthKitManager.saveWorkout(
@@ -824,6 +824,7 @@ struct SetRowView: View {
                         .frame(width: 32, height: 32)
                         .scaleEffect(isCompleted ? 1.0 : 0.9)
                         .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isCompleted)
+                        .symbolEffect(.bounce, value: workoutSet.completedAt)
                 }
                 .accessibilityLabel("세트 완료")
                 .accessibilityValue(isCompleted ? "완료됨" : "미완료")

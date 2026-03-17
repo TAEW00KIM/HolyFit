@@ -54,21 +54,36 @@ struct BodyProgressView: View {
     // MARK: - Empty State
 
     private var emptyState: some View {
-        VStack(spacing: AppSpacing.md) {
+        VStack(spacing: AppSpacing.lg) {
             Image(systemName: "figure.arms.open")
-                .font(.system(size: 48, weight: .light))
-                .foregroundStyle(AppColors.protein.opacity(0.6))
+                .font(.system(size: 48))
+                .foregroundStyle(AppColors.accent.opacity(0.6))
 
-            Text("아직 기록이 없습니다")
-                .font(AppFont.heading(18))
-                .foregroundStyle(.primary)
+            VStack(spacing: AppSpacing.xs) {
+                Text("아직 기록이 없습니다")
+                    .font(AppFont.heading(18))
+                Text("체성분을 기록해보세요")
+                    .font(AppFont.body(14))
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+            }
 
-            Text("체중과 체성분을 기록하고\n변화를 추적해 보세요")
-                .font(AppFont.body(14))
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
+            Button {
+                showAddSheet = true
+            } label: {
+                Text("기록 추가")
+                    .font(AppFont.heading(15))
+                    .foregroundStyle(.white)
+                    .frame(maxWidth: 200)
+                    .padding(.vertical, AppSpacing.md)
+                    .background(AppColors.primaryGradient)
+                    .clipShape(RoundedRectangle(cornerRadius: AppRadius.lg))
+            }
         }
-        .padding(.vertical, AppSpacing.xxl)
+        .padding(AppSpacing.xxl)
+        .frame(maxWidth: .infinity)
+        .glassCard()
+        .padding(.horizontal, AppSpacing.md)
     }
 
     // MARK: - Weight Chart

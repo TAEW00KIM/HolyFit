@@ -60,6 +60,7 @@
 		33CC44DD55EE66FF11AA22BB /* MyGymView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44DD55EE66FF11AA22BB33CC /* MyGymView.swift */; };
 		55EE66FF7711AA22BB33CC44 /* RoutineGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FF7711AA22BB33CC44DD55 /* RoutineGenerator.swift */; };
 		77118822CC33DD44EE55FF66 /* RoutineGeneratorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88229933DD44EE55FF661100 /* RoutineGeneratorView.swift */; };
+		AABB1122CCDD3344EEFF5566 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBCC2233DDEE4455FF006677 /* OnboardingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -151,6 +152,7 @@
 		44DD55EE66FF11AA22BB33CC /* MyGymView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyGymView.swift; sourceTree = "<group>"; };
 		66FF7711AA22BB33CC44DD55 /* RoutineGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutineGenerator.swift; sourceTree = "<group>"; };
 		88229933DD44EE55FF661100 /* RoutineGeneratorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutineGeneratorView.swift; sourceTree = "<group>"; };
+		BBCC2233DDEE4455FF006677 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -282,11 +284,20 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		CCDD3344EEFF5566AABB1122 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				BBCC2233DDEE4455FF006677 /* OnboardingView.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
 		D031E3AAACD349CEB1C0A4B3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				7309615D537920333D369182 /* Components */,
 				190C355D732943828FC8AFA6 /* Diet */,
+				CCDD3344EEFF5566AABB1122 /* Onboarding */,
 				67103333D00F4B2770799B3D /* Settings */,
 				1F7971354741444F1D078D40 /* Stats */,
 				E72ECBA3120F962BE2703611 /* Workout */,
@@ -478,6 +489,7 @@
 				545D93AE49E84EA8288FD962 /* MealEntry.swift in Sources */,
 				A6BDDFE1009998E5C73FAB5B /* MuscleGroup.swift in Sources */,
 				DBBA80CBC3EA8002CAEE334F /* MyProfileView.swift in Sources */,
+				AABB1122CCDD3344EEFF5566 /* OnboardingView.swift in Sources */,
 				9344527892E9FFE0645D919B /* OneRepMaxChart.swift in Sources */,
 				C003920E129419475E833E69 /* PreviewSampleData.swift in Sources */,
 				EF1A7DBD23F9016FE66C9660 /* RestTimerView.swift in Sources */,

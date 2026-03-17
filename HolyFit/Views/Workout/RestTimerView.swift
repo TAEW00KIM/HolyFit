@@ -39,6 +39,7 @@ struct RestTimerView: View {
                         Image(systemName: "xmark.circle.fill")
                             .font(.system(size: 24))
                             .foregroundStyle(.secondary)
+                            .symbolEffect(.pulse, isActive: isRunning)
                     }
                 }
                 .padding(.horizontal, AppSpacing.lg)

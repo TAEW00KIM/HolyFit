@@ -14,6 +14,8 @@ struct WorkoutTabView: View {
     @State private var heroAppeared = false
     @State private var selectedTemplate: WorkoutTemplate? = nil
     @State private var selectedBuiltIn: BuiltInTemplate? = nil
+    @State private var sessionToDelete: WorkoutSession? = nil
+    @State private var templateToDelete: WorkoutTemplate? = nil
 
     private var todaysSessions: [WorkoutSession] {
         let calendar = Calendar.current
@@ -63,6 +65,39 @@ struct WorkoutTabView: View {
             .onAppear {
                 withAnimation(.spring(response: 0.7, dampingFraction: 0.75).delay(0.1)) {
                     heroAppeared = true
+                }
+            }
+            .confirmationDialog("삭제하시겠습니까?", isPresented: .init(
+                get: { sessionToDelete != nil },
+                set: { if !$0 { sessionToDelete = nil } }
+            ), titleVisibility: .visible) {
+                Button("삭제", role: .destructive) {
+                    if let session = sessionToDelete {
+                        withAnimation {
+                            modelContext.delete(session)
+                            try? modelContext.save()
+                            WidgetDataManager.updateWidgetData(context: modelContext)
+                        }
+                    }
+                    sessionToDelete = nil
+                }
+                Button("취소", role: .cancel) {
+                    sessionToDelete = nil
+                }
+            }
+            .confirmationDialog("삭제하시겠습니까?", isPresented: .init(
+                get: { templateToDelete != nil },
+                set: { if !$0 { templateToDelete = nil } }
+            ), titleVisibility: .visible) {
+                Button("삭제", role: .destructive) {
+                    if let template = templateToDelete {
+                        modelContext.delete(template)
+                        try? modelContext.save()
+                    }
+                    templateToDelete = nil
+                }
+                Button("취소", role: .cancel) {
+                    templateToDelete = nil
                 }
             }
         }
@@ -214,8 +249,7 @@ struct WorkoutTabView: View {
                             showActiveWorkout = true
                         } onDelete: {
                             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                            modelContext.delete(template)
-                            try? modelContext.save()
+                            templateToDelete = template
                         }
                     }
                 }
@@ -272,11 +306,7 @@ struct WorkoutTabView: View {
                     .padding(.horizontal, AppSpacing.md)
                     .contextMenu {
                         Button(role: .destructive) {
-                            withAnimation {
-                                modelContext.delete(session)
-                                try? modelContext.save()
-                                WidgetDataManager.updateWidgetData(context: modelContext)
-                            }
+                            sessionToDelete = session
                         } label: {
                             Label("삭제", systemImage: "trash")
                         }
@@ -290,21 +320,15 @@ struct WorkoutTabView: View {
 
     private var emptyState: some View {
         VStack(spacing: AppSpacing.lg) {
-            ZStack {
-                Circle()
-                    .fill(AppColors.primaryGradient)
-                    .frame(width: 80, height: 80)
-                    .opacity(0.15)
-                Image(systemName: "dumbbell.fill")
-                    .font(.system(size: 36, weight: .bold))
-                    .foregroundStyle(AppColors.primaryGradient)
-            }
+            Image(systemName: "figure.strengthtraining.traditional")
+                .font(.system(size: 48))
+                .foregroundStyle(AppColors.accent.opacity(0.6))
 
             VStack(spacing: AppSpacing.xs) {
-                Text("첫 운동을 시작하세요")
-                    .font(AppFont.heading(20))
-                Text("꾸준함이 최고의 능력입니다.\n지금 바로 시작해보세요!")
-                    .font(AppFont.body(15))
+                Text("아직 운동 기록이 없어요")
+                    .font(AppFont.heading(18))
+                Text("첫 운동을 시작해보세요!")
+                    .font(AppFont.body(14))
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
             }
@@ -312,22 +336,19 @@ struct WorkoutTabView: View {
             Button {
                 showActiveWorkout = true
             } label: {
-                HStack(spacing: AppSpacing.sm) {
-                    Image(systemName: "bolt.fill")
-                    Text("지금 시작하기")
-                        .font(AppFont.heading(16))
-                }
-                .foregroundStyle(.white)
-                .padding(.horizontal, AppSpacing.xl)
-                .padding(.vertical, AppSpacing.md)
-                .background(AppColors.primaryGradient)
-                .clipShape(Capsule())
-                .shadow(color: AppColors.gradientStart.opacity(0.35), radius: 12, x: 0, y: 6)
+                Text("운동 시작하기")
+                    .font(AppFont.heading(15))
+                    .foregroundStyle(.white)
+                    .frame(maxWidth: 200)
+                    .padding(.vertical, AppSpacing.md)
+                    .background(AppColors.primaryGradient)
+                    .clipShape(RoundedRectangle(cornerRadius: AppRadius.lg))
             }
         }
+        .padding(AppSpacing.xxl)
         .frame(maxWidth: .infinity)
-        .padding(.vertical, AppSpacing.xxl)
-        .padding(.horizontal, AppSpacing.lg)
+        .glassCard()
+        .padding(.horizontal, AppSpacing.md)
     }
 }
 

@@ -7,6 +7,7 @@ struct DietTabView: View {
     @State private var showAddMeal = false
     @State private var selectedCategory: MealCategory = .breakfast
     @State private var mealToEdit: MealEntry? = nil
+    @State private var mealToDelete: MealEntry? = nil
 
     private var mealsForDate: [MealEntry] {
         let calendar = Calendar.current
@@ -45,11 +46,7 @@ struct DietTabView: View {
                                 mealToEdit = meal
                             },
                             onDelete: { meal in
-                                withAnimation {
-                                    modelContext.delete(meal)
-                                    try? modelContext.save()
-                                    WidgetDataManager.updateWidgetData(context: modelContext)
-                                }
+                                mealToDelete = meal
                             }
                         )
                         .padding(.horizontal, AppSpacing.md)
@@ -67,6 +64,24 @@ struct DietTabView: View {
             }
             .sheet(item: $mealToEdit) { meal in
                 AddMealEntryView(date: meal.date, category: meal.category, entryToEdit: meal)
+            }
+            .confirmationDialog("삭제하시겠습니까?", isPresented: .init(
+                get: { mealToDelete != nil },
+                set: { if !$0 { mealToDelete = nil } }
+            ), titleVisibility: .visible) {
+                Button("삭제", role: .destructive) {
+                    if let meal = mealToDelete {
+                        withAnimation {
+                            modelContext.delete(meal)
+                            try? modelContext.save()
+                            WidgetDataManager.updateWidgetData(context: modelContext)
+                        }
+                    }
+                    mealToDelete = nil
+                }
+                Button("취소", role: .cancel) {
+                    mealToDelete = nil
+                }
             }
         }
     }

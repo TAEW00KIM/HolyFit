@@ -138,6 +138,16 @@ struct SettingsTabView: View {
 
                 Spacer()
 
+                if healthKitEnabled && healthKitManager.isAuthorized {
+                    Text("연동됨")
+                        .font(AppFont.caption(12))
+                        .foregroundStyle(AppColors.success)
+                } else if healthKitEnabled && !healthKitManager.isAuthorized {
+                    Text("권한 필요")
+                        .font(AppFont.caption(12))
+                        .foregroundStyle(AppColors.danger)
+                }
+
                 Toggle("", isOn: $healthKitEnabled)
                     .labelsHidden()
                     .tint(AppColors.danger)
@@ -147,8 +157,12 @@ struct SettingsTabView: View {
             .onChange(of: healthKitEnabled) { _, enabled in
                 if enabled {
                     Task {
-                        await healthKitManager.requestAuthorization()
-                        await loadHealthData()
+                        let granted = await healthKitManager.requestAuthorization()
+                        if !granted {
+                            healthKitEnabled = false
+                        } else {
+                            await loadHealthData()
+                        }
                     }
                 }
             }
@@ -230,6 +244,7 @@ struct SettingsTabView: View {
         }
         .task {
             if healthKitEnabled && healthKitManager.isAvailable {
+                healthKitManager.checkAuthorizationStatus()
                 await loadHealthData()
             }
         }

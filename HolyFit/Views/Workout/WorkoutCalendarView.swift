@@ -228,6 +228,7 @@ struct WorkoutCalendarCard: View {
                 HStack(spacing: AppSpacing.xs) {
                     Image(systemName: "flame.fill")
                         .font(.system(size: 13, weight: .bold))
+                        .symbolEffect(.bounce, value: currentStreak)
                     Text("연속 \(currentStreak)일 운동 중!")
                         .font(AppFont.caption(13))
                         .lineLimit(1)
