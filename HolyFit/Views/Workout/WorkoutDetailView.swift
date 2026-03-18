@@ -69,36 +69,40 @@ struct WorkoutDetailView: View {
                     .foregroundStyle(.secondary)
             }
 
-            HStack(spacing: AppSpacing.md) {
-                summaryStatBlock(
-                    icon: "scalemass.fill",
-                    value: String(format: "%.0f", session.totalVolume),
-                    unit: "kg",
-                    label: "총 볼륨",
-                    color: AppColors.accent
-                )
-                summaryStatBlock(
-                    icon: "figure.strengthtraining.traditional",
-                    value: "\(session.exerciseCount)",
-                    unit: "종목",
-                    label: "운동 수",
-                    color: AppColors.info
-                )
-                summaryStatBlock(
-                    icon: "repeat",
-                    value: "\(session.totalSets)",
-                    unit: "세트",
-                    label: "총 세트",
-                    color: AppColors.success
-                )
-                if let duration = session.duration {
+            VStack(spacing: AppSpacing.sm) {
+                HStack(spacing: AppSpacing.sm) {
                     summaryStatBlock(
-                        icon: "clock.fill",
-                        value: AppDateFormatter.durationString(from: duration),
-                        unit: "",
-                        label: "소요 시간",
-                        color: AppColors.warning
+                        icon: "scalemass.fill",
+                        value: String(format: "%.0f", session.totalVolume),
+                        unit: "kg",
+                        label: "총 볼륨",
+                        color: AppColors.accent
                     )
+                    summaryStatBlock(
+                        icon: "figure.strengthtraining.traditional",
+                        value: "\(session.exerciseCount)",
+                        unit: "종목",
+                        label: "운동 수",
+                        color: AppColors.info
+                    )
+                }
+                HStack(spacing: AppSpacing.sm) {
+                    summaryStatBlock(
+                        icon: "repeat",
+                        value: "\(session.totalSets)",
+                        unit: "세트",
+                        label: "총 세트",
+                        color: AppColors.success
+                    )
+                    if let duration = session.duration {
+                        summaryStatBlock(
+                            icon: "clock.fill",
+                            value: AppDateFormatter.durationString(from: duration),
+                            unit: "",
+                            label: "소요 시간",
+                            color: AppColors.warning
+                        )
+                    }
                 }
             }
         }
@@ -118,22 +122,22 @@ struct WorkoutDetailView: View {
         VStack(spacing: AppSpacing.xs) {
             Image(systemName: icon)
                 .font(.system(size: 14, weight: .semibold))
-                .foregroundStyle(.white.opacity(0.75))
+                .foregroundStyle(.white.opacity(0.9))
             HStack(alignment: .lastTextBaseline, spacing: 2) {
                 Text(value)
-                    .font(AppFont.heading(17))
+                    .font(AppFont.heading(18))
                     .foregroundStyle(.white)
                     .lineLimit(1)
-                    .minimumScaleFactor(0.7)
+                    .minimumScaleFactor(0.6)
                 if !unit.isEmpty {
                     Text(unit)
-                        .font(AppFont.caption(10))
-                        .foregroundStyle(.white.opacity(0.7))
+                        .font(AppFont.caption(11))
+                        .foregroundStyle(.white.opacity(0.85))
                 }
             }
             Text(label)
-                .font(AppFont.caption(10))
-                .foregroundStyle(.white.opacity(0.65))
+                .font(AppFont.caption(11))
+                .foregroundStyle(.white.opacity(0.8))
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, AppSpacing.sm)

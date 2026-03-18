@@ -26,32 +26,41 @@ struct WorkoutTabView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: AppSpacing.lg) {
-                    // Hero gradient card
-                    heroCard
-                        .padding(.horizontal, AppSpacing.md)
-
-                    // Workout calendar
-                    WorkoutCalendarCard()
-                        .padding(.horizontal, AppSpacing.md)
-
-                    // Routine generator
-                    routineGeneratorCard
-                        .padding(.horizontal, AppSpacing.md)
-
-                    // Template section
-                    if !templates.isEmpty {
-                        templateSection
+                VStack(spacing: AppSpacing.xl) {
+                    // SECTION: 오늘 운동
+                    VStack(spacing: AppSpacing.md) {
+                        heroCard
+                            .padding(.horizontal, AppSpacing.md)
                     }
 
-                    // Built-in routines section
-                    builtInSection
+                    // SECTION: 루틴
+                    VStack(alignment: .leading, spacing: AppSpacing.md) {
+                        sectionHeader(title: "루틴", icon: "list.clipboard.fill")
+                            .padding(.horizontal, AppSpacing.md)
 
-                    // Recent sessions
-                    if sessions.isEmpty {
-                        emptyState
-                    } else {
-                        recentSessionsSection
+                        routineGeneratorCard
+                            .padding(.horizontal, AppSpacing.md)
+
+                        if !templates.isEmpty {
+                            templateSection
+                        }
+
+                        builtInSection
+                    }
+
+                    // SECTION: 기록
+                    VStack(alignment: .leading, spacing: AppSpacing.md) {
+                        sectionHeader(title: "기록", icon: "calendar.badge.clock")
+                            .padding(.horizontal, AppSpacing.md)
+
+                        WorkoutCalendarCard()
+                            .padding(.horizontal, AppSpacing.md)
+
+                        if sessions.isEmpty {
+                            emptyState
+                        } else {
+                            recentSessionsSection
+                        }
                     }
                 }
                 .padding(.bottom, AppSpacing.lg)
@@ -150,6 +159,19 @@ struct WorkoutTabView: View {
         .buttonStyle(.plain)
     }
 
+    // MARK: - Section Header
+
+    private func sectionHeader(title: String, icon: String) -> some View {
+        HStack(spacing: AppSpacing.xs) {
+            Image(systemName: icon)
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundStyle(AppColors.accent)
+            Text(title)
+                .font(AppFont.heading(17))
+                .foregroundStyle(.primary)
+        }
+    }
+
     // MARK: - Hero Card
 
     private var heroCard: some View {
@@ -221,12 +243,12 @@ struct WorkoutTabView: View {
                     Text("운동 시작")
                         .font(AppFont.heading(17))
                 }
-                .foregroundStyle(AppColors.gradientStart)
+                .foregroundStyle(.white)
                 .frame(maxWidth: .infinity)
                 .frame(height: 50)
-                .background(.white)
+                .background(AppColors.primaryGradient)
                 .clipShape(RoundedRectangle(cornerRadius: AppRadius.lg, style: .continuous))
-                .shadow(color: AppColors.gradientStart.opacity(0.12), radius: 10, x: 0, y: 2)
+                .shadow(color: AppColors.gradientStart.opacity(0.35), radius: 12, x: 0, y: 6)
             }
             .scaleEffect(heroAppeared ? 1 : 0.92)
             .opacity(heroAppeared ? 1 : 0)

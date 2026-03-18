@@ -22,39 +22,58 @@ struct DietTabView: View {
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(spacing: AppSpacing.md) {
-                    // 날짜 네비게이션
-                    DateNavigationHeader(selectedDate: $selectedDate)
-                        .padding(.horizontal, AppSpacing.md)
+            ZStack(alignment: .bottom) {
+                ScrollView {
+                    VStack(spacing: AppSpacing.md) {
+                        // 날짜 네비게이션
+                        DateNavigationHeader(selectedDate: $selectedDate)
+                            .padding(.horizontal, AppSpacing.md)
 
-                    // 일일 매크로 요약
-                    DailySummaryCard(meals: mealsForDate)
-                        .padding(.horizontal, AppSpacing.md)
+                        // 일일 매크로 요약
+                        DailySummaryCard(meals: mealsForDate)
+                            .padding(.horizontal, AppSpacing.md)
 
-                    // 카테고리별 식단 카드
-                    ForEach(MealCategory.allCases) { category in
-                        let categoryMeals = mealsForDate.filter { $0.category == category }
-                        MealCategoryCard(
-                            category: category,
-                            meals: categoryMeals,
-                            onAdd: {
-                                selectedCategory = category
-                                showAddMeal = true
-                            },
-                            onEdit: { meal in
-                                mealToEdit = meal
-                            },
-                            onDelete: { meal in
-                                mealToDelete = meal
-                            }
-                        )
-                        .padding(.horizontal, AppSpacing.md)
+                        // 카테고리별 식단 카드
+                        ForEach(MealCategory.allCases) { category in
+                            let categoryMeals = mealsForDate.filter { $0.category == category }
+                            MealCategoryCard(
+                                category: category,
+                                meals: categoryMeals,
+                                onEdit: { meal in
+                                    mealToEdit = meal
+                                },
+                                onDelete: { meal in
+                                    mealToDelete = meal
+                                }
+                            )
+                            .padding(.horizontal, AppSpacing.md)
+                        }
+
+                        // Bottom padding for floating button
+                        Color.clear.frame(height: 80)
                     }
-
-                    Spacer(minLength: AppSpacing.xxl)
+                    .padding(.top, AppSpacing.sm)
                 }
-                .padding(.top, AppSpacing.sm)
+
+                // Floating add button
+                Button {
+                    selectedCategory = .breakfast
+                    showAddMeal = true
+                } label: {
+                    HStack(spacing: AppSpacing.sm) {
+                        Image(systemName: "plus")
+                            .font(.system(size: 16, weight: .bold))
+                        Text("식단 추가")
+                            .font(AppFont.heading(16))
+                    }
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, AppSpacing.xl)
+                    .padding(.vertical, AppSpacing.md)
+                    .background(AppColors.primaryGradient)
+                    .clipShape(Capsule())
+                    .shadow(color: AppColors.gradientStart.opacity(0.4), radius: 16, x: 0, y: 8)
+                }
+                .padding(.bottom, AppSpacing.xl)
             }
             .background(Color(.systemGroupedBackground))
             .navigationTitle("식단")
@@ -350,7 +369,6 @@ struct MacroProgressRow: View {
 struct MealCategoryCard: View {
     let category: MealCategory
     let meals: [MealEntry]
-    let onAdd: () -> Void
     let onEdit: (MealEntry) -> Void
     let onDelete: (MealEntry) -> Void
 
@@ -383,18 +401,6 @@ struct MealCategoryCard: View {
                 }
 
                 Spacer()
-
-                Button(action: onAdd) {
-                    ZStack {
-                        Circle()
-                            .fill(AppColors.primaryGradient)
-                            .frame(width: 32, height: 32)
-                            .shadow(color: AppColors.gradientStart.opacity(0.35), radius: 6, x: 0, y: 3)
-                        Image(systemName: "plus")
-                            .font(.system(size: 14, weight: .bold))
-                            .foregroundStyle(.white)
-                    }
-                }
             }
             .padding(.horizontal, AppSpacing.md)
             .padding(.top, AppSpacing.md)
