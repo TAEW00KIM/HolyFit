@@ -43,6 +43,13 @@ struct ExerciseSeedData {
             Exercise(name: "딥스", muscleGroup: .chest, instructions: "평행봉에서 상체를 앞으로 기울여 수행"),
             Exercise(name: "어시스트 딥스", muscleGroup: .chest, instructions: "어시스트 머신으로 딥스"),
             Exercise(name: "푸시업", muscleGroup: .chest, instructions: "팔굽혀펴기"),
+            Exercise(name: "와이드 그립 벤치프레스", muscleGroup: .chest, instructions: "넓은 그립으로 벤치프레스"),
+            Exercise(name: "클로즈그립 덤벨프레스", muscleGroup: .chest, instructions: "좁은 그립으로 덤벨 프레스"),
+            Exercise(name: "디클라인 덤벨프레스", muscleGroup: .chest, instructions: "하향 경사에서 덤벨 프레스"),
+            Exercise(name: "디클라인 덤벨 플라이", muscleGroup: .chest, instructions: "하향 경사에서 덤벨 플라이"),
+            Exercise(name: "하이 케이블 크로스오버", muscleGroup: .chest, instructions: "위에서 아래로 케이블 교차"),
+            Exercise(name: "인클라인 스미스 프레스", muscleGroup: .chest, instructions: "스미스 머신 경사 프레스"),
+            Exercise(name: "머신 플라이", muscleGroup: .chest, instructions: "머신으로 플라이 동작"),
         ])
 
         // 등
@@ -64,6 +71,18 @@ struct ExerciseSeedData {
             Exercise(name: "머신 로우", muscleGroup: .back, instructions: "머신으로 로우"),
             Exercise(name: "케이블 풀오버", muscleGroup: .back, instructions: "케이블로 풀오버"),
             Exercise(name: "스미스 머신 로우", muscleGroup: .back, instructions: "스미스 머신으로 바벨 로우"),
+            Exercise(name: "와이드 그립 랫풀다운", muscleGroup: .back, instructions: "넓은 그립으로 랫풀다운"),
+            Exercise(name: "리버스 그립 랫풀다운", muscleGroup: .back, instructions: "언더그립으로 랫풀다운"),
+            Exercise(name: "뉴트럴 그립 랫풀다운", muscleGroup: .back, instructions: "중립 그립으로 랫풀다운"),
+            Exercise(name: "와이드 그립 시티드 로우", muscleGroup: .back, instructions: "넓은 그립으로 시티드 로우"),
+            Exercise(name: "클로즈그립 시티드 로우", muscleGroup: .back, instructions: "좁은 그립으로 시티드 로우"),
+            Exercise(name: "리버스 그립 바벨 로우", muscleGroup: .back, instructions: "언더그립으로 바벨 로우"),
+            Exercise(name: "와이드 그립 풀업", muscleGroup: .back, instructions: "넓은 그립으로 풀업"),
+            Exercise(name: "뉴트럴 그립 풀업", muscleGroup: .back, instructions: "중립 그립으로 풀업"),
+            Exercise(name: "원암 덤벨 로우", muscleGroup: .back, instructions: "한 손으로 덤벨 로우"),
+            Exercise(name: "씰 로우", muscleGroup: .back, instructions: "벤치에 엎드려 바벨/덤벨 로우"),
+            Exercise(name: "체스트 서포트 로우", muscleGroup: .back, instructions: "가슴 받침대에서 로우"),
+            Exercise(name: "메도우즈 로우", muscleGroup: .back, instructions: "랜드마인 한 팔 로우"),
         ])
 
         // 어깨
@@ -82,6 +101,11 @@ struct ExerciseSeedData {
             Exercise(name: "리어 델트 머신", muscleGroup: .shoulders, instructions: "머신으로 후면 삼각근"),
             Exercise(name: "업라이트 로우", muscleGroup: .shoulders, instructions: "바벨을 턱까지 당기기"),
             Exercise(name: "슈러그", muscleGroup: .shoulders, instructions: "바벨/덤벨로 어깨 으쓱"),
+            Exercise(name: "덤벨 사이드 레이즈", muscleGroup: .shoulders, instructions: "덤벨로 옆으로 들어올리기"),
+            Exercise(name: "벤트오버 리어 델트 레이즈", muscleGroup: .shoulders, instructions: "상체 숙이고 후면 삼각근 레이즈"),
+            Exercise(name: "케이블 리어 델트 플라이", muscleGroup: .shoulders, instructions: "케이블로 후면 삼각근 플라이"),
+            Exercise(name: "바벨 프론트 레이즈", muscleGroup: .shoulders, instructions: "바벨로 앞으로 들어올리기"),
+            Exercise(name: "랜드마인 프레스", muscleGroup: .shoulders, instructions: "랜드마인으로 숄더 프레스"),
         ])
 
         // 하체
@@ -106,6 +130,15 @@ struct ExerciseSeedData {
             Exercise(name: "힙 어브덕션", muscleGroup: .legs, instructions: "머신으로 다리 벌리기"),
             Exercise(name: "힙 어덕션", muscleGroup: .legs, instructions: "머신으로 다리 모으기"),
             Exercise(name: "글루트 킥백 머신", muscleGroup: .legs, instructions: "머신으로 글루트 킥백"),
+            Exercise(name: "내로우 스탠스 스쿼트", muscleGroup: .legs, instructions: "좁은 스탠스로 스쿼트"),
+            Exercise(name: "와이드 스탠스 스쿼트", muscleGroup: .legs, instructions: "넓은 스탠스로 스쿼트"),
+            Exercise(name: "덤벨 런지", muscleGroup: .legs, instructions: "덤벨 들고 런지"),
+            Exercise(name: "바벨 힙 쓰러스트", muscleGroup: .legs, instructions: "바벨로 힙 쓰러스트"),
+            Exercise(name: "스티프 레그 데드리프트", muscleGroup: .legs, instructions: "다리 펴고 데드리프트"),
+            Exercise(name: "덤벨 루마니안 데드리프트", muscleGroup: .legs, instructions: "덤벨로 루마니안 데드리프트"),
+            Exercise(name: "싱글 레그 레그프레스", muscleGroup: .legs, instructions: "한 다리씩 레그프레스"),
+            Exercise(name: "시시 스쿼트", muscleGroup: .legs, instructions: "뒤로 기울이며 스쿼트"),
+            Exercise(name: "스텝업", muscleGroup: .legs, instructions: "박스 위로 올라서기"),
         ])
 
         // 이두
@@ -121,6 +154,12 @@ struct ExerciseSeedData {
             Exercise(name: "케이블 컬", muscleGroup: .biceps, instructions: "케이블로 팔 굽히기"),
             Exercise(name: "로프 해머 컬", muscleGroup: .biceps, instructions: "케이블 로프로 해머 컬"),
             Exercise(name: "스파이더 컬", muscleGroup: .biceps, instructions: "인클라인 벤치에 엎드려 컬"),
+            Exercise(name: "리버스 컬", muscleGroup: .biceps, instructions: "오버그립으로 바벨/덤벨 컬"),
+            Exercise(name: "와이드 그립 바벨 컬", muscleGroup: .biceps, instructions: "넓은 그립으로 바벨 컬"),
+            Exercise(name: "내로우 그립 바벨 컬", muscleGroup: .biceps, instructions: "좁은 그립으로 바벨 컬"),
+            Exercise(name: "크로스바디 해머 컬", muscleGroup: .biceps, instructions: "몸 가로질러 해머 컬"),
+            Exercise(name: "21s 컬", muscleGroup: .biceps, instructions: "하/상/풀 각 7회 바벨 컬"),
+            Exercise(name: "케이블 해머 컬", muscleGroup: .biceps, instructions: "로프로 해머 컬"),
         ])
 
         // 삼두
@@ -135,6 +174,11 @@ struct ExerciseSeedData {
             Exercise(name: "머신 딥스", muscleGroup: .triceps, instructions: "머신으로 삼두 딥스"),
             Exercise(name: "킥백", muscleGroup: .triceps, instructions: "덤벨을 뒤로 밀기"),
             Exercise(name: "덤벨 오버헤드 익스텐션", muscleGroup: .triceps, instructions: "덤벨로 머리 위 삼두 펴기"),
+            Exercise(name: "리버스 그립 푸시다운", muscleGroup: .triceps, instructions: "언더그립으로 푸시다운"),
+            Exercise(name: "V바 푸시다운", muscleGroup: .triceps, instructions: "V바 어태치먼트로 푸시다운"),
+            Exercise(name: "원암 케이블 푸시다운", muscleGroup: .triceps, instructions: "한 팔씩 케이블 푸시다운"),
+            Exercise(name: "다이아몬드 푸시업", muscleGroup: .triceps, instructions: "손 모아 팔굽혀펴기"),
+            Exercise(name: "벤치 딥스", muscleGroup: .triceps, instructions: "벤치에 손 짚고 딥스"),
         ])
 
         // 코어

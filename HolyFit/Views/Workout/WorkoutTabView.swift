@@ -244,7 +244,7 @@ struct WorkoutTabView: View {
                         .font(AppFont.heading(17))
                 }
                 .foregroundStyle(.white)
-                .frame(maxWidth: .infinity)
+                .frame(maxWidth: .infinity, alignment: .center)
                 .frame(height: 50)
                 .background(AppColors.primaryGradient)
                 .clipShape(RoundedRectangle(cornerRadius: AppRadius.lg, style: .continuous))

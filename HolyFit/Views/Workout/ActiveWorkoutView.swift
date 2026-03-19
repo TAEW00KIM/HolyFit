@@ -270,7 +270,7 @@ struct ActiveWorkoutView: View {
                     }
                 }
             }
-            .presentationDetents([.medium, .large])
+            .presentationDetents([.medium])
         }
     }
 
@@ -585,7 +585,7 @@ struct ActiveWorkoutView: View {
                 }
             }
         }
-        .presentationDetents([.medium, .large])
+        .presentationDetents([.medium])
     }
 
     // MARK: - Toast
@@ -806,7 +806,7 @@ struct WorkoutEntrySection: View {
         .sheet(isPresented: $showRestTimer) {
             RestTimerView(duration: defaultRestTimer)
                 .id(defaultRestTimer)
-                .presentationDetents([.medium, .large])
+                .presentationDetents([.medium])
         }
     }
 

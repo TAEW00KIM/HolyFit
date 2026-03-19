@@ -27,30 +27,30 @@ struct RestTimerView: View {
             Color(.systemBackground)
                 .ignoresSafeArea()
 
-            VStack(spacing: AppSpacing.xxl) {
+            VStack(spacing: AppSpacing.lg) {
                 // Title
                 HStack {
                     Text("휴식 타이머")
-                        .font(AppFont.heading(20))
+                        .font(AppFont.heading(18))
                     Spacer()
                     Button {
                         dismiss()
                     } label: {
                         Image(systemName: "xmark.circle.fill")
-                            .font(.system(size: 24))
+                            .font(.system(size: 22))
                             .foregroundStyle(.secondary)
                             .symbolEffect(.pulse, isActive: isRunning)
                     }
                 }
                 .padding(.horizontal, AppSpacing.lg)
-                .padding(.top, AppSpacing.xxl)
+                .padding(.top, AppSpacing.lg)
 
                 // Circular timer ring
                 ZStack {
                     // Background track
                     Circle()
-                        .stroke(Color(.systemGray5), lineWidth: 14)
-                        .frame(width: 240, height: 240)
+                        .stroke(Color(.systemGray5), lineWidth: 12)
+                        .frame(width: 180, height: 180)
 
                     // Gradient progress ring
                     Circle()
@@ -63,22 +63,22 @@ struct RestTimerView: View {
                                 startPoint: .topTrailing,
                                 endPoint: .bottomLeading
                             ),
-                            style: StrokeStyle(lineWidth: 14, lineCap: .round)
+                            style: StrokeStyle(lineWidth: 12, lineCap: .round)
                         )
                         .rotationEffect(.degrees(-90))
-                        .frame(width: 240, height: 240)
+                        .frame(width: 180, height: 180)
                         .animation(.linear(duration: 1), value: remaining)
 
                     // Inner content
-                    VStack(spacing: AppSpacing.xs) {
+                    VStack(spacing: 2) {
                         Text(timeString)
-                            .font(AppFont.stat(54))
+                            .font(AppFont.stat(42))
                             .monospacedDigit()
                             .contentTransition(.numericText())
                             .animation(.spring(response: 0.3), value: remaining)
 
                         Text(didFinish ? "완료!" : "남음")
-                            .font(AppFont.caption(13))
+                            .font(AppFont.caption(12))
                             .foregroundStyle(didFinish ? AppColors.success : .secondary)
                             .animation(.spring(response: 0.3), value: didFinish)
                     }
@@ -104,9 +104,9 @@ struct RestTimerView: View {
                         didFinish = false
                     } label: {
                         Image(systemName: "arrow.counterclockwise")
-                            .font(.system(size: 20, weight: .semibold))
+                            .font(.system(size: 18, weight: .semibold))
                             .foregroundStyle(.secondary)
-                            .frame(width: 60, height: 60)
+                            .frame(width: 50, height: 50)
                             .background(Color(.systemGray5))
                             .clipShape(Circle())
                     }
@@ -119,14 +119,14 @@ struct RestTimerView: View {
                         ZStack {
                             Circle()
                                 .fill(isRunning ? AnyShapeStyle(AppColors.warning) : AnyShapeStyle(AppColors.primaryGradient))
-                                .frame(width: 80, height: 80)
+                                .frame(width: 64, height: 64)
                                 .shadow(
                                     color: (isRunning ? AppColors.warning : AppColors.gradientStart).opacity(0.4),
-                                    radius: 16, x: 0, y: 8
+                                    radius: 12, x: 0, y: 6
                                 )
 
                             Image(systemName: isRunning ? "pause.fill" : "play.fill")
-                                .font(.system(size: 28, weight: .bold))
+                                .font(.system(size: 24, weight: .bold))
                                 .foregroundStyle(.white)
                                 .offset(x: isRunning ? 0 : 2)
                         }
@@ -140,9 +140,9 @@ struct RestTimerView: View {
                         dismiss()
                     } label: {
                         Image(systemName: "checkmark")
-                            .font(.system(size: 20, weight: .semibold))
+                            .font(.system(size: 18, weight: .semibold))
                             .foregroundStyle(AppColors.success)
-                            .frame(width: 60, height: 60)
+                            .frame(width: 50, height: 50)
                             .background(AppColors.success.opacity(0.12))
                             .clipShape(Circle())
                     }
