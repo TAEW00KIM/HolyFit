@@ -56,11 +56,12 @@ struct RestTimerView: View {
                     Circle()
                         .trim(from: 0, to: ringAppeared ? progress : 0)
                         .stroke(
-                            AngularGradient(
+                            LinearGradient(
                                 colors: remaining > 10
-                                    ? [AppColors.gradientStart, AppColors.gradientEnd, AppColors.info]
-                                    : [AppColors.danger, AppColors.warning],
-                                center: .center
+                                    ? [AppColors.gradientEnd, AppColors.gradientStart]
+                                    : [AppColors.warning, AppColors.danger],
+                                startPoint: .topTrailing,
+                                endPoint: .bottomLeading
                             ),
                             style: StrokeStyle(lineWidth: 14, lineCap: .round)
                         )

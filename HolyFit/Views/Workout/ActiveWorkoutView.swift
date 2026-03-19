@@ -773,6 +773,13 @@ struct WorkoutEntrySection: View {
                     SetRowView(workoutSet: workoutSet, accentColor: muscleColor) {
                         showRestTimer = true
                     }
+                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                        Button(role: .destructive) {
+                            deleteSet(workoutSet, from: entry)
+                        } label: {
+                            Label("삭제", systemImage: "trash")
+                        }
+                    }
                     if workoutSet.id != entry.sortedSets.last?.id {
                         Divider()
                             .padding(.leading, AppSpacing.md)
@@ -804,6 +811,16 @@ struct WorkoutEntrySection: View {
             RestTimerView(duration: defaultRestTimer)
                 .id(defaultRestTimer)
                 .presentationDetents([.medium])
+        }
+    }
+
+    private func deleteSet(_ workoutSet: WorkoutSet, from entry: WorkoutEntry) {
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        entry.sets.removeAll { $0.id == workoutSet.id }
+        modelContext.delete(workoutSet)
+        // Re-order remaining sets
+        for (index, remainingSet) in entry.sortedSets.enumerated() {
+            remainingSet.order = index
         }
     }
 
