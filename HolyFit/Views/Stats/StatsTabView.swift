@@ -287,6 +287,9 @@ struct StatsTabView: View {
                     .background(color)
                     .clipShape(RoundedRectangle(cornerRadius: AppRadius.sm, style: .continuous))
                 Spacer()
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 11, weight: .semibold))
+                    .foregroundStyle(.tertiary)
             }
 
             Text(title)
