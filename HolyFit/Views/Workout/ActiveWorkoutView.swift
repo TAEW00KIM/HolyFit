@@ -270,7 +270,7 @@ struct ActiveWorkoutView: View {
                     }
                 }
             }
-            .presentationDetents([.medium])
+            .presentationDetents([.medium, .large])
         }
     }
 
@@ -585,7 +585,7 @@ struct ActiveWorkoutView: View {
                 }
             }
         }
-        .presentationDetents([.medium])
+        .presentationDetents([.medium, .large])
     }
 
     // MARK: - Toast
@@ -806,7 +806,7 @@ struct WorkoutEntrySection: View {
         .sheet(isPresented: $showRestTimer) {
             RestTimerView(duration: defaultRestTimer)
                 .id(defaultRestTimer)
-                .presentationDetents([.medium])
+                .presentationDetents([.medium, .large])
         }
     }
 
@@ -847,25 +847,23 @@ struct SetRowView: View {
 
     var body: some View {
         HStack(spacing: AppSpacing.sm) {
-            // Set number (long press to delete)
+            // Set number + delete button
             if let onDelete {
-                Text("\(workoutSet.order + 1)")
-                    .font(AppFont.mono(13))
-                    .foregroundStyle(isCompleted ? AppColors.success : .secondary)
-                    .frame(width: 32, alignment: .leading)
-                    .contextMenu {
-                        Button(role: .destructive) {
-                            onDelete()
-                        } label: {
-                            Label("세트 삭제", systemImage: "trash")
-                        }
-                    }
-            } else {
-                Text("\(workoutSet.order + 1)")
-                    .font(AppFont.mono(13))
-                    .foregroundStyle(isCompleted ? AppColors.success : .secondary)
-                    .frame(width: 32, alignment: .leading)
+                Button {
+                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                    onDelete()
+                } label: {
+                    Image(systemName: "minus.circle.fill")
+                        .font(.system(size: 16))
+                        .foregroundStyle(AppColors.danger)
+                }
+                .frame(width: 22)
             }
+
+            Text("\(workoutSet.order + 1)")
+                .font(AppFont.mono(13))
+                .foregroundStyle(isCompleted ? AppColors.success : .secondary)
+                .frame(width: onDelete != nil ? 20 : 32, alignment: .leading)
 
             // Weight stepper
             stepperField(
