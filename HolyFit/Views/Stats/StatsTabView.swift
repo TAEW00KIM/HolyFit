@@ -31,7 +31,7 @@ struct StatsTabView: View {
 
                         Spacer(minLength: AppSpacing.xxl)
                     }
-                    .padding(.top, AppSpacing.sm)
+                    .padding(.top, 2)
                 }
                 .background(Color(.systemGroupedBackground))
                 .navigationTitle("통계")

@@ -52,7 +52,7 @@ struct DietTabView: View {
                         // Bottom padding for floating button
                         Color.clear.frame(height: 80)
                     }
-                    .padding(.top, AppSpacing.sm)
+                    .padding(.top, 2)
                 }
 
                 // Floating add button

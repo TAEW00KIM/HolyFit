@@ -118,7 +118,7 @@ struct SettingsTabView: View {
                         .padding(.bottom, AppSpacing.md)
                 }
                 .padding(.horizontal, AppSpacing.md)
-                .padding(.top, AppSpacing.sm)
+                .padding(.top, 2)
                 .padding(.bottom, AppSpacing.lg)
             }
             .background(Color(.systemGroupedBackground))

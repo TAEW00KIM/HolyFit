@@ -43,7 +43,7 @@ struct RestTimerView: View {
                     }
                 }
                 .padding(.horizontal, AppSpacing.lg)
-                .padding(.top, AppSpacing.lg)
+                .padding(.top, AppSpacing.xxl)
 
                 // Circular timer ring
                 ZStack {

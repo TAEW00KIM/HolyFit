@@ -770,16 +770,12 @@ struct WorkoutEntrySection: View {
             // Set rows
             VStack(spacing: 0) {
                 ForEach(entry.sortedSets) { workoutSet in
-                    SetRowView(workoutSet: workoutSet, accentColor: muscleColor) {
-                        showRestTimer = true
-                    }
-                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                        Button(role: .destructive) {
-                            deleteSet(workoutSet, from: entry)
-                        } label: {
-                            Label("삭제", systemImage: "trash")
-                        }
-                    }
+                    SetRowView(
+                        workoutSet: workoutSet,
+                        accentColor: muscleColor,
+                        onSetCompleted: { showRestTimer = true },
+                        onDelete: entry.sets.count > 1 ? { deleteSet(workoutSet, from: entry) } : nil
+                    )
                     if workoutSet.id != entry.sortedSets.last?.id {
                         Divider()
                             .padding(.leading, AppSpacing.md)
@@ -843,6 +839,7 @@ struct SetRowView: View {
     @Bindable var workoutSet: WorkoutSet
     var accentColor: Color = AppColors.accent
     var onSetCompleted: (() -> Void)?
+    var onDelete: (() -> Void)?
 
     private var isCompleted: Bool {
         workoutSet.completedAt != nil
@@ -850,11 +847,25 @@ struct SetRowView: View {
 
     var body: some View {
         HStack(spacing: AppSpacing.sm) {
-            // Set number
-            Text("\(workoutSet.order + 1)")
-                .font(AppFont.mono(13))
-                .foregroundStyle(isCompleted ? AppColors.success : .secondary)
-                .frame(width: 32, alignment: .leading)
+            // Set number (long press to delete)
+            if let onDelete {
+                Text("\(workoutSet.order + 1)")
+                    .font(AppFont.mono(13))
+                    .foregroundStyle(isCompleted ? AppColors.success : .secondary)
+                    .frame(width: 32, alignment: .leading)
+                    .contextMenu {
+                        Button(role: .destructive) {
+                            onDelete()
+                        } label: {
+                            Label("세트 삭제", systemImage: "trash")
+                        }
+                    }
+            } else {
+                Text("\(workoutSet.order + 1)")
+                    .font(AppFont.mono(13))
+                    .foregroundStyle(isCompleted ? AppColors.success : .secondary)
+                    .frame(width: 32, alignment: .leading)
+            }
 
             // Weight stepper
             stepperField(
