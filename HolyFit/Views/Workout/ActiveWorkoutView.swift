@@ -964,9 +964,9 @@ struct SetRowView: View {
                 value.wrappedValue = max(minValue, value.wrappedValue - step)
             } label: {
                 Image(systemName: "minus")
-                    .font(.system(size: 13, weight: .bold))
+                    .font(.system(size: 10, weight: .bold))
                     .foregroundStyle(accentColor)
-                    .frame(width: 36, height: 42)
+                    .frame(width: 26, height: 38)
                     .background(accentColor.opacity(0.08))
             }
 
@@ -988,20 +988,17 @@ struct SetRowView: View {
             .multilineTextAlignment(.center)
             .keyboardType(.decimalPad)
             .frame(maxWidth: .infinity)
-            .frame(height: 42)
+            .frame(height: 38)
             .background(Color(.systemBackground).opacity(0.5))
-            .onTapGesture {
-                // Select all text on tap for easy replacement
-            }
 
             Button {
                 UIImpactFeedbackGenerator(style: .light).impactOccurred()
                 value.wrappedValue += step
             } label: {
                 Image(systemName: "plus")
-                    .font(.system(size: 13, weight: .bold))
+                    .font(.system(size: 10, weight: .bold))
                     .foregroundStyle(accentColor)
-                    .frame(width: 36, height: 42)
+                    .frame(width: 26, height: 38)
                     .background(accentColor.opacity(0.08))
             }
         }
