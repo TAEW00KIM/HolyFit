@@ -125,7 +125,7 @@ struct DateNavigationHeader: View {
                     .font(AppFont.body(15))
                     .fontWeight(.semibold)
                     .foregroundStyle(AppColors.accent)
-                    .frame(width: 36, height: 36)
+                    .frame(width: 44, height: 44)
                     .glassEffect(.regular.interactive(), in: .circle)
             }
             .accessibilityLabel("이전 날짜")
@@ -165,7 +165,7 @@ struct DateNavigationHeader: View {
                             ? Color.secondary.opacity(0.3)
                             : AppColors.accent
                     )
-                    .frame(width: 36, height: 36)
+                    .frame(width: 44, height: 44)
                     .glassEffect(.regular.interactive(), in: .circle)
             }
             .disabled(calendar.isDateInToday(selectedDate))

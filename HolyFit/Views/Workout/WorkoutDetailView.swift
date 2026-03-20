@@ -314,6 +314,7 @@ struct WorkoutDetailView: View {
     }
 
     private func deleteSet(_ set: WorkoutSet, from entry: WorkoutEntry) {
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         entry.sets.removeAll { $0.id == set.id }
         modelContext.delete(set)
         for (index, remainingSet) in entry.sortedSets.enumerated() {

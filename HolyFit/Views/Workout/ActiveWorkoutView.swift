@@ -419,6 +419,7 @@ struct ActiveWorkoutView: View {
             showErrorAlert = true
             return
         }
+        UINotificationFeedbackGenerator().notificationOccurred(.success)
         WidgetDataManager.updateWidgetData(context: modelContext)
 
         if healthKitEnabled && healthKitManager.isAvailable && healthKitManager.isAuthorized {
@@ -857,7 +858,8 @@ struct SetRowView: View {
                         .font(.system(size: 16))
                         .foregroundStyle(AppColors.danger)
                 }
-                .frame(width: 22)
+                .frame(width: 44, height: 44)
+                .contentShape(Rectangle())
             }
 
             Text("\(workoutSet.order + 1)")
@@ -966,9 +968,10 @@ struct SetRowView: View {
                 Image(systemName: "minus")
                     .font(.system(size: 10, weight: .bold))
                     .foregroundStyle(accentColor)
-                    .frame(width: 26, height: 38)
+                    .frame(width: 32, height: 38)
                     .background(accentColor.opacity(0.08))
             }
+            .contentShape(Rectangle())
 
             TextField(
                 "",
@@ -998,9 +1001,10 @@ struct SetRowView: View {
                 Image(systemName: "plus")
                     .font(.system(size: 10, weight: .bold))
                     .foregroundStyle(accentColor)
-                    .frame(width: 26, height: 38)
+                    .frame(width: 32, height: 38)
                     .background(accentColor.opacity(0.08))
             }
+            .contentShape(Rectangle())
         }
         .clipShape(RoundedRectangle(cornerRadius: AppRadius.sm, style: .continuous))
         .overlay(
