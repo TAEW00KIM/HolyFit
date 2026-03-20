@@ -974,14 +974,17 @@ struct SetRowView: View {
             .contentShape(Rectangle())
 
             TextField(
-                "",
+                step >= 1 ? "0" : "0.0",
                 text: Binding(
                     get: {
                         let v = value.wrappedValue
+                        if v == 0 { return "" }
                         return step >= 1 ? String(format: "%.0f", v) : String(format: "%.1f", v)
                     },
                     set: { text in
-                        if let parsed = Double(text), parsed >= minValue {
+                        if text.isEmpty {
+                            value.wrappedValue = 0
+                        } else if let parsed = Double(text), parsed >= minValue {
                             value.wrappedValue = parsed
                         }
                     }
