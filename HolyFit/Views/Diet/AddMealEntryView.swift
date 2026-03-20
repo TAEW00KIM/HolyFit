@@ -150,6 +150,7 @@ struct AddMealEntryView: View {
         } catch {
             return
         }
+        UINotificationFeedbackGenerator().notificationOccurred(.success)
         WidgetDataManager.updateWidgetData(context: modelContext)
         dismiss()
     }

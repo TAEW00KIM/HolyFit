@@ -90,6 +90,7 @@ struct DietTabView: View {
             ), titleVisibility: .visible) {
                 Button("삭제", role: .destructive) {
                     if let meal = mealToDelete {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         withAnimation {
                             modelContext.delete(meal)
                             try? modelContext.save()

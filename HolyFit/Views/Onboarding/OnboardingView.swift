@@ -102,6 +102,7 @@ struct OnboardingView: View {
             Spacer()
 
             Button {
+                UINotificationFeedbackGenerator().notificationOccurred(.success)
                 hasCompletedOnboarding = true
             } label: {
                 Text("시작하기")

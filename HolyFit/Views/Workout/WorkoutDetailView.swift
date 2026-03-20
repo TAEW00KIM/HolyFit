@@ -4,8 +4,10 @@ import SwiftData
 struct WorkoutDetailView: View {
     @Environment(\.modelContext) private var modelContext
     @Bindable var session: WorkoutSession
+    @Environment(\.dismiss) private var dismiss
     @State private var appeared = false
     @State private var isEditing = false
+    @State private var showDeleteAlert = false
 
     var body: some View {
         ScrollView {
@@ -36,6 +38,7 @@ struct WorkoutDetailView: View {
                     if isEditing {
                         try? modelContext.save()
                         WidgetDataManager.updateWidgetData(context: modelContext)
+                        UIImpactFeedbackGenerator(style: .light).impactOccurred()
                     }
                     withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
                         isEditing.toggle()
@@ -46,6 +49,31 @@ struct WorkoutDetailView: View {
                         .foregroundStyle(isEditing ? AppColors.success : AppColors.accent)
                 }
             }
+            ToolbarItem(placement: .bottomBar) {
+                if isEditing {
+                    Button(role: .destructive) {
+                        showDeleteAlert = true
+                    } label: {
+                        HStack(spacing: AppSpacing.xs) {
+                            Image(systemName: "trash")
+                                .font(.system(size: 14, weight: .semibold))
+                            Text("운동 기록 삭제")
+                                .font(AppFont.body(14))
+                        }
+                        .foregroundStyle(AppColors.danger)
+                    }
+                }
+            }
+        }
+        .confirmationDialog("이 운동 기록을 삭제하시겠습니까?", isPresented: $showDeleteAlert, titleVisibility: .visible) {
+            Button("삭제", role: .destructive) {
+                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                modelContext.delete(session)
+                try? modelContext.save()
+                WidgetDataManager.updateWidgetData(context: modelContext)
+                dismiss()
+            }
+            Button("취소", role: .cancel) { }
         }
         .onAppear {
             withAnimation(.spring(response: 0.6, dampingFraction: 0.8).delay(0.05)) {

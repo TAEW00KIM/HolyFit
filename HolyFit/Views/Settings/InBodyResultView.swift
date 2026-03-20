@@ -192,6 +192,7 @@ struct InBodyResultView: View {
             WidgetDataManager.updateWidgetData(context: modelContext)
         }
 
+        UINotificationFeedbackGenerator().notificationOccurred(.success)
         dismiss()
     }
 }
