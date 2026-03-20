@@ -85,12 +85,13 @@ struct WorkoutTabView: View {
                     heroAppeared = true
                 }
             }
-            .confirmationDialog("삭제하시겠습니까?", isPresented: .init(
+            .alert("삭제하시겠습니까?", isPresented: .init(
                 get: { sessionToDelete != nil },
                 set: { if !$0 { sessionToDelete = nil } }
-            ), titleVisibility: .visible) {
+            )) {
                 Button("삭제", role: .destructive) {
                     if let session = sessionToDelete {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         withAnimation {
                             modelContext.delete(session)
                             try? modelContext.save()
@@ -102,11 +103,13 @@ struct WorkoutTabView: View {
                 Button("취소", role: .cancel) {
                     sessionToDelete = nil
                 }
+            } message: {
+                Text("이 운동 기록이 영구적으로 삭제됩니다.")
             }
-            .confirmationDialog("삭제하시겠습니까?", isPresented: .init(
+            .alert("삭제하시겠습니까?", isPresented: .init(
                 get: { templateToDelete != nil },
                 set: { if !$0 { templateToDelete = nil } }
-            ), titleVisibility: .visible) {
+            )) {
                 Button("삭제", role: .destructive) {
                     if let template = templateToDelete {
                         modelContext.delete(template)
@@ -117,6 +120,8 @@ struct WorkoutTabView: View {
                 Button("취소", role: .cancel) {
                     templateToDelete = nil
                 }
+            } message: {
+                Text("이 루틴 템플릿이 삭제됩니다.")
             }
         }
         .sheet(isPresented: $showRoutineGenerator) {
