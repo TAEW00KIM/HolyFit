@@ -237,7 +237,21 @@ struct WorkoutDetailView: View {
             VStack(spacing: 0) {
                 ForEach(entry.sortedSets) { set in
                     if isEditing {
-                        EditableSetRow(workoutSet: set, accentColor: muscleColor)
+                        HStack(spacing: 0) {
+                            if entry.sets.count > 1 {
+                                Button {
+                                    withAnimation {
+                                        deleteSet(set, from: entry)
+                                    }
+                                } label: {
+                                    Image(systemName: "minus.circle.fill")
+                                        .font(.system(size: 16))
+                                        .foregroundStyle(AppColors.danger)
+                                }
+                                .padding(.leading, AppSpacing.md)
+                            }
+                            EditableSetRow(workoutSet: set, accentColor: muscleColor)
+                        }
                     } else {
                         detailSetRow(set: set, muscleColor: muscleColor)
                     }
@@ -297,6 +311,15 @@ struct WorkoutDetailView: View {
         }
         .padding(.horizontal, AppSpacing.md)
         .padding(.vertical, 11)
+    }
+
+    private func deleteSet(_ set: WorkoutSet, from entry: WorkoutEntry) {
+        entry.sets.removeAll { $0.id == set.id }
+        modelContext.delete(set)
+        for (index, remainingSet) in entry.sortedSets.enumerated() {
+            remainingSet.order = index
+        }
+        try? modelContext.save()
     }
 
     private func setTypeBadge(label: String, color: Color) -> some View {
