@@ -50,6 +50,8 @@ struct ExerciseSeedData {
             Exercise(name: "하이 케이블 크로스오버", muscleGroup: .chest, instructions: "위에서 아래로 케이블 교차"),
             Exercise(name: "인클라인 스미스 프레스", muscleGroup: .chest, instructions: "스미스 머신 경사 프레스"),
             Exercise(name: "머신 플라이", muscleGroup: .chest, instructions: "머신으로 플라이 동작"),
+            Exercise(name: "원암 덤벨 벤치프레스", muscleGroup: .chest, instructions: "한 팔씩 덤벨 벤치프레스"),
+            Exercise(name: "원암 케이블 플라이", muscleGroup: .chest, instructions: "한 팔씩 케이블 플라이"),
         ])
 
         // 등
@@ -83,6 +85,8 @@ struct ExerciseSeedData {
             Exercise(name: "씰 로우", muscleGroup: .back, instructions: "벤치에 엎드려 바벨/덤벨 로우"),
             Exercise(name: "체스트 서포트 로우", muscleGroup: .back, instructions: "가슴 받침대에서 로우"),
             Exercise(name: "메도우즈 로우", muscleGroup: .back, instructions: "랜드마인 한 팔 로우"),
+            Exercise(name: "원암 케이블 로우", muscleGroup: .back, instructions: "한 팔씩 케이블 로우"),
+            Exercise(name: "원암 랫풀다운", muscleGroup: .back, instructions: "한 팔씩 랫풀다운"),
         ])
 
         // 어깨
@@ -106,6 +110,9 @@ struct ExerciseSeedData {
             Exercise(name: "케이블 리어 델트 플라이", muscleGroup: .shoulders, instructions: "케이블로 후면 삼각근 플라이"),
             Exercise(name: "바벨 프론트 레이즈", muscleGroup: .shoulders, instructions: "바벨로 앞으로 들어올리기"),
             Exercise(name: "랜드마인 프레스", muscleGroup: .shoulders, instructions: "랜드마인으로 숄더 프레스"),
+            Exercise(name: "원암 덤벨 숄더 프레스", muscleGroup: .shoulders, instructions: "한 팔씩 덤벨 숄더 프레스"),
+            Exercise(name: "원암 사이드 레이즈", muscleGroup: .shoulders, instructions: "한 팔씩 사이드 레이즈"),
+            Exercise(name: "원암 케이블 프론트 레이즈", muscleGroup: .shoulders, instructions: "한 팔씩 케이블 프론트 레이즈"),
         ])
 
         // 하체
@@ -139,6 +146,10 @@ struct ExerciseSeedData {
             Exercise(name: "싱글 레그 레그프레스", muscleGroup: .legs, instructions: "한 다리씩 레그프레스"),
             Exercise(name: "시시 스쿼트", muscleGroup: .legs, instructions: "뒤로 기울이며 스쿼트"),
             Exercise(name: "스텝업", muscleGroup: .legs, instructions: "박스 위로 올라서기"),
+            Exercise(name: "원암 덤벨 런지", muscleGroup: .legs, instructions: "한 손에 덤벨 들고 런지"),
+            Exercise(name: "싱글 레그 레그컬", muscleGroup: .legs, instructions: "한 다리씩 레그컬"),
+            Exercise(name: "싱글 레그 레그 익스텐션", muscleGroup: .legs, instructions: "한 다리씩 레그 익스텐션"),
+            Exercise(name: "싱글 레그 루마니안 데드리프트", muscleGroup: .legs, instructions: "한 다리로 루마니안 데드리프트"),
         ])
 
         // 이두
@@ -160,6 +171,8 @@ struct ExerciseSeedData {
             Exercise(name: "크로스바디 해머 컬", muscleGroup: .biceps, instructions: "몸 가로질러 해머 컬"),
             Exercise(name: "21s 컬", muscleGroup: .biceps, instructions: "하/상/풀 각 7회 바벨 컬"),
             Exercise(name: "케이블 해머 컬", muscleGroup: .biceps, instructions: "로프로 해머 컬"),
+            Exercise(name: "원암 케이블 컬", muscleGroup: .biceps, instructions: "한 팔씩 케이블 컬"),
+            Exercise(name: "원암 프리처 컬", muscleGroup: .biceps, instructions: "한 팔씩 프리처 컬"),
         ])
 
         // 삼두
@@ -179,6 +192,8 @@ struct ExerciseSeedData {
             Exercise(name: "원암 케이블 푸시다운", muscleGroup: .triceps, instructions: "한 팔씩 케이블 푸시다운"),
             Exercise(name: "다이아몬드 푸시업", muscleGroup: .triceps, instructions: "손 모아 팔굽혀펴기"),
             Exercise(name: "벤치 딥스", muscleGroup: .triceps, instructions: "벤치에 손 짚고 딥스"),
+            Exercise(name: "원암 덤벨 오버헤드 익스텐션", muscleGroup: .triceps, instructions: "한 팔씩 머리 위 삼두 펴기"),
+            Exercise(name: "원암 케이블 킥백", muscleGroup: .triceps, instructions: "한 팔씩 케이블 킥백"),
         ])
 
         // 코어
