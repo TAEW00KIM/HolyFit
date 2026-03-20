@@ -25,6 +25,26 @@ struct WorkoutDetailView: View {
                         .padding(.horizontal, AppSpacing.md)
                 }
 
+                // Delete button (edit mode only)
+                if isEditing {
+                    Button {
+                        showDeleteAlert = true
+                    } label: {
+                        HStack(spacing: AppSpacing.xs) {
+                            Image(systemName: "trash")
+                                .font(.system(size: 14, weight: .semibold))
+                            Text("운동 기록 삭제")
+                                .font(AppFont.body(14))
+                        }
+                        .foregroundStyle(AppColors.danger)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, AppSpacing.md)
+                        .background(AppColors.danger.opacity(0.08))
+                        .clipShape(RoundedRectangle(cornerRadius: AppRadius.lg, style: .continuous))
+                    }
+                    .padding(.horizontal, AppSpacing.md)
+                }
+
                 Color.clear.frame(height: AppSpacing.lg)
             }
             .padding(.top, AppSpacing.md)
@@ -47,21 +67,6 @@ struct WorkoutDetailView: View {
                     Text(isEditing ? "완료" : "편집")
                         .font(AppFont.heading(15))
                         .foregroundStyle(isEditing ? AppColors.success : AppColors.accent)
-                }
-            }
-            ToolbarItem(placement: .bottomBar) {
-                if isEditing {
-                    Button(role: .destructive) {
-                        showDeleteAlert = true
-                    } label: {
-                        HStack(spacing: AppSpacing.xs) {
-                            Image(systemName: "trash")
-                                .font(.system(size: 14, weight: .semibold))
-                            Text("운동 기록 삭제")
-                                .font(AppFont.body(14))
-                        }
-                        .foregroundStyle(AppColors.danger)
-                    }
                 }
             }
         }

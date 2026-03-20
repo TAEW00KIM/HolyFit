@@ -848,24 +848,23 @@ struct SetRowView: View {
 
     var body: some View {
         HStack(spacing: AppSpacing.sm) {
-            // Set number + delete button
+            // Set number (tap to delete when 2+ sets)
             if let onDelete {
                 Button {
                     UIImpactFeedbackGenerator(style: .light).impactOccurred()
                     onDelete()
                 } label: {
                     Image(systemName: "minus.circle.fill")
-                        .font(.system(size: 16))
+                        .font(.system(size: 18))
                         .foregroundStyle(AppColors.danger)
                 }
-                .frame(width: 44, height: 44)
-                .contentShape(Rectangle())
+                .frame(width: 32, height: 38)
+            } else {
+                Text("\(workoutSet.order + 1)")
+                    .font(AppFont.mono(13))
+                    .foregroundStyle(isCompleted ? AppColors.success : .secondary)
+                    .frame(width: 32, alignment: .leading)
             }
-
-            Text("\(workoutSet.order + 1)")
-                .font(AppFont.mono(13))
-                .foregroundStyle(isCompleted ? AppColors.success : .secondary)
-                .frame(width: onDelete != nil ? 20 : 32, alignment: .leading)
 
             // Weight stepper
             stepperField(
