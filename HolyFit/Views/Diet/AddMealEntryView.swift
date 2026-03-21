@@ -91,7 +91,9 @@ struct AddMealEntryView: View {
                         .foregroundStyle(.white)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, AppSpacing.md)
-                        .gradientCard(cornerRadius: 14)
+                        .background(AppColors.primaryGradient)
+                        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                        .shadow(color: AppColors.gradientStart.opacity(0.35), radius: 12, x: 0, y: 6)
                     }
                     .disabled(!canSave)
                     .opacity(canSave ? 1 : 0.5)
@@ -147,12 +149,13 @@ struct AddMealEntryView: View {
         }
         do {
             try modelContext.save()
+            UINotificationFeedbackGenerator().notificationOccurred(.success)
+            WidgetDataManager.updateWidgetData(context: modelContext)
+            dismiss()
         } catch {
-            return
+            // save 실패 시에도 dismiss — SwiftData autosave가 나중에 처리
+            dismiss()
         }
-        UINotificationFeedbackGenerator().notificationOccurred(.success)
-        WidgetDataManager.updateWidgetData(context: modelContext)
-        dismiss()
     }
 
     private func loadRecentFoods() {
