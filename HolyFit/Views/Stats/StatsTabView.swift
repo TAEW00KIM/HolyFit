@@ -6,6 +6,10 @@ struct StatsTabView: View {
     @Query(sort: \MealEntry.date, order: .reverse) private var meals: [MealEntry]
     @State private var selectedRange: StatsRange = .week
     @AppStorage("selectedTab") private var selectedTab = 0
+    @AppStorage("goalWeek") private var goalWeek = 5
+    @AppStorage("goalMonth") private var goalMonth = 12
+    @AppStorage("goalAll") private var goalAll = 30
+    @State private var showGoalSheet = false
 
     var body: some View {
         NavigationStack {
@@ -104,8 +108,17 @@ struct StatsTabView: View {
         filteredSessions.compactMap(\.duration).reduce(0, +)
     }
 
+    private var currentGoal: Int {
+        switch selectedRange {
+        case .week: return goalWeek
+        case .month: return goalMonth
+        case .all: return goalAll
+        }
+    }
+
     private var completionProgress: Double {
-        min(Double(totalWorkouts) / Double(selectedRange.targetWorkoutCount), 1)
+        guard currentGoal > 0 else { return 0 }
+        return min(Double(totalWorkouts) / Double(currentGoal), 1)
     }
 
     private var bestOneRepMaxInfo: (value: Double, exerciseName: String) {
@@ -188,11 +201,20 @@ struct StatsTabView: View {
 
             Spacer()
 
-            ProgressRing(progress: completionProgress, label: "\(totalWorkouts)/\(selectedRange.targetWorkoutCount)")
-                .frame(width: 80, height: 80)
+            Button {
+                showGoalSheet = true
+            } label: {
+                ProgressRing(progress: completionProgress, label: "\(totalWorkouts)/\(currentGoal)")
+                    .frame(width: 80, height: 80)
+            }
+            .buttonStyle(.plain)
         }
         .padding(AppSpacing.md + AppSpacing.xs)
         .glassCard(cornerRadius: AppRadius.xl)
+        .sheet(isPresented: $showGoalSheet) {
+            GoalSettingSheet(goalWeek: $goalWeek, goalMonth: $goalMonth, goalAll: $goalAll)
+                .presentationDetents([.medium])
+        }
     }
 
     private var statsRow: some View {
@@ -379,9 +401,13 @@ private enum StatsRange: String, CaseIterable, Identifiable {
         let now = Date()
         switch self {
         case .week:
-            return calendar.date(byAdding: .day, value: -6, to: calendar.startOfDay(for: now)) ?? now
+            // 이번 주 월요일부터
+            let weekday = calendar.component(.weekday, from: now)
+            let daysFromMonday = (weekday + 5) % 7
+            return calendar.date(byAdding: .day, value: -daysFromMonday, to: calendar.startOfDay(for: now)) ?? now
         case .month:
-            return calendar.date(byAdding: .month, value: -1, to: now) ?? now
+            // 이번 달 1일부터
+            return calendar.date(from: calendar.dateComponents([.year, .month], from: now)) ?? now
         case .all:
             return .distantPast
         }
@@ -421,5 +447,87 @@ private struct ProgressRing: View {
                     .foregroundStyle(.secondary)
             }
         }
+    }
+}
+
+// MARK: - Goal Setting Sheet
+
+private struct GoalSettingSheet: View {
+    @Environment(\.dismiss) private var dismiss
+    @Binding var goalWeek: Int
+    @Binding var goalMonth: Int
+    @Binding var goalAll: Int
+
+    var body: some View {
+        NavigationStack {
+            VStack(spacing: AppSpacing.lg) {
+                goalRow(title: "주간 목표", value: $goalWeek, icon: "calendar", color: AppColors.gradientStart)
+                goalRow(title: "월간 목표", value: $goalMonth, icon: "calendar.badge.clock", color: AppColors.warning)
+                goalRow(title: "전체 목표", value: $goalAll, icon: "flag.fill", color: AppColors.success)
+                Spacer()
+            }
+            .padding(AppSpacing.lg)
+            .background(Color(.systemGroupedBackground))
+            .navigationTitle("운동 목표 설정")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("완료") {
+                        dismiss()
+                    }
+                    .font(AppFont.heading(15))
+                    .foregroundStyle(AppColors.accent)
+                }
+            }
+        }
+    }
+
+    private func goalRow(title: String, value: Binding<Int>, icon: String, color: Color) -> some View {
+        HStack(spacing: AppSpacing.md) {
+            Image(systemName: icon)
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundStyle(color)
+                .frame(width: 32)
+
+            Text(title)
+                .font(AppFont.body(16))
+
+            Spacer()
+
+            HStack(spacing: 0) {
+                Button {
+                    if value.wrappedValue > 1 { value.wrappedValue -= 1 }
+                } label: {
+                    Image(systemName: "minus")
+                        .font(.system(size: 12, weight: .bold))
+                        .foregroundStyle(color)
+                        .frame(width: 36, height: 36)
+                        .background(color.opacity(0.08))
+                }
+
+                Text("\(value.wrappedValue)회")
+                    .font(AppFont.mono(16))
+                    .frame(width: 56)
+                    .frame(height: 36)
+                    .background(Color(.systemBackground).opacity(0.5))
+
+                Button {
+                    value.wrappedValue += 1
+                } label: {
+                    Image(systemName: "plus")
+                        .font(.system(size: 12, weight: .bold))
+                        .foregroundStyle(color)
+                        .frame(width: 36, height: 36)
+                        .background(color.opacity(0.08))
+                }
+            }
+            .clipShape(RoundedRectangle(cornerRadius: AppRadius.sm, style: .continuous))
+            .overlay(
+                RoundedRectangle(cornerRadius: AppRadius.sm, style: .continuous)
+                    .stroke(color.opacity(0.15), lineWidth: 1)
+            )
+        }
+        .padding(AppSpacing.md)
+        .glassCard()
     }
 }
