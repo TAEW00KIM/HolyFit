@@ -152,7 +152,7 @@ struct ActiveWorkoutView: View {
             } message: {
                 Text(errorMessage)
             }
-            .confirmationDialog("운동 삭제", isPresented: $showDeleteEntryDialog, titleVisibility: .visible) {
+            .alert("운동 삭제", isPresented: $showDeleteEntryDialog) {
                 Button("삭제", role: .destructive) {
                     if let entryPendingDeletion {
                         deleteEntry(entryPendingDeletion)
@@ -769,7 +769,7 @@ struct WorkoutEntrySection: View {
                 Text("횟수 (회)")
                     .frame(maxWidth: .infinity)
                 Text("")
-                    .frame(width: 94)
+                    .frame(width: 68)
             }
             .font(AppFont.caption(11))
             .foregroundStyle(.secondary)
@@ -940,8 +940,8 @@ struct SetRowView: View {
             .accessibilityValue("\(workoutSet.reps)회")
             .opacity(isCompleted ? 0.6 : 1.0)
 
-            // Badges + Checkmark
-            HStack(spacing: 4) {
+            // Drop set toggle + Checkmark
+            HStack(spacing: 6) {
                 badgeToggle(
                     label: "D",
                     isOn: Binding(
@@ -952,16 +952,6 @@ struct SetRowView: View {
                 )
                 .accessibilityLabel("드랍세트")
                 .accessibilityValue(workoutSet.isDropSet ? "활성" : "비활성")
-                badgeToggle(
-                    label: "T",
-                    isOn: Binding(
-                        get: { workoutSet.isTopSet },
-                        set: { workoutSet.isTopSet = $0 }
-                    ),
-                    activeColor: AppColors.danger
-                )
-                .accessibilityLabel("탑세트")
-                .accessibilityValue(workoutSet.isTopSet ? "활성" : "비활성")
 
                 // Completion checkmark
                 Button {
@@ -986,14 +976,28 @@ struct SetRowView: View {
                 .accessibilityLabel("세트 완료")
                 .accessibilityValue(isCompleted ? "완료됨" : "미완료")
             }
-            .frame(width: 94)
+            .frame(width: 68)
         }
         .padding(.horizontal, AppSpacing.md)
         .padding(.vertical, 10)
+        .padding(.leading, workoutSet.isDropSet ? AppSpacing.md : 0)
         .background(
             RoundedRectangle(cornerRadius: AppRadius.sm, style: .continuous)
-                .fill(isCompleted ? AppColors.success.opacity(0.04) : Color.clear)
+                .fill(
+                    workoutSet.isDropSet
+                        ? AppColors.warning.opacity(0.06)
+                        : isCompleted ? AppColors.success.opacity(0.04) : Color.clear
+                )
         )
+        .overlay(alignment: .leading) {
+            if workoutSet.isDropSet {
+                Rectangle()
+                    .fill(AppColors.warning)
+                    .frame(width: 3)
+                    .clipShape(Capsule())
+                    .padding(.vertical, 4)
+            }
+        }
         .contentShape(Rectangle())
     }
 
