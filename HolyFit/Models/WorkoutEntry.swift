@@ -23,8 +23,14 @@ class WorkoutEntry {
         sets.sorted { $0.order < $1.order }
     }
 
+    var isOneArm: Bool {
+        guard let name = exercise?.name else { return false }
+        return name.contains("원암") || name.contains("싱글")
+    }
+
     var totalVolume: Double {
-        sets.reduce(0) { $0 + $1.weight * Double($1.reps) }
+        let raw = sets.reduce(0) { $0 + $1.weight * Double($1.reps) }
+        return isOneArm ? raw * 2 : raw
     }
 
     var maxWeight: Double {

@@ -25,11 +25,7 @@ class WorkoutSession {
     }
 
     var totalVolume: Double {
-        entries.reduce(0) { total, entry in
-            total + entry.sets.reduce(0) { setTotal, set in
-                setTotal + set.weight * Double(set.reps)
-            }
-        }
+        entries.reduce(0) { $0 + $1.totalVolume }
     }
 
     var exerciseCount: Int {

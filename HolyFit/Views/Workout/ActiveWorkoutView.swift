@@ -689,6 +689,17 @@ struct WorkoutEntrySection: View {
 
                 Spacer()
 
+                if entry.isOneArm {
+                    Text("×2")
+                        .font(AppFont.caption(10))
+                        .fontWeight(.bold)
+                        .foregroundStyle(AppColors.info)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 2)
+                        .background(AppColors.info.opacity(0.12))
+                        .clipShape(Capsule())
+                }
+
                 if completedSetsCount > 0 {
                     Text("\(completedSetsCount)/\(totalSetsCount) 세트 완료")
                         .font(AppFont.caption(11))
@@ -771,12 +782,33 @@ struct WorkoutEntrySection: View {
             // Set rows
             VStack(spacing: 0) {
                 ForEach(entry.sortedSets) { workoutSet in
-                    SetRowView(
-                        workoutSet: workoutSet,
-                        accentColor: muscleColor,
-                        onSetCompleted: { showRestTimer = true },
-                        onDelete: entry.sets.count > 1 ? { deleteSet(workoutSet, from: entry) } : nil
-                    )
+                    VStack(spacing: 0) {
+                        SetRowView(
+                            workoutSet: workoutSet,
+                            accentColor: muscleColor,
+                            onSetCompleted: { showRestTimer = true },
+                            onDelete: entry.sets.count > 1 ? { deleteSet(workoutSet, from: entry) } : nil
+                        )
+
+                        // 드랍세트 추가 버튼
+                        if workoutSet.isDropSet {
+                            Button {
+                                UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                                addDropSet(after: workoutSet, in: entry)
+                            } label: {
+                                HStack(spacing: AppSpacing.xs) {
+                                    Image(systemName: "arrow.down.circle")
+                                        .font(.system(size: 11, weight: .semibold))
+                                    Text("드랍세트 추가")
+                                        .font(AppFont.caption(11))
+                                }
+                                .foregroundStyle(AppColors.warning)
+                                .padding(.vertical, 6)
+                                .frame(maxWidth: .infinity)
+                                .background(AppColors.warning.opacity(0.06))
+                            }
+                        }
+                    }
                     if workoutSet.id != entry.sortedSets.last?.id {
                         Divider()
                             .padding(.leading, AppSpacing.md)
@@ -819,6 +851,18 @@ struct WorkoutEntrySection: View {
         for (index, remainingSet) in entry.sortedSets.enumerated() {
             remainingSet.order = index
         }
+    }
+
+    private func addDropSet(after currentSet: WorkoutSet, in entry: WorkoutEntry) {
+        let insertOrder = currentSet.order + 1
+        // Shift subsequent sets
+        for set in entry.sets where set.order >= insertOrder {
+            set.order += 1
+        }
+        let dropWeight = max(0, currentSet.weight * 0.8)
+        let dropSet = WorkoutSet(order: insertOrder, weight: dropWeight, reps: currentSet.reps, isDropSet: true)
+        dropSet.entry = entry
+        entry.sets.append(dropSet)
     }
 
     private func addSet() {
