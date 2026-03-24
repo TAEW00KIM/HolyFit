@@ -501,14 +501,14 @@ private struct GoalSettingSheet: View {
                     Image(systemName: "minus")
                         .font(.system(size: 12, weight: .bold))
                         .foregroundStyle(color)
-                        .frame(width: 36, height: 36)
+                        .frame(width: 44, height: 44)
                         .background(color.opacity(0.08))
                 }
 
                 Text("\(value.wrappedValue)회")
                     .font(AppFont.mono(16))
                     .frame(width: 56)
-                    .frame(height: 36)
+                    .frame(height: 44)
                     .background(Color(.systemBackground).opacity(0.5))
 
                 Button {
@@ -517,7 +517,7 @@ private struct GoalSettingSheet: View {
                     Image(systemName: "plus")
                         .font(.system(size: 12, weight: .bold))
                         .foregroundStyle(color)
-                        .frame(width: 36, height: 36)
+                        .frame(width: 44, height: 44)
                         .background(color.opacity(0.08))
                 }
             }
