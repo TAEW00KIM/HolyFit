@@ -772,29 +772,26 @@ struct WeekGroupRow: View {
             } label: {
                 HStack(spacing: AppSpacing.sm) {
                     Text(title)
-                        .font(AppFont.caption(12))
-                        .fontWeight(.semibold)
-                        .foregroundStyle(.secondary)
-                        .textCase(.uppercase)
-                        .tracking(0.5)
+                        .font(AppFont.heading(16))
+                        .foregroundStyle(.primary)
 
                     Text("\(sessions.count)회")
-                        .font(AppFont.caption(11))
+                        .font(AppFont.caption(12))
                         .foregroundStyle(.secondary)
-                        .padding(.horizontal, 6)
-                        .padding(.vertical, 2)
-                        .background(Color.primary.opacity(0.06))
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 3)
+                        .background(Color.primary.opacity(0.07))
                         .clipShape(Capsule())
 
                     Spacer()
 
                     Image(systemName: "chevron.right")
-                        .font(.system(size: 11, weight: .semibold))
-                        .foregroundStyle(.tertiary)
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundStyle(.secondary)
                         .rotationEffect(.degrees(isExpanded ? 90 : 0))
                 }
                 .padding(.horizontal, AppSpacing.md)
-                .padding(.vertical, AppSpacing.xs)
+                .padding(.vertical, AppSpacing.sm)
                 .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
