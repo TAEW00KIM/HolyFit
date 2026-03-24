@@ -762,7 +762,7 @@ struct WeekGroupRow: View {
     let onDelete: (WorkoutSession) -> Void
 
     var body: some View {
-        VStack(spacing: 0) {
+        VStack(alignment: .leading, spacing: AppSpacing.xs) {
             // Header
             Button {
                 withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
@@ -770,28 +770,31 @@ struct WeekGroupRow: View {
                 }
                 UIImpactFeedbackGenerator(style: .light).impactOccurred()
             } label: {
-                HStack {
+                HStack(spacing: AppSpacing.sm) {
                     Text(title)
-                        .font(AppFont.heading(15))
-                        .foregroundStyle(.primary)
-
-                    Spacer()
+                        .font(AppFont.caption(12))
+                        .fontWeight(.semibold)
+                        .foregroundStyle(.secondary)
+                        .textCase(.uppercase)
+                        .tracking(0.5)
 
                     Text("\(sessions.count)회")
-                        .font(AppFont.caption(12))
+                        .font(AppFont.caption(11))
                         .foregroundStyle(.secondary)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 3)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 2)
                         .background(Color.primary.opacity(0.06))
                         .clipShape(Capsule())
 
+                    Spacer()
+
                     Image(systemName: "chevron.right")
-                        .font(.system(size: 12, weight: .semibold))
+                        .font(.system(size: 11, weight: .semibold))
                         .foregroundStyle(.tertiary)
                         .rotationEffect(.degrees(isExpanded ? 90 : 0))
                 }
                 .padding(.horizontal, AppSpacing.md)
-                .padding(.vertical, AppSpacing.sm + 2)
+                .padding(.vertical, AppSpacing.xs)
                 .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
@@ -801,6 +804,7 @@ struct WeekGroupRow: View {
                 VStack(spacing: AppSpacing.xs) {
                     ForEach(sessions) { session in
                         WorkoutSessionRow(session: session)
+                            .padding(.horizontal, AppSpacing.md)
                             .contextMenu {
                                 Button(role: .destructive) {
                                     onDelete(session)
@@ -810,13 +814,8 @@ struct WeekGroupRow: View {
                             }
                     }
                 }
-                .padding(.horizontal, AppSpacing.md)
-                .padding(.bottom, AppSpacing.sm)
                 .transition(.opacity)
             }
         }
-        .glassCard()
-        .padding(.horizontal, AppSpacing.md)
-        .clipped()
     }
 }
