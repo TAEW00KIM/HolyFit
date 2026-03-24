@@ -6,15 +6,28 @@ struct ExercisePickerView: View {
     @Query(sort: \Exercise.name) private var exercises: [Exercise]
     @State private var searchText = ""
     @State private var selectedMuscleGroup: MuscleGroup?
+    @State private var selectedSubgroup: String?
     @State private var showAddExercise = false
     @State private var chipsAppeared = false
 
     let onSelect: (Exercise) -> Void
 
+    private var availableSubgroups: [String] {
+        guard let group = selectedMuscleGroup else { return [] }
+        let subgroups = exercises
+            .filter { $0.muscleGroup == group }
+            .compactMap { $0.muscleSubgroup }
+        var seen = Set<String>()
+        return subgroups.filter { seen.insert($0).inserted }.sorted()
+    }
+
     private var filteredExercises: [Exercise] {
         var result = exercises
         if let group = selectedMuscleGroup {
             result = result.filter { $0.muscleGroup == group }
+        }
+        if let subgroup = selectedSubgroup {
+            result = result.filter { $0.muscleSubgroup == subgroup }
         }
         if !searchText.isEmpty {
             result = result.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
@@ -46,7 +59,12 @@ struct ExercisePickerView: View {
                                 isSelected: selectedMuscleGroup == group
                             ) {
                                 withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                                    selectedMuscleGroup = selectedMuscleGroup == group ? nil : group
+                                    if selectedMuscleGroup == group {
+                                        selectedMuscleGroup = nil
+                                    } else {
+                                        selectedMuscleGroup = group
+                                    }
+                                    selectedSubgroup = nil
                                 }
                             }
                             .opacity(chipsAppeared ? 1 : 0)
@@ -62,6 +80,37 @@ struct ExercisePickerView: View {
                     .padding(.vertical, AppSpacing.sm)
                 }
                 .background(Color(.systemGroupedBackground))
+
+                // Subgroup filter chips (2nd row)
+                if !availableSubgroups.isEmpty, let group = selectedMuscleGroup {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: AppSpacing.sm) {
+                            MuscleFilterChip(
+                                title: "전체",
+                                color: AppColors.muscleGroupColor(group),
+                                isSelected: selectedSubgroup == nil
+                            ) {
+                                withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                                    selectedSubgroup = nil
+                                }
+                            }
+                            ForEach(availableSubgroups, id: \.self) { subgroup in
+                                MuscleFilterChip(
+                                    title: subgroup,
+                                    color: AppColors.muscleGroupColor(group),
+                                    isSelected: selectedSubgroup == subgroup
+                                ) {
+                                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                                        selectedSubgroup = selectedSubgroup == subgroup ? nil : subgroup
+                                    }
+                                }
+                            }
+                        }
+                        .padding(.horizontal, AppSpacing.md)
+                        .padding(.vertical, AppSpacing.xs)
+                    }
+                    .background(Color(.systemGroupedBackground))
+                }
 
                 Divider()
 
@@ -199,6 +248,16 @@ struct ExerciseListRow: View {
                         Text(exercise.muscleGroup.rawValue)
                             .font(AppFont.caption(12))
                             .foregroundStyle(muscleColor.opacity(0.85))
+                        if let subgroup = exercise.muscleSubgroup {
+                            Text(subgroup)
+                                .font(.system(size: 10, weight: .semibold, design: .rounded))
+                                .foregroundStyle(muscleColor)
+                                .padding(.horizontal, 5)
+                                .padding(.vertical, 2)
+                                .background(muscleColor.opacity(0.12))
+                                .clipShape(Capsule())
+                                .overlay(Capsule().stroke(muscleColor.opacity(0.25), lineWidth: 1))
+                        }
                     }
                 }
 

@@ -25,6 +25,7 @@ struct HolyFitApp: App {
     @AppStorage("appearanceMode") private var appearanceMode: String = "auto"
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
     @AppStorage("didFixAbnormalDurations") private var didFixAbnormalDurations = false
+    @AppStorage("didMigrateSubgroups") private var didMigrateSubgroups = false
 
     private var colorScheme: ColorScheme? {
         switch appearanceMode {
@@ -72,6 +73,7 @@ struct HolyFitApp: App {
                     purgeAbandonedSessions()
                     seedExercises()
                     fixAbnormalDurations()
+                    migrateExerciseSubgroups()
                     WidgetDataManager.updateWidgetData(context: container.mainContext)
                 }
         }
@@ -99,6 +101,85 @@ struct HolyFitApp: App {
                 try? context.save()
             }
         }
+    }
+
+    /// One-time migration to populate muscleSubgroup on existing exercises
+    private func migrateExerciseSubgroups() {
+        guard !didMigrateSubgroups else { return }
+        let subgroupMap: [String: String] = [
+            // 가슴 - 상부
+            "인클라인 벤치프레스": "상부", "인클라인 덤벨프레스": "상부", "인클라인 덤벨 플라이": "상부",
+            "인클라인 머신 프레스": "상부", "스미스 인클라인 프레스": "상부", "인클라인 스미스 프레스": "상부",
+            "로우 케이블 크로스오버": "상부",
+            // 가슴 - 하부
+            "디클라인 벤치프레스": "하부", "디클라인 덤벨프레스": "하부", "디클라인 덤벨 플라이": "하부",
+            "딥스": "하부", "어시스트 딥스": "하부", "하이 케이블 크로스오버": "하부",
+            // 가슴 - 전체
+            "벤치프레스": "전체", "덤벨 벤치프레스": "전체", "덤벨 플라이": "전체",
+            "케이블 크로스오버": "전체", "머신 체스트 프레스": "전체", "스미스 머신 벤치프레스": "전체",
+            "펙덱 플라이": "전체", "머신 플라이": "전체", "푸시업": "전체",
+            "와이드 그립 벤치프레스": "전체", "클로즈그립 덤벨프레스": "전체",
+            "원암 덤벨 벤치프레스": "전체", "원암 케이블 플라이": "전체",
+            // 등 - 풀다운
+            "랫풀다운": "풀다운", "클로즈그립 랫풀다운": "풀다운", "풀업": "풀다운",
+            "어시스트 풀업": "풀다운", "친업": "풀다운", "와이드 그립 랫풀다운": "풀다운",
+            "리버스 그립 랫풀다운": "풀다운", "뉴트럴 그립 랫풀다운": "풀다운",
+            "와이드 그립 풀업": "풀다운", "뉴트럴 그립 풀업": "풀다운",
+            "원암 랫풀다운": "풀다운", "케이블 풀오버": "풀다운",
+            // 등 - 로우
+            "바벨 로우": "로우", "덤벨 로우": "로우", "시티드 로우": "로우",
+            "케이블 로우": "로우", "티바 로우": "로우", "펜들레이 로우": "로우",
+            "머신 로우": "로우", "스미스 머신 로우": "로우", "와이드 그립 시티드 로우": "로우",
+            "클로즈그립 시티드 로우": "로우", "리버스 그립 바벨 로우": "로우",
+            "원암 덤벨 로우": "로우", "씰 로우": "로우", "체스트 서포트 로우": "로우",
+            "메도우즈 로우": "로우", "원암 케이블 로우": "로우",
+            // 등 - 데드리프트
+            "데드리프트": "데드리프트", "컨벤셔널 데드리프트": "데드리프트", "스모 데드리프트": "데드리프트",
+            // 어깨 - 전면
+            "오버헤드 프레스": "전면", "덤벨 숄더 프레스": "전면", "머신 숄더 프레스": "전면",
+            "스미스 머신 숄더 프레스": "전면", "아놀드 프레스": "전면", "프론트 레이즈": "전면",
+            "바벨 프론트 레이즈": "전면", "랜드마인 프레스": "전면", "원암 덤벨 숄더 프레스": "전면",
+            "원암 케이블 프론트 레이즈": "전면",
+            // 어깨 - 측면
+            "사이드 레터럴 레이즈": "측면", "케이블 사이드 레이즈": "측면", "머신 사이드 레이즈": "측면",
+            "덤벨 사이드 레이즈": "측면", "업라이트 로우": "측면", "원암 사이드 레이즈": "측면",
+            // 어깨 - 후면
+            "페이스풀": "후면", "리어 델트 플라이": "후면", "리어 델트 머신": "후면",
+            "벤트오버 리어 델트 레이즈": "후면", "케이블 리어 델트 플라이": "후면",
+            // 어깨 - 전체
+            "슈러그": "전체",
+            // 이두 - 투암
+            "바벨 컬": "투암", "이지바 컬": "투암", "덤벨 컬": "투암", "해머 컬": "투암",
+            "프리처 컬": "투암", "머신 프리처 컬": "투암", "인클라인 덤벨 컬": "투암",
+            "케이블 컬": "투암", "로프 해머 컬": "투암", "스파이더 컬": "투암",
+            "리버스 컬": "투암", "와이드 그립 바벨 컬": "투암", "내로우 그립 바벨 컬": "투암",
+            "크로스바디 해머 컬": "투암", "21s 컬": "투암", "케이블 해머 컬": "투암",
+            // 이두 - 원암
+            "컨센트레이션 컬": "원암", "원암 케이블 컬": "원암", "원암 프리처 컬": "원암",
+            // 삼두 - 투암
+            "트라이셉 푸시다운": "투암", "로프 푸시다운": "투암", "오버헤드 트라이셉 익스텐션": "투암",
+            "케이블 오버헤드 익스텐션": "투암", "스컬 크러셔": "투암", "클로즈그립 벤치프레스": "투암",
+            "삼두 딥스": "투암", "머신 딥스": "투암", "덤벨 오버헤드 익스텐션": "투암",
+            "리버스 그립 푸시다운": "투암", "V바 푸시다운": "투암", "다이아몬드 푸시업": "투암",
+            "벤치 딥스": "투암",
+            // 삼두 - 원암
+            "킥백": "원암", "원암 케이블 푸시다운": "원암", "원암 덤벨 오버헤드 익스텐션": "원암",
+            "원암 케이블 킥백": "원암",
+        ]
+        let context = container.mainContext
+        guard let exercises = try? context.fetch(FetchDescriptor<Exercise>()) else {
+            didMigrateSubgroups = true
+            return
+        }
+        var changed = false
+        for exercise in exercises {
+            if let subgroup = subgroupMap[exercise.name], exercise.muscleSubgroup == nil {
+                exercise.muscleSubgroup = subgroup
+                changed = true
+            }
+        }
+        if changed { try? context.save() }
+        didMigrateSubgroups = true
     }
 
     /// One-time fix for sessions with abnormally long durations (caused by past-date endDate bug)

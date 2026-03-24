@@ -364,26 +364,61 @@ struct WorkoutTabView: View {
         }
     }
 
-    // MARK: - Recent Sessions
+    // MARK: - Sessions by Week
+
+    private var sessionsByWeek: [(title: String, sessions: [WorkoutSession])] {
+        var calendar = Calendar.current
+        calendar.firstWeekday = 2 // Monday
+        let today = Date()
+        guard let thisWeekStart = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: today)),
+              let lastWeekStart = calendar.date(byAdding: .weekOfYear, value: -1, to: thisWeekStart) else {
+            return [("최근 운동", sessions)]
+        }
+
+        var groups: [Date: [WorkoutSession]] = [:]
+        for session in sessions {
+            guard let weekStart = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: session.startDate)) else { continue }
+            groups[weekStart, default: []].append(session)
+        }
+
+        let sortedKeys = groups.keys.sorted(by: >)
+        return sortedKeys.map { weekStart in
+            let title: String
+            if weekStart == thisWeekStart {
+                title = "이번 주"
+            } else if weekStart == lastWeekStart {
+                title = "지난 주"
+            } else {
+                let weeksAgo = calendar.dateComponents([.weekOfYear], from: weekStart, to: thisWeekStart).weekOfYear ?? 0
+                title = "\(weeksAgo)주 전"
+            }
+            return (title: title, sessions: groups[weekStart]!)
+        }
+    }
 
     private var recentSessionsSection: some View {
-        VStack(alignment: .leading, spacing: AppSpacing.sm) {
-            Text("최근 운동")
-                .font(AppFont.heading(18))
-                .padding(.horizontal, AppSpacing.md)
+        VStack(alignment: .leading, spacing: AppSpacing.lg) {
+            ForEach(sessionsByWeek, id: \.title) { group in
+                VStack(alignment: .leading, spacing: AppSpacing.sm) {
+                    Text(group.title)
+                        .font(AppFont.caption(13))
+                        .foregroundStyle(.secondary)
+                        .padding(.horizontal, AppSpacing.md)
 
-            LazyVStack(spacing: AppSpacing.sm) {
-                ForEach(sessions) { session in
-                    NavigationLink(destination: WorkoutDetailView(session: session)) {
-                        WorkoutSessionRow(session: session)
-                    }
-                    .buttonStyle(.plain)
-                    .padding(.horizontal, AppSpacing.md)
-                    .contextMenu {
-                        Button(role: .destructive) {
-                            sessionToDelete = session
-                        } label: {
-                            Label("삭제", systemImage: "trash")
+                    LazyVStack(spacing: AppSpacing.sm) {
+                        ForEach(group.sessions) { session in
+                            NavigationLink(destination: WorkoutDetailView(session: session)) {
+                                WorkoutSessionRow(session: session)
+                            }
+                            .buttonStyle(.plain)
+                            .padding(.horizontal, AppSpacing.md)
+                            .contextMenu {
+                                Button(role: .destructive) {
+                                    sessionToDelete = session
+                                } label: {
+                                    Label("삭제", systemImage: "trash")
+                                }
+                            }
                         }
                     }
                 }
