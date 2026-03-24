@@ -17,6 +17,7 @@ struct AddMealEntryView: View {
     @State private var memo = ""
     @State private var recentFoods: [MealEntry] = []
     @FocusState private var focusedField: Field?
+    @State private var showSaveError = false
 
     fileprivate enum Field: Hashable {
         case name, calories, protein, carbs, fat, memo
@@ -115,6 +116,11 @@ struct AddMealEntryView: View {
                     Button("완료") { focusedField = nil }
                 }
             }
+            .alert("저장 실패", isPresented: $showSaveError) {
+                Button("확인", role: .cancel) { }
+            } message: {
+                Text("식단 저장에 실패했습니다. 다시 시도해주세요.")
+            }
         }
     }
 
@@ -148,6 +154,7 @@ struct AddMealEntryView: View {
         do {
             try modelContext.save()
         } catch {
+            showSaveError = true
             return
         }
         UINotificationFeedbackGenerator().notificationOccurred(.success)
