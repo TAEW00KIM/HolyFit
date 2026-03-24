@@ -801,7 +801,6 @@ struct WeekGroupRow: View {
                 VStack(spacing: AppSpacing.xs) {
                     ForEach(sessions) { session in
                         WorkoutSessionRow(session: session)
-                            .padding(.horizontal, AppSpacing.md)
                             .contextMenu {
                                 Button(role: .destructive) {
                                     onDelete(session)
@@ -811,8 +810,9 @@ struct WeekGroupRow: View {
                             }
                     }
                 }
+                .padding(.horizontal, AppSpacing.md)
                 .padding(.bottom, AppSpacing.sm)
-                .transition(.move(edge: .top).combined(with: .opacity))
+                .transition(.opacity)
             }
         }
         .glassCard()

@@ -26,6 +26,7 @@ struct HolyFitApp: App {
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
     @AppStorage("didFixAbnormalDurations") private var didFixAbnormalDurations = false
     @AppStorage("didMigrateSubgroups") private var didMigrateSubgroups = false
+    @AppStorage("didMigrateLegsSubgroups") private var didMigrateLegsSubgroups = false
 
     private var colorScheme: ColorScheme? {
         switch appearanceMode {
@@ -74,6 +75,7 @@ struct HolyFitApp: App {
                     seedExercises()
                     fixAbnormalDurations()
                     migrateExerciseSubgroups()
+                    migrateLegsSubgroups()
                     WidgetDataManager.updateWidgetData(context: container.mainContext)
                 }
         }
@@ -198,6 +200,41 @@ struct HolyFitApp: App {
         }
         if changed { try? context.save() }
         didMigrateSubgroups = true
+    }
+
+    /// One-time migration to populate muscleSubgroup for leg exercises (added after initial migration)
+    private func migrateLegsSubgroups() {
+        guard !didMigrateLegsSubgroups else { return }
+        let legsMap: [String: String] = [
+            "스쿼트": "대퇴사두", "프론트 스쿼트": "대퇴사두", "스미스 머신 스쿼트": "대퇴사두",
+            "핵 스쿼트": "대퇴사두", "레그 프레스": "대퇴사두", "레그 익스텐션": "대퇴사두",
+            "불가리안 스플릿 스쿼트": "대퇴사두", "고블릿 스쿼트": "대퇴사두",
+            "내로우 스탠스 스쿼트": "대퇴사두", "와이드 스탠스 스쿼트": "대퇴사두",
+            "싱글 레그 레그프레스": "대퇴사두", "시시 스쿼트": "대퇴사두",
+            "런지": "대퇴사두", "워킹 런지": "대퇴사두", "덤벨 런지": "대퇴사두",
+            "원암 덤벨 런지": "대퇴사두", "스텝업": "대퇴사두", "싱글 레그 레그 익스텐션": "대퇴사두",
+            "레그 컬": "대퇴이두", "시티드 레그 컬": "대퇴이두",
+            "루마니안 데드리프트": "대퇴이두", "스티프 레그 데드리프트": "대퇴이두",
+            "덤벨 루마니안 데드리프트": "대퇴이두", "싱글 레그 레그컬": "대퇴이두",
+            "싱글 레그 루마니안 데드리프트": "대퇴이두",
+            "힙 쓰러스트": "둔근", "머신 힙 쓰러스트": "둔근", "바벨 힙 쓰러스트": "둔근",
+            "힙 어브덕션": "둔근", "힙 어덕션": "둔근", "글루트 킥백 머신": "둔근",
+            "카프 레이즈": "카프", "시티드 카프 레이즈": "카프",
+        ]
+        let context = container.mainContext
+        guard let exercises = try? context.fetch(FetchDescriptor<Exercise>()) else {
+            didMigrateLegsSubgroups = true
+            return
+        }
+        var changed = false
+        for exercise in exercises {
+            if let subgroup = legsMap[exercise.name], exercise.muscleSubgroup == nil {
+                exercise.muscleSubgroup = subgroup
+                changed = true
+            }
+        }
+        if changed { try? context.save() }
+        didMigrateLegsSubgroups = true
     }
 
     /// One-time fix for sessions with abnormally long durations (caused by past-date endDate bug)
