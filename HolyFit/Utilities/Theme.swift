@@ -22,6 +22,9 @@ enum AppColors {
     static let danger = Color(hex: "FF453A")        // 시스템 레드
     static let info = Color(hex: "64D2FF")          // 시안
 
+    // UI accent (misc)
+    static let themePurple = Color(hex: "6C5CE7")   // 테마 설정 아이콘
+
     // Chart colors
     static let chartBlue = Color(hex: "0A84FF")
     static let chartGreen = Color(hex: "30D158")

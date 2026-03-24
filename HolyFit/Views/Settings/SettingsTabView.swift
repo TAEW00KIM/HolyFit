@@ -40,7 +40,7 @@ struct SettingsTabView: View {
                                 .font(.system(size: 14, weight: .semibold))
                                 .foregroundStyle(.white)
                                 .frame(width: 30, height: 30)
-                                .background(Color(hex: "6C5CE7"))
+                                .background(AppColors.themePurple)
                                 .clipShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
 
                             Text("테마")
