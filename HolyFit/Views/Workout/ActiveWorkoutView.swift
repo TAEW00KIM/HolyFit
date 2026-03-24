@@ -885,6 +885,8 @@ struct SetRowView: View {
     var accentColor: Color = AppColors.accent
     var onSetCompleted: (() -> Void)?
     var onDelete: (() -> Void)?
+    @AppStorage("rpeMode") private var rpeMode: String = "off"
+    @State private var showRPEPicker = false
 
     private var isCompleted: Bool {
         workoutSet.completedAt != nil
@@ -977,6 +979,10 @@ struct SetRowView: View {
                 .accessibilityValue(isCompleted ? "완료됨" : "미완료")
             }
             .frame(width: 68)
+
+            if rpeMode == "set" {
+                rpeButton
+            }
         }
         .padding(.horizontal, AppSpacing.md)
         .padding(.vertical, 10)
@@ -999,6 +1005,43 @@ struct SetRowView: View {
             }
         }
         .contentShape(Rectangle())
+    }
+
+    private var rpeButton: some View {
+        Button {
+            showRPEPicker = true
+        } label: {
+            VStack(spacing: 1) {
+                Text(workoutSet.rpe.map { "\(Int($0))" } ?? "—")
+                    .font(AppFont.mono(14))
+                    .fontWeight(workoutSet.rpe != nil ? .bold : .regular)
+                Text("RPE")
+                    .font(.system(size: 8, weight: .semibold))
+            }
+            .foregroundStyle(workoutSet.rpe != nil ? accentColor : Color(.tertiaryLabel))
+            .frame(width: 36, height: 44)
+            .background(workoutSet.rpe != nil ? accentColor.opacity(0.1) : Color.clear)
+            .clipShape(RoundedRectangle(cornerRadius: AppRadius.sm, style: .continuous))
+        }
+        .confirmationDialog("RPE 선택", isPresented: $showRPEPicker) {
+            ForEach([10, 9, 8, 7, 6, 5, 4, 3, 2, 1], id: \.self) { v in
+                Button("\(v) — \(rpeLabel(v))") { workoutSet.rpe = Double(v) }
+            }
+            if workoutSet.rpe != nil {
+                Button("지우기", role: .destructive) { workoutSet.rpe = nil }
+            }
+        }
+    }
+
+    private func rpeLabel(_ rpe: Int) -> String {
+        switch rpe {
+        case 10: return "한계"
+        case 9: return "매우 힘듦"
+        case 8: return "힘듦"
+        case 7: return "약간 힘듦"
+        case 5, 6: return "보통"
+        default: return "쉬움"
+        }
     }
 
     private func stepperField(

@@ -4,6 +4,7 @@ struct SettingsTabView: View {
     @AppStorage("defaultRestTimer") private var defaultRestTimer: Int = AppConstants.defaultRestTimerSeconds
     @AppStorage("appearanceMode") private var appearanceMode: String = "auto"
     @AppStorage("healthKitEnabled") private var healthKitEnabled: Bool = false
+    @AppStorage("rpeMode") private var rpeMode: String = "off"
 
     @Environment(HealthKitManager.self) private var healthKitManager
 
@@ -31,6 +32,34 @@ struct SettingsTabView: View {
                             )
                         }
                         .buttonStyle(.plain)
+
+                        Divider().padding(.horizontal, AppSpacing.md)
+
+                        HStack(spacing: AppSpacing.md) {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: AppRadius.sm, style: .continuous)
+                                    .fill(AppColors.warning)
+                                    .frame(width: 32, height: 32)
+                                Image(systemName: "gauge.medium")
+                                    .font(.system(size: 15, weight: .semibold))
+                                    .foregroundStyle(.white)
+                            }
+
+                            Text("RPE 기록")
+                                .font(AppFont.body(15))
+
+                            Spacer()
+
+                            Picker("", selection: $rpeMode) {
+                                Text("끄기").tag("off")
+                                Text("세트별").tag("set")
+                                Text("세션").tag("session")
+                            }
+                            .pickerStyle(.segmented)
+                            .frame(width: 195)
+                        }
+                        .padding(.horizontal, AppSpacing.md)
+                        .padding(.vertical, AppSpacing.sm + 2)
                     }
 
                     // Display section

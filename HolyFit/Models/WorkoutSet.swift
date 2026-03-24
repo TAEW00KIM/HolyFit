@@ -11,6 +11,8 @@ class WorkoutSet {
     var isTopSet: Bool
     var completedAt: Date?
 
+    var rpe: Double?
+
     var entry: WorkoutEntry?
 
     init(order: Int, weight: Double = 0, reps: Int = 0, isDropSet: Bool = false, isTopSet: Bool = false) {

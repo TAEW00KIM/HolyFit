@@ -6,6 +6,8 @@ struct WorkoutCompletionView: View {
     let onDismiss: () -> Void
 
     @State private var appeared = false
+    @AppStorage("rpeMode") private var rpeMode: String = "off"
+    @State private var sessionRPE: Double? = nil
 
     private var volumeText: String {
         let formatter = NumberFormatter()
@@ -97,11 +99,53 @@ struct WorkoutCompletionView: View {
                     .padding(.horizontal, AppSpacing.md)
                 }
 
+                // Session RPE picker
+                if rpeMode == "session" {
+                    VStack(spacing: AppSpacing.sm) {
+                        HStack {
+                            Text("운동 강도 (RPE)")
+                                .font(AppFont.heading(15))
+                                .foregroundStyle(.secondary)
+                            Spacer()
+                            if let rpe = sessionRPE {
+                                Text(rpeLabel(Int(rpe)))
+                                    .font(AppFont.caption(13))
+                                    .foregroundStyle(.secondary)
+                                    .transition(.opacity)
+                            }
+                        }
+
+                        HStack(spacing: 4) {
+                            ForEach(1...10, id: \.self) { v in
+                                Button {
+                                    withAnimation(.spring(response: 0.2, dampingFraction: 0.75)) {
+                                        sessionRPE = sessionRPE == Double(v) ? nil : Double(v)
+                                    }
+                                } label: {
+                                    Text("\(v)")
+                                        .font(AppFont.mono(13))
+                                        .fontWeight(.semibold)
+                                        .frame(width: 30, height: 30)
+                                        .background(sessionRPE == Double(v) ? AppColors.accent : Color(.systemFill))
+                                        .foregroundStyle(sessionRPE == Double(v) ? .white : .primary)
+                                        .clipShape(Circle())
+                                }
+                            }
+                        }
+                    }
+                    .padding(AppSpacing.md)
+                    .glassCard()
+                    .padding(.horizontal, AppSpacing.md)
+                }
+
                 Spacer()
                     .frame(height: AppSpacing.lg)
 
                 // Confirm button
                 Button {
+                    if rpeMode == "session" {
+                        session.rpe = sessionRPE
+                    }
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     onDismiss()
                 } label: {
@@ -128,6 +172,17 @@ struct WorkoutCompletionView: View {
             withAnimation(.spring(response: 0.5, dampingFraction: 0.75)) {
                 appeared = true
             }
+        }
+    }
+
+    private func rpeLabel(_ rpe: Int) -> String {
+        switch rpe {
+        case 10: return "한계"
+        case 9: return "매우 힘듦"
+        case 8: return "힘듦"
+        case 7: return "약간 힘듦"
+        case 5, 6: return "보통"
+        default: return "쉬움"
         }
     }
 

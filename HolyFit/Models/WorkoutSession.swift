@@ -9,6 +9,7 @@ class WorkoutSession {
     var startDate: Date
     var endDate: Date?
     var notes: String
+    var rpe: Double?
 
     @Relationship(deleteRule: .cascade, inverse: \WorkoutEntry.session)
     var entries: [WorkoutEntry] = []
