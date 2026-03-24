@@ -195,6 +195,9 @@ struct DateNavigationHeader: View {
 struct DailySummaryCard: View {
     let meals: [MealEntry]
     @AppStorage("profileTDEE") private var profileTDEE: Double = 2000
+    @AppStorage("profileTargetProtein") private var profileTargetProtein: Double = 150
+    @AppStorage("profileTargetCarbs") private var profileTargetCarbs: Double = 250
+    @AppStorage("profileTargetFat") private var profileTargetFat: Double = 65
 
     private var totalCalories: Int { meals.compactMap(\.calories).reduce(0, +) }
     private var totalProtein: Double { meals.compactMap(\.protein).reduce(0, +) }
@@ -203,9 +206,9 @@ struct DailySummaryCard: View {
 
     // Daily targets for progress bars
     private var targetCalories: Double { profileTDEE > 0 ? profileTDEE : 2000 }
-    private let targetProtein: Double = 150
-    private let targetCarbs: Double = 250
-    private let targetFat: Double = 65
+    private var targetProtein: Double { profileTargetProtein > 0 ? profileTargetProtein : 150 }
+    private var targetCarbs: Double { profileTargetCarbs > 0 ? profileTargetCarbs : 250 }
+    private var targetFat: Double { profileTargetFat > 0 ? profileTargetFat : 65 }
 
     var body: some View {
         VStack(spacing: AppSpacing.md) {

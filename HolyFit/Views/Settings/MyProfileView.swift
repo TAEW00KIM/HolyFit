@@ -15,6 +15,10 @@ struct MyProfileView: View {
     @AppStorage("profileTDEE") private var tdee: Double = 0
     @AppStorage("profileMeasureDate") private var measureDateInterval: Double = 0
 
+    @AppStorage("profileTargetProtein") private var targetProtein: Double = 150
+    @AppStorage("profileTargetCarbs") private var targetCarbs: Double = 250
+    @AppStorage("profileTargetFat") private var targetFat: Double = 65
+
     @State private var showInBodyInput = false
 
     var body: some View {
@@ -86,6 +90,9 @@ struct MyProfileView: View {
                 if bmr > 0 || tdee > 0 {
                     metabolismSection
                 }
+
+                // 영양 목표
+                nutritionTargetSection
 
                 Spacer(minLength: AppSpacing.xxl)
             }
@@ -226,6 +233,33 @@ struct MyProfileView: View {
         .padding(.horizontal, AppSpacing.md)
     }
 
+    // MARK: - 영양 목표
+
+    private var nutritionTargetSection: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.sm) {
+            sectionLabel(title: "영양 목표", icon: "fork.knife")
+
+            VStack(spacing: 0) {
+                NutritionTargetRow(
+                    icon: "bolt.fill", iconColor: AppColors.protein,
+                    label: "단백질", unit: "g", value: $targetProtein
+                )
+                Divider().padding(.leading, 52).opacity(0.4)
+                NutritionTargetRow(
+                    icon: "leaf.fill", iconColor: AppColors.carbs,
+                    label: "탄수화물", unit: "g", value: $targetCarbs
+                )
+                Divider().padding(.leading, 52).opacity(0.4)
+                NutritionTargetRow(
+                    icon: "drop.fill", iconColor: AppColors.fat,
+                    label: "지방", unit: "g", value: $targetFat
+                )
+            }
+            .glassCard(cornerRadius: AppRadius.xl)
+        }
+        .padding(.horizontal, AppSpacing.md)
+    }
+
     // MARK: - Section label
 
     private func sectionLabel(title: String, icon: String) -> some View {
@@ -241,6 +275,69 @@ struct MyProfileView: View {
                 .tracking(0.5)
         }
         .padding(.horizontal, AppSpacing.xs)
+    }
+}
+
+// MARK: - Nutrition Target Row
+
+private struct NutritionTargetRow: View {
+    let icon: String
+    let iconColor: Color
+    let label: String
+    let unit: String
+    @Binding var value: Double
+
+    @State private var text: String = ""
+    @FocusState private var isFocused: Bool
+
+    var body: some View {
+        HStack(spacing: AppSpacing.md) {
+            ZStack {
+                RoundedRectangle(cornerRadius: AppRadius.sm, style: .continuous)
+                    .fill(iconColor)
+                    .frame(width: 32, height: 32)
+                Image(systemName: icon)
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundStyle(.white)
+            }
+
+            Text(label)
+                .font(AppFont.body(15))
+                .foregroundStyle(.primary)
+
+            Spacer()
+
+            HStack(spacing: 4) {
+                TextField("0", text: $text)
+                    .font(AppFont.body(15))
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.trailing)
+                    .keyboardType(.decimalPad)
+                    .focused($isFocused)
+                    .frame(width: 60)
+                    .onChange(of: text) { _, newVal in
+                        if let d = Double(newVal), d > 0 { value = d }
+                    }
+                    .onSubmit { commitText() }
+                Text(unit)
+                    .font(AppFont.caption(13))
+                    .foregroundStyle(.tertiary)
+            }
+        }
+        .padding(.horizontal, AppSpacing.md)
+        .padding(.vertical, AppSpacing.sm + 4)
+        .onAppear { text = String(format: "%.0f", value) }
+        .onChange(of: isFocused) { _, focused in
+            if !focused { commitText() }
+        }
+    }
+
+    private func commitText() {
+        if let d = Double(text), d > 0 {
+            value = d
+        } else {
+            text = String(format: "%.0f", value)
+        }
     }
 }
 
