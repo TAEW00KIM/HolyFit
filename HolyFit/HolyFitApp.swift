@@ -12,22 +12,11 @@ enum HolyFitSchemaV1: VersionedSchema {
     }
 }
 
-enum HolyFitSchemaV2: VersionedSchema {
-    static var versionIdentifier = Schema.Version(2, 0, 0)
-    static var models: [any PersistentModel.Type] {
-        [Exercise.self, WorkoutSession.self, WorkoutEntry.self,
-         WorkoutSet.self, MealEntry.self, WorkoutTemplate.self,
-         TemplateEntry.self, BodyMeasurement.self]
-    }
-}
-
 enum HolyFitMigrationPlan: SchemaMigrationPlan {
     static var schemas: [any VersionedSchema.Type] {
-        [HolyFitSchemaV1.self, HolyFitSchemaV2.self]
+        [HolyFitSchemaV1.self]
     }
-    static var stages: [MigrationStage] {
-        [.lightweight(fromVersion: HolyFitSchemaV1.self, toVersion: HolyFitSchemaV2.self)]
-    }
+    static var stages: [MigrationStage] { [] }
 }
 
 @main
@@ -46,7 +35,7 @@ struct HolyFitApp: App {
     }
 
     let container: ModelContainer = {
-        let schema = Schema(versionedSchema: HolyFitSchemaV2.self)
+        let schema = Schema(versionedSchema: HolyFitSchemaV1.self)
         let config = ModelConfiguration(schema: schema)
         do {
             return try ModelContainer(
