@@ -17,6 +17,7 @@ struct WorkoutTabView: View {
     @State private var sessionToDelete: WorkoutSession? = nil
     @State private var templateToDelete: WorkoutTemplate? = nil
     @State private var showRoutineGenerator = false
+    @State private var expandedWeeks: Set<String> = ["이번 주"]
 
     private var todaysSessions: [WorkoutSession] {
         let calendar = Calendar.current
@@ -397,31 +398,22 @@ struct WorkoutTabView: View {
     }
 
     private var recentSessionsSection: some View {
-        VStack(alignment: .leading, spacing: AppSpacing.lg) {
+        VStack(alignment: .leading, spacing: AppSpacing.sm) {
             ForEach(sessionsByWeek, id: \.title) { group in
-                VStack(alignment: .leading, spacing: AppSpacing.sm) {
-                    Text(group.title)
-                        .font(AppFont.caption(13))
-                        .foregroundStyle(.secondary)
-                        .padding(.horizontal, AppSpacing.md)
-
-                    LazyVStack(spacing: AppSpacing.sm) {
-                        ForEach(group.sessions) { session in
-                            NavigationLink(destination: WorkoutDetailView(session: session)) {
-                                WorkoutSessionRow(session: session)
-                            }
-                            .buttonStyle(.plain)
-                            .padding(.horizontal, AppSpacing.md)
-                            .contextMenu {
-                                Button(role: .destructive) {
-                                    sessionToDelete = session
-                                } label: {
-                                    Label("삭제", systemImage: "trash")
-                                }
+                WeekGroupRow(
+                    title: group.title,
+                    sessions: group.sessions,
+                    isExpanded: Binding(
+                        get: { expandedWeeks.contains(group.title) },
+                        set: { isExpanded in
+                            withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+                                if isExpanded { expandedWeeks.insert(group.title) }
+                                else { expandedWeeks.remove(group.title) }
                             }
                         }
-                    }
-                }
+                    ),
+                    onDelete: { sessionToDelete = $0 }
+                )
             }
         }
     }
@@ -758,5 +750,73 @@ struct BuiltInTemplateCard: View {
             RoundedRectangle(cornerRadius: AppRadius.lg, style: .continuous)
                 .strokeBorder(AppColors.accentLight.opacity(0.25), lineWidth: 1.5)
         )
+    }
+}
+
+// MARK: - WeekGroupRow
+
+struct WeekGroupRow: View {
+    let title: String
+    let sessions: [WorkoutSession]
+    @Binding var isExpanded: Bool
+    let onDelete: (WorkoutSession) -> Void
+
+    var body: some View {
+        VStack(spacing: 0) {
+            // Header
+            Button {
+                withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+                    isExpanded.toggle()
+                }
+                UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            } label: {
+                HStack {
+                    Text(title)
+                        .font(AppFont.heading(15))
+                        .foregroundStyle(.primary)
+
+                    Spacer()
+
+                    Text("\(sessions.count)회")
+                        .font(AppFont.caption(12))
+                        .foregroundStyle(.secondary)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 3)
+                        .background(Color.primary.opacity(0.06))
+                        .clipShape(Capsule())
+
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundStyle(.tertiary)
+                        .rotationEffect(.degrees(isExpanded ? 90 : 0))
+                }
+                .padding(.horizontal, AppSpacing.md)
+                .padding(.vertical, AppSpacing.sm + 2)
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+
+            // Sessions
+            if isExpanded {
+                VStack(spacing: AppSpacing.xs) {
+                    ForEach(sessions) { session in
+                        WorkoutSessionRow(session: session)
+                            .padding(.horizontal, AppSpacing.md)
+                            .contextMenu {
+                                Button(role: .destructive) {
+                                    onDelete(session)
+                                } label: {
+                                    Label("삭제", systemImage: "trash")
+                                }
+                            }
+                    }
+                }
+                .padding(.bottom, AppSpacing.sm)
+                .transition(.move(edge: .top).combined(with: .opacity))
+            }
+        }
+        .glassCard()
+        .padding(.horizontal, AppSpacing.md)
+        .clipped()
     }
 }
