@@ -565,6 +565,7 @@ struct TemplateCard: View {
                         .background(Color(.systemGray5))
                         .clipShape(Circle())
                 }
+                .accessibilityLabel("템플릿 옵션")
                 .confirmationDialog("템플릿 삭제", isPresented: $showDeleteConfirm, titleVisibility: .visible) {
                     Button("삭제", role: .destructive) {
                         onDelete()
@@ -716,7 +717,7 @@ struct BuiltInTemplateCard: View {
         }
         .padding(AppSpacing.md)
         .frame(width: 160)
-        .background(Color(.systemBackground).opacity(0.01))
+        .contentShape(RoundedRectangle(cornerRadius: AppRadius.lg, style: .continuous))
         .clipShape(RoundedRectangle(cornerRadius: AppRadius.lg, style: .continuous))
         .overlay(
             RoundedRectangle(cornerRadius: AppRadius.lg, style: .continuous)
