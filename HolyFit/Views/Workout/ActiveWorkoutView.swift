@@ -1015,7 +1015,7 @@ struct SetRowView: View {
                 Image(systemName: "minus")
                     .font(.system(size: 10, weight: .bold))
                     .foregroundStyle(accentColor)
-                    .frame(width: 32, height: 38)
+                    .frame(width: 40, height: 44)
                     .background(accentColor.opacity(0.08))
             }
             .contentShape(Rectangle())
@@ -1041,7 +1041,7 @@ struct SetRowView: View {
             .multilineTextAlignment(.center)
             .keyboardType(.decimalPad)
             .frame(maxWidth: .infinity)
-            .frame(height: 38)
+            .frame(height: 44)
             .background(Color(.systemBackground).opacity(0.5))
 
             Button {
@@ -1051,7 +1051,7 @@ struct SetRowView: View {
                 Image(systemName: "plus")
                     .font(.system(size: 10, weight: .bold))
                     .foregroundStyle(accentColor)
-                    .frame(width: 32, height: 38)
+                    .frame(width: 40, height: 44)
                     .background(accentColor.opacity(0.08))
             }
             .contentShape(Rectangle())
