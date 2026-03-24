@@ -451,6 +451,146 @@ struct MuscleGroupTests {
     }
 }
 
+// MARK: - Drop set & one-arm tests
+
+@Suite("Drop Set Tests")
+struct DropSetTests {
+
+    @Test("Drop set flag is stored correctly")
+    func dropSetFlag() {
+        let normal = WorkoutSet(order: 0, weight: 80, reps: 10, isDropSet: false)
+        let drop = WorkoutSet(order: 1, weight: 60, reps: 12, isDropSet: true)
+        #expect(normal.isDropSet == false)
+        #expect(drop.isDropSet == true)
+    }
+
+    @Test("Drop set volume calculated same as normal set")
+    func dropSetVolume() {
+        let drop = WorkoutSet(order: 0, weight: 60, reps: 12, isDropSet: true)
+        #expect(drop.volume == 720)
+    }
+}
+
+@Suite("One-Arm Exercise Tests")
+struct OneArmTests {
+
+    @Test("isOneArm detects 원암 in name")
+    func detectsOneArmKorean() throws {
+        let container = try makeTestContainer()
+        let context = ModelContext(container)
+
+        let exercise = Exercise(name: "원암 덤벨 로우", muscleGroup: .back)
+        context.insert(exercise)
+        let entry = WorkoutEntry(order: 0, exercise: exercise)
+        context.insert(entry)
+        try context.save()
+
+        #expect(entry.isOneArm == true)
+    }
+
+    @Test("isOneArm detects 싱글 in name")
+    func detectsSingle() throws {
+        let container = try makeTestContainer()
+        let context = ModelContext(container)
+
+        let exercise = Exercise(name: "싱글 레그 프레스", muscleGroup: .legs)
+        context.insert(exercise)
+        let entry = WorkoutEntry(order: 0, exercise: exercise)
+        context.insert(entry)
+        try context.save()
+
+        #expect(entry.isOneArm == true)
+    }
+
+    @Test("Normal exercise is not one-arm")
+    func normalExerciseNotOneArm() throws {
+        let container = try makeTestContainer()
+        let context = ModelContext(container)
+
+        let exercise = Exercise(name: "벤치프레스", muscleGroup: .chest)
+        context.insert(exercise)
+        let entry = WorkoutEntry(order: 0, exercise: exercise)
+        context.insert(entry)
+        try context.save()
+
+        #expect(entry.isOneArm == false)
+    }
+
+    @Test("One-arm totalVolume is doubled")
+    func oneArmVolumeDoubled() throws {
+        let container = try makeTestContainer()
+        let context = ModelContext(container)
+
+        let exercise = Exercise(name: "원암 덤벨 컬", muscleGroup: .biceps)
+        context.insert(exercise)
+
+        let entry = WorkoutEntry(order: 0, exercise: exercise)
+        context.insert(entry)
+
+        let set1 = WorkoutSet(order: 0, weight: 20, reps: 10) // raw: 200
+        set1.entry = entry
+        entry.sets.append(set1)
+        try context.save()
+
+        // 원암 x2: 200 * 2 = 400
+        #expect(entry.totalVolume == 400)
+    }
+
+    @Test("Normal exercise totalVolume not doubled")
+    func normalVolumeNotDoubled() throws {
+        let container = try makeTestContainer()
+        let context = ModelContext(container)
+
+        let exercise = Exercise(name: "바벨 컬", muscleGroup: .biceps)
+        context.insert(exercise)
+
+        let entry = WorkoutEntry(order: 0, exercise: exercise)
+        context.insert(entry)
+
+        let set1 = WorkoutSet(order: 0, weight: 40, reps: 10) // 400
+        set1.entry = entry
+        entry.sets.append(set1)
+        try context.save()
+
+        #expect(entry.totalVolume == 400)
+    }
+
+    @Test("Session totalVolume includes one-arm multiplier")
+    func sessionVolumeWithOneArm() throws {
+        let container = try makeTestContainer()
+        let context = ModelContext(container)
+
+        let oneArmEx = Exercise(name: "원암 덤벨 로우", muscleGroup: .back)
+        let normalEx = Exercise(name: "랫풀다운", muscleGroup: .back)
+        context.insert(oneArmEx)
+        context.insert(normalEx)
+
+        let session = WorkoutSession()
+        context.insert(session)
+
+        // One-arm entry: 20kg x 10 = 200 raw → 400 (x2)
+        let entry1 = WorkoutEntry(order: 0, exercise: oneArmEx, session: session)
+        context.insert(entry1)
+        session.entries.append(entry1)
+        let set1 = WorkoutSet(order: 0, weight: 20, reps: 10)
+        set1.entry = entry1
+        entry1.sets.append(set1)
+
+        // Normal entry: 60kg x 10 = 600
+        let entry2 = WorkoutEntry(order: 1, exercise: normalEx, session: session)
+        context.insert(entry2)
+        session.entries.append(entry2)
+        let set2 = WorkoutSet(order: 0, weight: 60, reps: 10)
+        set2.entry = entry2
+        entry2.sets.append(set2)
+
+        try context.save()
+
+        // 400 + 600 = 1000
+        #expect(session.totalVolume == 1000)
+    }
+}
+
 // MARK: - Widget data filtering
 
 @Suite("Widget Data Tests")

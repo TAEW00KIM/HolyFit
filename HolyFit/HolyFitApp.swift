@@ -1,6 +1,24 @@
 import SwiftUI
 import SwiftData
 
+// MARK: - Schema Versioning
+
+enum HolyFitSchemaV1: VersionedSchema {
+    static var versionIdentifier = Schema.Version(1, 0, 0)
+    static var models: [any PersistentModel.Type] {
+        [Exercise.self, WorkoutSession.self, WorkoutEntry.self,
+         WorkoutSet.self, MealEntry.self, WorkoutTemplate.self,
+         TemplateEntry.self, BodyMeasurement.self]
+    }
+}
+
+enum HolyFitMigrationPlan: SchemaMigrationPlan {
+    static var schemas: [any VersionedSchema.Type] {
+        [HolyFitSchemaV1.self]
+    }
+    static var stages: [MigrationStage] { [] }
+}
+
 @main
 struct HolyFitApp: App {
     @State private var healthKitManager = HealthKitManager()
@@ -17,29 +35,25 @@ struct HolyFitApp: App {
     }
 
     let container: ModelContainer = {
-        let schema = Schema([
-            Exercise.self,
-            WorkoutSession.self,
-            WorkoutEntry.self,
-            WorkoutSet.self,
-            MealEntry.self,
-            WorkoutTemplate.self,
-            TemplateEntry.self,
-            BodyMeasurement.self
-        ])
+        let schema = Schema(versionedSchema: HolyFitSchemaV1.self)
         let config = ModelConfiguration(schema: schema)
         do {
-            return try ModelContainer(for: schema, configurations: [config])
+            return try ModelContainer(
+                for: schema,
+                migrationPlan: HolyFitMigrationPlan.self,
+                configurations: [config]
+            )
         } catch {
-            // 스키마 변경으로 기존 DB 호환 실패 시 DB 파일 삭제 후 재생성
+            // 마이그레이션 실패 시 DB 파일 삭제 후 재생성 (최후 수단)
             let storeURL = config.url
             try? FileManager.default.removeItem(at: storeURL)
-            // WAL/SHM 파일도 정리
-            let walURL = storeURL.appendingPathExtension("wal")
-            let shmURL = storeURL.appendingPathExtension("shm")
-            try? FileManager.default.removeItem(at: walURL)
-            try? FileManager.default.removeItem(at: shmURL)
-            return try! ModelContainer(for: schema, configurations: [config])
+            try? FileManager.default.removeItem(at: storeURL.appendingPathExtension("wal"))
+            try? FileManager.default.removeItem(at: storeURL.appendingPathExtension("shm"))
+            do {
+                return try ModelContainer(for: schema, configurations: [config])
+            } catch {
+                fatalError("DB 복구 불가: \(error.localizedDescription)")
+            }
         }
     }()
 
@@ -56,7 +70,7 @@ struct HolyFitApp: App {
                 }
                 .task {
                     purgeAbandonedSessions()
-                    seedNewExercises()
+                    seedExercises()
                     fixAbnormalDurations()
                     WidgetDataManager.updateWidgetData(context: container.mainContext)
                 }
@@ -64,19 +78,26 @@ struct HolyFitApp: App {
         .modelContainer(container)
     }
 
-    /// Add new exercises from seed data that don't exist yet (for existing users after update)
-    private func seedNewExercises() {
+    /// Seed exercises on first launch, and add new exercises after app updates
+    private func seedExercises() {
         let context = container.mainContext
-        let existing = (try? context.fetch(FetchDescriptor<Exercise>())) ?? []
-        let existingNames = Set(existing.map(\.name))
-        let allSeeds = ExerciseSeedData.allExercises()
-        var added = false
-        for exercise in allSeeds where !existingNames.contains(exercise.name) {
-            context.insert(exercise)
-            added = true
-        }
-        if added {
-            try? context.save()
+        let count = (try? context.fetchCount(FetchDescriptor<Exercise>())) ?? 0
+        if count == 0 {
+            // First launch: bulk seed
+            _ = ExerciseSeedData.seed(into: context)
+        } else {
+            // Existing user: add only new exercises
+            let existing = (try? context.fetch(FetchDescriptor<Exercise>())) ?? []
+            let existingNames = Set(existing.map(\.name))
+            let allSeeds = ExerciseSeedData.allExercises()
+            var added = false
+            for exercise in allSeeds where !existingNames.contains(exercise.name) {
+                context.insert(exercise)
+                added = true
+            }
+            if added {
+                try? context.save()
+            }
         }
     }
 
