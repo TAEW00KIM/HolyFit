@@ -920,6 +920,7 @@ struct SetRowView: View {
                 ),
                 step: AppConstants.weightIncrement,
                 minValue: 0,
+                allowsDecimal: true,
                 accentColor: accentColor
             )
             .accessibilityElement(children: .combine)
@@ -1069,12 +1070,13 @@ struct StepperFieldView: View {
     @Binding var value: Double
     let step: Double
     let minValue: Double
+    var allowsDecimal: Bool = false
     var accentColor: Color = AppColors.accent
 
     @State private var text: String = ""
     @FocusState private var isFocused: Bool
 
-    private var isDecimal: Bool { step < 1 }
+    private var isDecimal: Bool { allowsDecimal }
 
     var body: some View {
         HStack(spacing: 0) {
