@@ -8,6 +8,7 @@ struct WorkoutDetailView: View {
     @State private var appeared = false
     @State private var isEditing = false
     @State private var showDeleteAlert = false
+    @AppStorage("rpeMode") private var rpeMode: String = "off"
 
     var body: some View {
         ScrollView {
@@ -136,6 +137,15 @@ struct WorkoutDetailView: View {
                             color: AppColors.warning
                         )
                     }
+                }
+                if rpeMode == "session", let rpe = session.rpe {
+                    summaryStatBlock(
+                        icon: "gauge.with.dots.needle.67percent",
+                        value: String(format: "%.0f", rpe),
+                        unit: "/ 10",
+                        label: "운동 강도 (RPE)",
+                        color: AppColors.danger
+                    )
                 }
             }
         }
@@ -339,6 +349,9 @@ struct WorkoutDetailView: View {
                 }
                 if set.isDropSet {
                     setTypeBadge(label: "드랍", color: AppColors.warning)
+                }
+                if rpeMode == "set", let rpe = set.rpe {
+                    setTypeBadge(label: "R\(Int(rpe))", color: AppColors.info)
                 }
             }
         }
