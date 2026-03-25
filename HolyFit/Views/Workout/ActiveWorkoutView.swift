@@ -619,6 +619,7 @@ struct WorkoutEntrySection: View {
     let onDelete: () -> Void
     @State private var showRestTimer = false
     @AppStorage("defaultRestTimer") private var defaultRestTimer: Int = AppConstants.defaultRestTimerSeconds
+    @AppStorage("rpeMode") private var rpeMode: String = "off"
 
     private var muscleColor: Color {
         entry.exercise.map { AppColors.muscleGroupColor($0.muscleGroup) } ?? AppColors.accent
@@ -770,8 +771,8 @@ struct WorkoutEntrySection: View {
                     .frame(maxWidth: .infinity)
                 Text("횟수 (회)")
                     .frame(maxWidth: .infinity)
-                Text("")
-                    .frame(width: 68)
+                Text(rpeMode == "set" ? "D  RPE  ✓" : "")
+                    .frame(width: rpeMode == "set" ? 106 : 68)
             }
             .font(AppFont.caption(11))
             .foregroundStyle(.secondary)
