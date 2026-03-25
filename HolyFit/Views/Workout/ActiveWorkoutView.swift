@@ -167,6 +167,8 @@ struct ActiveWorkoutView: View {
             }
             .fullScreenCover(isPresented: $showCompletion) {
                 WorkoutCompletionView(session: session) {
+                    try? modelContext.save()
+                    WidgetDataManager.updateWidgetData(context: modelContext)
                     showCompletion = false
                     dismiss()
                 }
