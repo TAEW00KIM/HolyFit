@@ -15,6 +15,7 @@ struct WorkoutTabView: View {
     @State private var selectedTemplate: WorkoutTemplate? = nil
     @State private var selectedBuiltIn: BuiltInTemplate? = nil
     @State private var sessionToDelete: WorkoutSession? = nil
+    @State private var selectedSession: WorkoutSession? = nil
     @State private var templateToDelete: WorkoutTemplate? = nil
     @State private var showRoutineGenerator = false
     @State private var expandedWeeks: Set<String> = ["이번 주"]
@@ -69,6 +70,9 @@ struct WorkoutTabView: View {
             .background(Color(.systemGroupedBackground))
             .navigationTitle("운동")
             .navigationBarTitleDisplayMode(.large)
+            .navigationDestination(item: $selectedSession) { session in
+                WorkoutDetailView(session: session)
+            }
             .fullScreenCover(isPresented: $showActiveWorkout, onDismiss: {
                 selectedTemplate = nil
                 selectedBuiltIn = nil
@@ -412,6 +416,7 @@ struct WorkoutTabView: View {
                             }
                         }
                     ),
+                    onTap: { selectedSession = $0 },
                     onDelete: { sessionToDelete = $0 }
                 )
             }
@@ -759,6 +764,7 @@ struct WeekGroupRow: View {
     let title: String
     let sessions: [WorkoutSession]
     @Binding var isExpanded: Bool
+    let onTap: (WorkoutSession) -> Void
     let onDelete: (WorkoutSession) -> Void
 
     var body: some View {
@@ -800,15 +806,23 @@ struct WeekGroupRow: View {
             if isExpanded {
                 VStack(spacing: AppSpacing.xs) {
                     ForEach(sessions) { session in
-                        WorkoutSessionRow(session: session)
-                            .padding(.horizontal, AppSpacing.md)
-                            .contextMenu {
-                                Button(role: .destructive) {
-                                    onDelete(session)
-                                } label: {
-                                    Label("삭제", systemImage: "trash")
-                                }
+                        Button {
+                            onTap(session)
+                        } label: {
+                            WorkoutSessionRow(session: session)
+                        }
+                        .buttonStyle(.plain)
+                        .padding(.horizontal, AppSpacing.md)
+                        .contextMenu {
+                            Button { onTap(session) } label: {
+                                Label("상세 보기", systemImage: "eye")
                             }
+                            Button(role: .destructive) {
+                                onDelete(session)
+                            } label: {
+                                Label("삭제", systemImage: "trash")
+                            }
+                        }
                     }
                 }
                 .transition(.opacity)
