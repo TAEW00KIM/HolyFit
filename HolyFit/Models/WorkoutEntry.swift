@@ -5,6 +5,7 @@ import SwiftData
 class WorkoutEntry {
     var id: UUID
     var order: Int
+    var rpe: Double?
 
     var exercise: Exercise?
     var session: WorkoutSession?

@@ -52,7 +52,6 @@ struct SettingsTabView: View {
 
                             Picker("", selection: $rpeMode) {
                                 Text("끄기").tag("off")
-                                Text("세트별").tag("set")
                                 Text("세션").tag("session")
                             }
                             .pickerStyle(.segmented)

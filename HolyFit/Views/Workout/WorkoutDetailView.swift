@@ -9,6 +9,7 @@ struct WorkoutDetailView: View {
     @State private var isEditing = false
     @State private var showDeleteAlert = false
     @AppStorage("rpeMode") private var rpeMode: String = "off"
+    @State private var rpeEditEntry: WorkoutEntry? = nil
 
     var body: some View {
         ScrollView {
@@ -51,6 +52,25 @@ struct WorkoutDetailView: View {
             .padding(.top, AppSpacing.md)
         }
         .background(Color(.systemGroupedBackground))
+        .confirmationDialog(
+            "RPE 선택",
+            isPresented: Binding(get: { rpeEditEntry != nil }, set: { if !$0 { rpeEditEntry = nil } })
+        ) {
+            if let entry = rpeEditEntry {
+                ForEach([10, 9, 8, 7, 6, 5, 4, 3, 2, 1], id: \.self) { v in
+                    Button("\(v) — \(rpeLabel(v))") {
+                        entry.rpe = Double(v)
+                        try? modelContext.save()
+                    }
+                }
+                if entry.rpe != nil {
+                    Button("지우기", role: .destructive) {
+                        entry.rpe = nil
+                        try? modelContext.save()
+                    }
+                }
+            }
+        }
         .navigationTitle("운동 상세")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -138,14 +158,18 @@ struct WorkoutDetailView: View {
                         )
                     }
                 }
-                if rpeMode == "session", let rpe = session.rpe {
-                    summaryStatBlock(
-                        icon: "gauge.with.dots.needle.67percent",
-                        value: String(format: "%.0f", rpe),
-                        unit: "/ 10",
-                        label: "운동 강도 (RPE)",
-                        color: AppColors.danger
-                    )
+                if rpeMode == "session" {
+                    let rpeValues = session.sortedEntries.compactMap { $0.rpe }
+                    if !rpeValues.isEmpty {
+                        let avg = rpeValues.reduce(0, +) / Double(rpeValues.count)
+                        summaryStatBlock(
+                            icon: "gauge.with.dots.needle.67percent",
+                            value: String(format: "%.1f", avg),
+                            unit: "/ 10",
+                            label: "평균 RPE",
+                            color: AppColors.danger
+                        )
+                    }
                 }
             }
         }
@@ -213,6 +237,23 @@ struct WorkoutDetailView: View {
                 }
 
                 Spacer()
+
+                if rpeMode == "session" {
+                    Button {
+                        rpeEditEntry = entry
+                    } label: {
+                        VStack(alignment: .trailing, spacing: 1) {
+                            Text(entry.rpe.map { "\(Int($0))" } ?? "—")
+                                .font(AppFont.heading(15))
+                                .foregroundStyle(entry.rpe != nil ? muscleColor : Color(.tertiaryLabel))
+                                .lineLimit(1)
+                            Text("RPE")
+                                .font(AppFont.caption(10))
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                    .buttonStyle(.plain)
+                }
 
                 // Volume badge
                 VStack(alignment: .trailing, spacing: 1) {
@@ -350,9 +391,6 @@ struct WorkoutDetailView: View {
                 if set.isDropSet {
                     setTypeBadge(label: "드랍", color: AppColors.warning)
                 }
-                if rpeMode == "set", let rpe = set.rpe {
-                    setTypeBadge(label: "R\(Int(rpe))", color: AppColors.info)
-                }
             }
         }
         .padding(.horizontal, AppSpacing.md)
@@ -400,6 +438,17 @@ struct WorkoutDetailView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(AppSpacing.md)
         .glassCard()
+    }
+
+    private func rpeLabel(_ rpe: Int) -> String {
+        switch rpe {
+        case 10: return "한계"
+        case 9: return "매우 힘듦"
+        case 8: return "힘듦"
+        case 7: return "약간 힘듦"
+        case 5, 6: return "보통"
+        default: return "쉬움"
+        }
     }
 }
 

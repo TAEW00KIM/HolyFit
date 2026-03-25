@@ -7,7 +7,6 @@ struct WorkoutCompletionView: View {
 
     @State private var appeared = false
     @AppStorage("rpeMode") private var rpeMode: String = "off"
-    @State private var sessionRPE: Double? = nil
 
     private var volumeText: String {
         let formatter = NumberFormatter()
@@ -99,42 +98,58 @@ struct WorkoutCompletionView: View {
                     .padding(.horizontal, AppSpacing.md)
                 }
 
-                // Session RPE picker
+                // Per-entry RPE picker
                 if rpeMode == "session" {
-                    VStack(spacing: AppSpacing.sm) {
-                        HStack {
-                            Text("운동 강도 (RPE)")
-                                .font(AppFont.heading(15))
-                                .foregroundStyle(.secondary)
-                            Spacer()
-                            if let rpe = sessionRPE {
-                                Text(rpeLabel(Int(rpe)))
-                                    .font(AppFont.caption(13))
-                                    .foregroundStyle(.secondary)
-                                    .transition(.opacity)
-                            }
-                        }
+                    VStack(alignment: .leading, spacing: AppSpacing.sm) {
+                        Text("종목별 운동 강도 (RPE)")
+                            .font(AppFont.heading(15))
+                            .foregroundStyle(.secondary)
+                            .padding(.horizontal, AppSpacing.xs)
 
-                        HStack(spacing: 4) {
-                            ForEach(1...10, id: \.self) { v in
-                                Button {
-                                    withAnimation(.spring(response: 0.2, dampingFraction: 0.75)) {
-                                        sessionRPE = sessionRPE == Double(v) ? nil : Double(v)
+                        VStack(spacing: 0) {
+                            ForEach(Array(session.sortedEntries.enumerated()), id: \.offset) { index, entry in
+                                if let exercise = entry.exercise {
+                                    VStack(alignment: .leading, spacing: AppSpacing.xs) {
+                                        HStack {
+                                            Text(exercise.name)
+                                                .font(AppFont.body(14))
+                                                .foregroundStyle(.primary)
+                                            Spacer()
+                                            if let rpe = entry.rpe {
+                                                Text(rpeLabel(Int(rpe)))
+                                                    .font(AppFont.caption(12))
+                                                    .foregroundStyle(.secondary)
+                                            }
+                                        }
+                                        HStack(spacing: 4) {
+                                            ForEach(1...10, id: \.self) { v in
+                                                Button {
+                                                    withAnimation(.spring(response: 0.2, dampingFraction: 0.75)) {
+                                                        entry.rpe = entry.rpe == Double(v) ? nil : Double(v)
+                                                    }
+                                                } label: {
+                                                    Text("\(v)")
+                                                        .font(AppFont.mono(12))
+                                                        .fontWeight(.semibold)
+                                                        .frame(width: 28, height: 28)
+                                                        .background(entry.rpe == Double(v) ? AppColors.accent : Color(.systemFill))
+                                                        .foregroundStyle(entry.rpe == Double(v) ? .white : .primary)
+                                                        .clipShape(Circle())
+                                                }
+                                            }
+                                        }
                                     }
-                                } label: {
-                                    Text("\(v)")
-                                        .font(AppFont.mono(13))
-                                        .fontWeight(.semibold)
-                                        .frame(width: 30, height: 30)
-                                        .background(sessionRPE == Double(v) ? AppColors.accent : Color(.systemFill))
-                                        .foregroundStyle(sessionRPE == Double(v) ? .white : .primary)
-                                        .clipShape(Circle())
+                                    .padding(.horizontal, AppSpacing.md)
+                                    .padding(.vertical, AppSpacing.sm)
+
+                                    if index < session.sortedEntries.count - 1 {
+                                        Divider().padding(.leading, AppSpacing.md)
+                                    }
                                 }
                             }
                         }
+                        .glassCard()
                     }
-                    .padding(AppSpacing.md)
-                    .glassCard()
                     .padding(.horizontal, AppSpacing.md)
                 }
 
@@ -143,9 +158,6 @@ struct WorkoutCompletionView: View {
 
                 // Confirm button
                 Button {
-                    if rpeMode == "session" {
-                        session.rpe = sessionRPE
-                    }
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     onDismiss()
                 } label: {
