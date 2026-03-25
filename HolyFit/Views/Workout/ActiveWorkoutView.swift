@@ -945,7 +945,7 @@ struct SetRowView: View {
             .accessibilityValue("\(workoutSet.reps)회")
             .opacity(isCompleted ? 0.6 : 1.0)
 
-            // Drop set toggle + Checkmark
+            // Drop set toggle + RPE + Checkmark
             HStack(spacing: 6) {
                 badgeToggle(
                     label: "D",
@@ -957,6 +957,10 @@ struct SetRowView: View {
                 )
                 .accessibilityLabel("드랍세트")
                 .accessibilityValue(workoutSet.isDropSet ? "활성" : "비활성")
+
+                if rpeMode == "set" {
+                    rpeButton
+                }
 
                 // Completion checkmark
                 Button {
@@ -981,11 +985,7 @@ struct SetRowView: View {
                 .accessibilityLabel("세트 완료")
                 .accessibilityValue(isCompleted ? "완료됨" : "미완료")
             }
-            .frame(width: 68)
-
-            if rpeMode == "set" {
-                rpeButton
-            }
+            .frame(width: rpeMode == "set" ? 106 : 68)
         }
         .padding(.horizontal, AppSpacing.md)
         .padding(.vertical, 10)
