@@ -913,14 +913,14 @@ struct SetRowView: View {
             }
 
             // Weight stepper
-            stepperField(
+            StepperFieldView(
                 value: Binding(
                     get: { workoutSet.weight },
                     set: { workoutSet.weight = $0 }
                 ),
                 step: AppConstants.weightIncrement,
-                format: "%.1f",
-                minValue: 0
+                minValue: 0,
+                accentColor: accentColor
             )
             .accessibilityElement(children: .combine)
             .accessibilityLabel("무게")
@@ -928,14 +928,14 @@ struct SetRowView: View {
             .opacity(isCompleted ? 0.6 : 1.0)
 
             // Reps stepper
-            stepperField(
+            StepperFieldView(
                 value: Binding(
                     get: { Double(workoutSet.reps) },
                     set: { workoutSet.reps = Int($0) }
                 ),
                 step: 1,
-                format: "%.0f",
-                minValue: 0
+                minValue: 0,
+                accentColor: accentColor
             )
             .accessibilityElement(children: .combine)
             .accessibilityLabel("횟수")
@@ -986,7 +986,6 @@ struct SetRowView: View {
         }
         .padding(.horizontal, AppSpacing.md)
         .padding(.vertical, 10)
-        .padding(.leading, workoutSet.isDropSet ? AppSpacing.md : 0)
         .background(
             RoundedRectangle(cornerRadius: AppRadius.sm, style: .continuous)
                 .fill(
@@ -1044,68 +1043,6 @@ struct SetRowView: View {
         }
     }
 
-    private func stepperField(
-        value: Binding<Double>,
-        step: Double,
-        format: String,
-        minValue: Double
-    ) -> some View {
-        HStack(spacing: 0) {
-            Button {
-                UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                value.wrappedValue = max(minValue, value.wrappedValue - step)
-            } label: {
-                Image(systemName: "minus")
-                    .font(.system(size: 10, weight: .bold))
-                    .foregroundStyle(accentColor)
-                    .frame(width: 40, height: 44)
-                    .background(accentColor.opacity(0.08))
-            }
-            .contentShape(Rectangle())
-
-            TextField(
-                step >= 1 ? "0" : "0.0",
-                text: Binding(
-                    get: {
-                        let v = value.wrappedValue
-                        if v == 0 { return "" }
-                        return step >= 1 ? String(format: "%.0f", v) : String(format: "%.1f", v)
-                    },
-                    set: { text in
-                        if text.isEmpty {
-                            value.wrappedValue = 0
-                        } else if let parsed = Double(text), parsed >= minValue {
-                            value.wrappedValue = parsed
-                        }
-                    }
-                )
-            )
-            .font(AppFont.mono(16))
-            .multilineTextAlignment(.center)
-            .keyboardType(.decimalPad)
-            .frame(maxWidth: .infinity)
-            .frame(height: 44)
-            .background(Color(.systemBackground).opacity(0.5))
-
-            Button {
-                UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                value.wrappedValue += step
-            } label: {
-                Image(systemName: "plus")
-                    .font(.system(size: 10, weight: .bold))
-                    .foregroundStyle(accentColor)
-                    .frame(width: 40, height: 44)
-                    .background(accentColor.opacity(0.08))
-            }
-            .contentShape(Rectangle())
-        }
-        .clipShape(RoundedRectangle(cornerRadius: AppRadius.sm, style: .continuous))
-        .overlay(
-            RoundedRectangle(cornerRadius: AppRadius.sm, style: .continuous)
-                .stroke(accentColor.opacity(0.15), lineWidth: 1)
-        )
-    }
-
     private func badgeToggle(
         label: String,
         isOn: Binding<Bool>,
@@ -1123,6 +1060,95 @@ struct SetRowView: View {
                 .clipShape(Capsule())
                 .animation(.spring(response: 0.25, dampingFraction: 0.7), value: isOn.wrappedValue)
         }
+    }
+}
+
+// MARK: - StepperFieldView
+
+struct StepperFieldView: View {
+    @Binding var value: Double
+    let step: Double
+    let minValue: Double
+    var accentColor: Color = AppColors.accent
+
+    @State private var text: String = ""
+    @FocusState private var isFocused: Bool
+
+    private var isDecimal: Bool { step < 1 }
+
+    var body: some View {
+        HStack(spacing: 0) {
+            Button {
+                UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                let newVal = max(minValue, value - step)
+                value = newVal
+                if !isFocused { setText(newVal) }
+            } label: {
+                Image(systemName: "minus")
+                    .font(.system(size: 11, weight: .bold))
+                    .foregroundStyle(accentColor)
+                    .frame(width: 34, height: 48)
+                    .background(accentColor.opacity(0.08))
+            }
+            .contentShape(Rectangle())
+
+            TextField(isDecimal ? "0.0" : "0", text: $text)
+                .font(AppFont.mono(17))
+                .multilineTextAlignment(.center)
+                .keyboardType(isDecimal ? .decimalPad : .numberPad)
+                .frame(maxWidth: .infinity)
+                .frame(height: 48)
+                .background(Color(.systemBackground).opacity(0.5))
+                .focused($isFocused)
+                .onChange(of: isFocused) { _, focused in
+                    if !focused { commit() }
+                }
+                .onChange(of: value) { _, newVal in
+                    if !isFocused { setText(newVal) }
+                }
+
+            Button {
+                UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                let newVal = value + step
+                value = newVal
+                if !isFocused { setText(newVal) }
+            } label: {
+                Image(systemName: "plus")
+                    .font(.system(size: 11, weight: .bold))
+                    .foregroundStyle(accentColor)
+                    .frame(width: 34, height: 48)
+                    .background(accentColor.opacity(0.08))
+            }
+            .contentShape(Rectangle())
+        }
+        .clipShape(RoundedRectangle(cornerRadius: AppRadius.sm, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: AppRadius.sm, style: .continuous)
+                .stroke(accentColor.opacity(0.15), lineWidth: 1)
+        )
+        .onAppear { setText(value) }
+    }
+
+    private func setText(_ v: Double) {
+        if v == 0 {
+            text = ""
+        } else if isDecimal {
+            text = v.truncatingRemainder(dividingBy: 1) == 0
+                ? String(format: "%.0f", v)
+                : String(format: "%.1f", v)
+        } else {
+            text = String(format: "%.0f", v)
+        }
+    }
+
+    private func commit() {
+        let normalized = text.replacingOccurrences(of: ",", with: ".")
+        if normalized.isEmpty {
+            value = minValue
+        } else if let parsed = Double(normalized), parsed >= minValue {
+            value = isDecimal ? parsed : Double(Int(parsed))
+        }
+        setText(value)
     }
 }
 
